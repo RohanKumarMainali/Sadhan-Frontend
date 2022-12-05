@@ -3,7 +3,7 @@ import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
-let logo = require('../../images/sadhanLogo.png')
+let logo = require('../../images/newLogo.png')
 
 
 function Navbar() {
@@ -14,7 +14,7 @@ function Navbar() {
                     <div className="col-md-3 navbar-logo">
                         <img src={logo} alt="Logo" />
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                         <form action="" className='navbar-form'>
                             <input type="text" className = 'navbar-search-input' required />
                             <i className="fa">
@@ -22,9 +22,16 @@ function Navbar() {
                             </i>
                         </form>
                     </div>
-                    <div className="col-md-3">
-                        <nav>
-                            nav
+                    <div className="col-md-5 nav-container">
+                        <nav className='nav-list'>
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-md-3">Rent Veicle</div>
+                                    <div className="col-md-3">FAQ's</div>
+                                    <div className="col-md-3">Contact</div>
+                                    <div className="col-md-3">Login</div>
+                                </div>
+                            </div>
                         </nav>
                     </div>
                 </div>

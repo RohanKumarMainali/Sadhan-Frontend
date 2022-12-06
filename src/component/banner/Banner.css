@@ -1,0 +1,16 @@
+.banner{
+background-color: #1049c9ba;
+position: relative;
+}
+
+.banner-text{
+    float: left;
+    position: absolute;
+    top: 68px;
+    left: 143px;
+}
+
+.banner-text h3{
+    font-size: 70px;
+    text-align: left;
+}

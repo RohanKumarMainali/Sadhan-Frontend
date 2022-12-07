@@ -16,6 +16,8 @@ function Navbar() {
     
     return (
         <div>
+            <nav className = 'main-navbar'>
+
             <div className="container">
                 <div className="row">
                     <div className="col-md-3 navbar-logo">
@@ -41,6 +43,7 @@ function Navbar() {
 
                 </div>
             </div>
+            </nav>
         </div>
 
     )

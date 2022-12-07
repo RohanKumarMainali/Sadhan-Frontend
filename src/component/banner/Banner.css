@@ -1,16 +1,51 @@
-.banner{
-background-color: #1049c9ba;
-position: relative;
+.banner {
+    background-color: #1049c9ba;
+    position: relative;
 }
 
-.banner-text{
+.banner-text {
     float: left;
     position: absolute;
     top: 68px;
     left: 143px;
 }
 
-.banner-text h3{
+.banner-text h3 {
     font-size: 70px;
     text-align: left;
+}
+
+
+.banner-round-shape {
+    padding: 50px;
+    border-radius: 50%;
+    background-image: -moz-linear-gradient(90deg, rgba(66, 66, 66, 0.6) 0%, rgba(66, 66, 66, 0.21) 82%, rgba(66, 66, 66, 0.12157) 100%);
+    background-image: -webkit-linear-gradient(90deg, rgba(66, 66, 66, 0.6) 0%, rgba(66, 66, 66, 0.21) 82%, rgba(66, 66, 66, 0.12157) 100%);
+    background-image: -ms-linear-gradient(90deg, rgba(66, 66, 66, 0.6) 0%, rgba(66, 66, 66, 0.21) 82%, rgba(66, 66, 66, 0.12157) 100%);
+    margin-top: -12%;
+}
+
+.banner-round-shape img {
+    border-radius: 50%;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+}
+
+.banner-img {
+    /* position: absolute; */
+    width: 200px;
+    height: 600px;
+    transform: rotate(45deg);
+    overflow: hidden;
+    /* margin-top: -100px; */
+}
+
+.bike-image {
+    width: 100%;
+    height: 100%;
+    /* margin-top: 100px; */
+    transform: rotate(-45deg);
 }

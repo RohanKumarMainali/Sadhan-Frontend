@@ -3,7 +3,7 @@ import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import {useRef} from 'react';
-// import {Link} from 'react'
+import {Link} from 'react-router-dom'
 
 let logo = require('../../images/newLogo.png')
 
@@ -35,10 +35,11 @@ function Navbar() {
                     </div>
                     <div className="col-md-5 nav-container">
                         <nav>
+                            
+                               <Link to = '/google'>Hello</Link> 
                             <ul>
                                <li>Rent Vehicle</li> 
                                <li>Contact</li> 
-                               <a href='/google'><li>Login</li></a> 
                             </ul> 
                         </nav>
                     </div>

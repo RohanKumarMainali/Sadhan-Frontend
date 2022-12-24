@@ -1,7 +1,7 @@
 import React from 'react'
 import './Banner.css'
 import Navbar from '../navbar/Navbar';
-
+//test the ssh
 let bikes = require('../../images/bikes.jpg');
 let bike = require('../../images/bike.jpg');
 let yellowBike = require('../../images/yellowBike.png');

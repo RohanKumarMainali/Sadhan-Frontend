@@ -36,10 +36,12 @@ function Navbar() {
                     <div className="col-md-5 nav-container">
                         <nav>
                             
-                               <Link to = '/google'>Hello</Link> 
                             <ul>
-                               <li>Rent Vehicle</li> 
-                               <li>Contact</li> 
+                               <button className='btn'>Rent Vehicle</button>
+                               <button className='btn'>Become Host</button>
+                               <Link to = '/login'>
+                               <button className='btn btn-primary'>Login</button>
+                               </Link> 
                             </ul> 
                         </nav>
                     </div>

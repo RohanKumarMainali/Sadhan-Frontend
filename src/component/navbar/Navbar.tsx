@@ -83,7 +83,13 @@ function Navbar() {
 
          </ModalBody>
 
-       </ModalContent>
+          <ModalFooter className='login-footer'>
+          <p>Don't have an account?</p>
+            <Button colorScheme='blue' mr={3}>
+              Sign up
+            </Button>
+          </ModalFooter>
+        </ModalContent>
       </Modal>   
  
             <div className="container">

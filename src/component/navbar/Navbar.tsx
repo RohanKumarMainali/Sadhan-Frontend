@@ -20,9 +20,8 @@ import {
 } from '@chakra-ui/react'
 
 import {FcGoogle} from 'react-icons/fc';
-
+import {BsFacebook,BsTwitter} from 'react-icons/bs';
 let logo = require('../../images/newLogo.png')
-
 
 function Navbar() {
    
@@ -61,6 +60,9 @@ function Navbar() {
               <Input placeholder='Password' />
             </FormControl>
 
+            <button className='login-btn' >
+              Save
+            </button>
             <FormControl mt={6}>
               <button className='social-login-btn'>
                 <FcGoogle className='social-logo'/> Continue with Google
@@ -69,27 +71,19 @@ function Navbar() {
 
             <FormControl mt={3}>
               <button className='social-login-btn'>
-                <FcGoogle className='social-logo'/> Continue with Facebook
+                <BsFacebook color='3b5998' className =' social-logo'/> Continue with Facebook
               </button>
             </FormControl>
 
             <FormControl mt={3}>
               <button className='social-login-btn'>
-                <FcGoogle className='social-logo'/> Continue with Twitter
+                <BsTwitter color= '00acee'className='social-logo'/> Continue with Twitter
               </button>
             </FormControl>
 
-
-
          </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
+       </ModalContent>
       </Modal>   
  
             <div className="container">

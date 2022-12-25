@@ -85,11 +85,43 @@ img {
     color: rgb(18, 18, 20);
     background: none;
     border: 1px solid rgb(18, 18, 20);
-    font-weight: normal;
+    font-weight: 600;
     margin-bottom: 12px;
     height: 50px;
 }
 
+.login-btn{
+    user-select: none;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: top;
+    color: #fff;
+    background-color: #593cfb;
+    width: 100%;
+    border: 1px solid #593cfb;
+    border-radius: 0;
+    outline: none;
+    padding: 0 14px;
+    font-family: BasisGrotesque,Avenir,Helvetica Neue,Helvetica,sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 33px;
+    transition: all .5s;
+    display: inline-block;
+    position: relative;
+        height: 50px;
+    margin-top: 10px;
+    padding: 0 19px;
+    font-size: 18px;
+    line-height: 49px;
+    position: relative;
+}
+
+.login-btn:hover{
+    background-color: #470ab4;
+    border-color: #470ab4;
+    text-decoration: none;
+}
 
 .social-logo{
     margin-right: 8px;

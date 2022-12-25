@@ -91,3 +91,16 @@ form:valid a {
     text-decoration: none;
     list-style: none;
 }
+
+.signup-name{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.signup-body input{
+    border-radius: 0px;
+}
+.login-body input{
+    border-radius: 0px;
+}

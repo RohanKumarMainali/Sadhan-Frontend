@@ -128,4 +128,54 @@ img {
     vertical-align: sub;
 }
 
+.login-footer{
+        display: flex;
+        margin: auto;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 28px;
 
+}
+
+.login-footer p{
+    margin: 0;
+    color: #121214;
+    margin-bottom: 0;
+    font-family: "Montserrat",sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 22px;
+    text-transform: none;
+}
+
+
+.signup-btn{
+    border-radius: 0px;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    outline: none;
+    position: relative;
+    text-align: center;
+    transition: all 0.5s ease 0s;
+    user-select: none;
+    vertical-align: top;
+    white-space: nowrap;
+    font-size: 16px;
+    height: 34px;
+    line-height: 33px;
+    padding: 0px 14px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    color: rgb(18, 18, 20);
+    background: none;
+    border: 1px solid rgb(18, 18, 20);
+    font-weight: normal;
+    margin-left: 12px;
+}

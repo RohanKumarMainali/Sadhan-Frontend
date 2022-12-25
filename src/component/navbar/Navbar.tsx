@@ -29,8 +29,8 @@ function Navbar() {
     const focusSearch = () =>{
         search.current?.focus();
     }
-  
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isSignupOpen , onOpen: onSignupOpen, onClose: onSignupClose } = useDisclosure()
+  const { isOpen: isLoginOpen , onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
 
@@ -42,14 +42,14 @@ function Navbar() {
      <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isLoginOpen}
+        onClose={onLoginClose}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Login</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={10}>
+          <ModalBody pb={10} className='login-body'>
             <FormControl>
               <FormLabel>Email</FormLabel>
               <Input ref={initialRef} placeholder='Email' />
@@ -61,7 +61,7 @@ function Navbar() {
             </FormControl>
 
             <button className='login-btn' >
-              Save
+              Login
             </button>
             <FormControl mt={6}>
               <button className='social-login-btn'>
@@ -81,15 +81,82 @@ function Navbar() {
               </button>
             </FormControl>
 
+          <div className='login-footer'>
+          <p>Don't have an account?</p>
+            <button onClick = {()=>{onLoginClose(); onSignupOpen();}} className='signup-btn'>
+              Sign up
+            </button>
+          </div>
+ 
          </ModalBody>
 
-          <ModalFooter className='login-footer'>
-          <p>Don't have an account?</p>
-            <Button colorScheme='blue' mr={3}>
-              Sign up
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+       </ModalContent>
+      </Modal>   
+     
+     <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isSignupOpen}
+        onClose={onSignupClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Let's Get Started</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={10} className='signup-body'>
+          <div className='signup-name'>
+            <FormControl style={{width: '43%'}}>
+              <FormLabel>First Name</FormLabel>
+              <Input ref={initialRef} placeholder='First Name' />
+            </FormControl>
+            <FormControl style={{width: '43%'}}>
+              <FormLabel>Last Name</FormLabel>
+              <Input placeholder='Last Name' />
+            </FormControl>
+          </div>
+          
+            <FormControl mt={2}>
+              <FormLabel>Email</FormLabel>
+              <Input placeholder='Email' />
+            </FormControl>
+ 
+            <FormControl mt={2}>
+              <FormLabel>Password</FormLabel>
+              <Input placeholder='Password' />
+            </FormControl>
+
+
+            <button className='login-btn' >
+              Signup
+            </button>
+            <FormControl mt={6}>
+              <button className='social-login-btn'>
+                <FcGoogle className='social-logo'/> Continue with Google
+              </button>
+            </FormControl>
+
+            <FormControl mt={3}>
+              <button className='social-login-btn'>
+                <BsFacebook color='3b5998' className =' social-logo'/> Continue with Facebook
+              </button>
+            </FormControl>
+
+            <FormControl mt={3}>
+              <button className='social-login-btn'>
+                <BsTwitter color= '00acee'className='social-logo'/> Continue with Twitter
+              </button>
+            </FormControl>
+
+          <div className='login-footer'>
+          <p>Already have an account?</p>
+            <button className='signup-btn' onClick={()=>{onSignupClose(); onLoginOpen()}}>
+              Login
+            </button>
+          </div>
+ 
+         </ModalBody>
+
+       </ModalContent>
       </Modal>   
  
             <div className="container">
@@ -111,7 +178,7 @@ function Navbar() {
                             <ul>
                                <button className='btn'>Rent Vehicle</button>
                                <button className='btn'>Become Host</button>
-                               <button className='btn btn-primary' onClick = {onOpen}>Login</button>
+                               <button className='btn btn-primary' onClick = {onLoginOpen}>Login</button>
                             </ul> 
                         </nav>
                     </div>

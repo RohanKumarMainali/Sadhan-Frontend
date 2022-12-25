@@ -23,8 +23,8 @@ import {FcGoogle} from 'react-icons/fc';
 import {BsFacebook,BsTwitter} from 'react-icons/bs';
 let logo = require('../../images/newLogo.png')
 
-function Navbar() {
-   
+
+function Navbar({isLoggedIn}:{isLoggedIn: boolean}) {
     const search = useRef<HTMLInputElement>(null);
     const focusSearch = () =>{
         search.current?.focus();
@@ -178,7 +178,9 @@ function Navbar() {
                             <ul>
                                <button className='btn'>Rent Vehicle</button>
                                <button className='btn'>Become Host</button>
-                               <button className='btn btn-primary' onClick = {onLoginOpen}>Login</button>
+                               {isLoggedIn ? (<button className='btn btn-primary' onClick = {()=>console.log('logging out')}>Logout</button>):
+                               (<button className='btn btn-primary' onClick = {onLoginOpen}>Login</button>)
+                               }
                             </ul> 
                         </nav>
                     </div>

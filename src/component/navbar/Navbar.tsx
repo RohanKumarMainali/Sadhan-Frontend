@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -24,7 +24,7 @@ import {BsFacebook,BsTwitter} from 'react-icons/bs';
 let logo = require('../../images/newLogo.png')
 
 
-function Navbar({isLoggedIn}:{isLoggedIn: boolean}) {
+function Navbar({user}: any) {
     const search = useRef<HTMLInputElement>(null);
     const focusSearch = () =>{
         search.current?.focus();
@@ -37,6 +37,12 @@ function Navbar({isLoggedIn}:{isLoggedIn: boolean}) {
   const google = ()=>{
        window.open('http://localhost:5000/api/google','_self'); 
       }
+
+  const logout = () => {
+    window.open("http://localhost:5000/api/logout", "_self");
+  };
+      useEffect(()=>{console.log(user?.email)});
+
 
    return (
         <div>
@@ -182,7 +188,12 @@ function Navbar({isLoggedIn}:{isLoggedIn: boolean}) {
                             <ul>
                                <button className='btn'>Rent Vehicle</button>
                                <button className='btn'>Become Host</button>
-                               {isLoggedIn ? (<button className='btn btn-primary' onClick = {()=>console.log('logging out')}>Logout</button>):
+                               {user?.email_verified ? (<>
+
+                               <li><img src={user.picture}  className='avatar' />
+                                  <button className='btn btn-primary' onClick = {logout} >Logout</button>
+                               </li>              
+                               </>):
                                (<button className='btn btn-primary' onClick = {onLoginOpen}>Login</button>)
                                }
                             </ul> 

@@ -7,12 +7,13 @@ import axios from 'axios'
 
 interface userInfo{
 
+    name: string,
     isLoggedIn: boolean,
     }
 
 function App() {
     
-  const[user,setUser] = useState(null);
+  const[user,setUser] = useState({});
   const getUser = () => {
  axios
   .get("http://localhost:5000/api/login/success",{
@@ -40,21 +41,17 @@ function App() {
         });
     };
 useEffect(() => {
-    
-
     getUsers();
-
   },[]);
 
-    const obj = {isLoggedIn:false} 
+    const obj = {
+        isLoggedIn:true} 
   return (
     <div className="App">
-    <Navbar {...obj}/>
+    <Navbar user= {user}/>
       <Router>
         <Routes>
           <Route  path ='/' element = {<Home/>}/>
-
-
         </Routes>
       </Router>
     </div>

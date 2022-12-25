@@ -19,6 +19,7 @@ import {
 
 } from '@chakra-ui/react'
 
+import {FcGoogle} from 'react-icons/fc';
 
 let logo = require('../../images/newLogo.png')
 
@@ -30,8 +31,6 @@ function Navbar() {
         search.current?.focus();
     }
   
- 
-
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
@@ -49,19 +48,40 @@ function Navbar() {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Login</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={10}>
             <FormControl>
-              <FormLabel>First name</FormLabel>
-              <Input ref={initialRef} placeholder='First name' />
+              <FormLabel>Email</FormLabel>
+              <Input ref={initialRef} placeholder='Email' />
             </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Last name</FormLabel>
-              <Input placeholder='Last name' />
+            <FormControl mt={6}>
+              <FormLabel>Password</FormLabel>
+              <Input placeholder='Password' />
             </FormControl>
-          </ModalBody>
+
+            <FormControl mt={6}>
+              <button className='social-login-btn'>
+                <FcGoogle className='social-logo'/> Continue with Google
+              </button>
+            </FormControl>
+
+            <FormControl mt={3}>
+              <button className='social-login-btn'>
+                <FcGoogle className='social-logo'/> Continue with Facebook
+              </button>
+            </FormControl>
+
+            <FormControl mt={3}>
+              <button className='social-login-btn'>
+                <FcGoogle className='social-logo'/> Continue with Twitter
+              </button>
+            </FormControl>
+
+
+
+         </ModalBody>
 
           <ModalFooter>
             <Button colorScheme='blue' mr={3}>

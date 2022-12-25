@@ -34,6 +34,10 @@ function Navbar({isLoggedIn}:{isLoggedIn: boolean}) {
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
 
+  const google = ()=>{
+       window.open('http://localhost:5000/api/google','_self'); 
+      }
+
    return (
         <div>
             <nav className = 'main-navbar'>
@@ -64,7 +68,7 @@ function Navbar({isLoggedIn}:{isLoggedIn: boolean}) {
               Login
             </button>
             <FormControl mt={6}>
-              <button className='social-login-btn'>
+              <button className='social-login-btn' onClick={google}>
                 <FcGoogle className='social-logo'/> Continue with Google
               </button>
             </FormControl>

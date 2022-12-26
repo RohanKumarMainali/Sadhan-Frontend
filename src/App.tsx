@@ -5,6 +5,7 @@ import Home from './component/Home';
 import Navbar from './component/navbar/Navbar'
 import axios from 'axios'
 
+
 interface userInfo{
 
     name: string,

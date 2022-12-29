@@ -26,8 +26,40 @@ let logo = require('../../images/newLogo.png')
 
 function Navbar({ user }: any) {
     const search = useRef<HTMLInputElement>(null);
+
+
+    const initialValue = {
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        signupEmail: "",
+        signupPassword: "",
+    }
+
+    const [values, setValues] = useState(initialValue);
+
+    const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+        // name-> e.target.name
+        // value-> e.target.value
+        
+        const { name, value } = e.currentTarget;
+        console.log('name ' + name);
+        console.log('value ' +value);
+
+        setValues({
+            ...values,
+            [name]: value
+        })
+    }
+
+    const login = () =>{
+
+            console.log(`${values.email} ${values.password} `)
+        }
     const focusSearch = () => {
         search.current?.focus();
+        console.log(values)
     }
     const { isOpen: isSignupOpen, onOpen: onSignupOpen, onClose: onSignupClose } = useDisclosure()
     const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure()
@@ -62,15 +94,15 @@ function Navbar({ user }: any) {
                         <ModalBody pb={10} className='login-body'>
                             <FormControl>
                                 <FormLabel>Email</FormLabel>
-                                <Input ref={initialRef} placeholder='Email' />
+                                <Input name='email' value={values.email} onChange={handleInputChange} ref={initialRef} placeholder='Email' />
                             </FormControl>
 
                             <FormControl mt={6}>
                                 <FormLabel>Password</FormLabel>
-                                <Input type='password' placeholder='Password' />
+                                <Input name='password' type='password' value={values.password} onChange={handleInputChange} placeholder='Password' />
                             </FormControl>
 
-                            <button className='login-btn' >
+                            <button className='login-btn' onClick={login}>
                                 Login
                             </button>
                             <FormControl mt={6}>
@@ -117,22 +149,22 @@ function Navbar({ user }: any) {
                             <div className='signup-name'>
                                 <FormControl style={{ width: '43%' }}>
                                     <FormLabel>First Name</FormLabel>
-                                    <Input ref={initialRef} placeholder='First Name' />
+                                    <Input name ='firstName' value={values.firstName} onChange={handleInputChange} ref={initialRef} placeholder='First Name' />
                                 </FormControl>
                                 <FormControl style={{ width: '43%' }}>
                                     <FormLabel>Last Name</FormLabel>
-                                    <Input placeholder='Last Name' />
+                                    <Input name= 'lastName' value={values.lastName} onChange={handleInputChange} placeholder='Last Name' />
                                 </FormControl>
                             </div>
 
                             <FormControl mt={2}>
                                 <FormLabel>Email</FormLabel>
-                                <Input placeholder='Email' />
+                                <Input name='signupEmail' value={values.signupEmail} onChange={handleInputChange} placeholder='Email' />
                             </FormControl>
 
                             <FormControl mt={2}>
                                 <FormLabel>Password</FormLabel>
-                                <Input placeholder='Password' />
+                                <Input name='singupPassword' value={values.signupPassword} onChange={handleInputChange} placeholder='Password' />
                             </FormControl>
 
 

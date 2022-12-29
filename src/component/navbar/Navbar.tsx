@@ -3,6 +3,7 @@ import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom'
 import {
     Modal,
@@ -26,8 +27,6 @@ let logo = require('../../images/newLogo.png')
 
 function Navbar({ user }: any) {
     const search = useRef<HTMLInputElement>(null);
-
-
     const initialValue = {
         email: "",
         password: "",
@@ -42,21 +41,36 @@ function Navbar({ user }: any) {
     const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
         // name-> e.target.name
         // value-> e.target.value
-        
+
         const { name, value } = e.currentTarget;
-        console.log('name ' + name);
-        console.log('value ' +value);
 
         setValues({
             ...values,
             [name]: value
         })
     }
+    const url = 'http://localhost:5000/api';
 
-    const login = () =>{
+    const storeAuthentication = (user: any) => {
+        localStorage.setItem("user", JSON.stringify(user));
+    };
 
-            console.log(`${values.email} ${values.password} `)
+    const login = async () => {
+        try {
+            const payload = { email: values.email, password: values.password }
+            const response = await axios.post(`${url}/user/login`, payload, {
+                withCredentials: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
+                }
+            });
+            if (response.status == 200) storeAuthentication(response.data);
+            console.log(response)
+
+        } catch (error) {
+            console.log(error)
         }
+    }
     const focusSearch = () => {
         search.current?.focus();
         console.log(values)
@@ -149,11 +163,11 @@ function Navbar({ user }: any) {
                             <div className='signup-name'>
                                 <FormControl style={{ width: '43%' }}>
                                     <FormLabel>First Name</FormLabel>
-                                    <Input name ='firstName' value={values.firstName} onChange={handleInputChange} ref={initialRef} placeholder='First Name' />
+                                    <Input name='firstName' value={values.firstName} onChange={handleInputChange} ref={initialRef} placeholder='First Name' />
                                 </FormControl>
                                 <FormControl style={{ width: '43%' }}>
                                     <FormLabel>Last Name</FormLabel>
-                                    <Input name= 'lastName' value={values.lastName} onChange={handleInputChange} placeholder='Last Name' />
+                                    <Input name='lastName' value={values.lastName} onChange={handleInputChange} placeholder='Last Name' />
                                 </FormControl>
                             </div>
 

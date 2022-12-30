@@ -54,7 +54,16 @@ function Navbar({ user }: any) {
     const storeAuthentication = (user: any) => {
         localStorage.setItem("user", JSON.stringify(user));
     };
+    const getUser = async () => {
+        const response = await axios.get(`${url}/session`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
+            }
+        });
+        const user = response.data.user;
 
+        console.log('response ' + JSON.stringify(user))
+    }
     const login = async () => {
         try {
             const payload = { email: values.email, password: values.password }
@@ -87,7 +96,10 @@ function Navbar({ user }: any) {
     const logout = () => {
         window.open("http://localhost:5000/api/logout", "_self");
     };
-    useEffect(() => { console.log(user?.email) });
+    useEffect(() => {
+        console.log(user?.email)
+        getUser();
+    });
 
 
     return (
@@ -236,7 +248,8 @@ function Navbar({ user }: any) {
                                     <button className='btn'>Become Host</button>
                                     {user?.email_verified ? (<>
 
-                                        <li><img src={user.picture} className='avatar' />
+                                        <li className='login-list'>
+                                        <img src={user.picture} className='avatar' />
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
                                         </li>
                                     </>) :

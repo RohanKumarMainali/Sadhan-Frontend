@@ -3,11 +3,12 @@ import {useEffect,useState} from 'react';
 
 export function useAuth(){
         const[user,setUser] = useState(null);
-        const[isAuthenticated, setIsAuthenticated] = useState(false);
+        const[isAuthenticated, setIsAuthenticated] = useState(true);
 
         useEffect(() => {
           
           const user = localStorage.getItem('user');
+          console.log(user)
           if(user){
                 setUser(JSON.parse(user));
                 setIsAuthenticated(true);

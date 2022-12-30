@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Navigate, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './component/Home';
 import Navbar from './component/navbar/Navbar'
+import Dashboard from './component/Dashboard'
 import axios from 'axios'
+import { useAuth } from './hooks/auth'
 
 
 interface userInfo {
@@ -12,8 +14,15 @@ interface userInfo {
     isLoggedIn: boolean,
 }
 
-function App() {
+const ProtectedRoute = ({ redirect, children }: any) => {
+    if (redirect) return <Navigate to="/" replace />
+    return children
+}
 
+function App() {
+    const userData = useAuth().user;
+    const { isAuthenticated } = useAuth();
+    console.log('authenticate '+isAuthenticated)
     const [user, setUser] = useState({});
     const getUser = () => {
         axios
@@ -48,12 +57,21 @@ function App() {
     const obj = {
         isLoggedIn: true
     }
+
+
+
+
     return (
         <div className="App">
             <Navbar user={user} />
             <Router>
                 <Routes>
                     <Route path='/' element={<Home />} />
+                    <Route path='/dashboard' element={
+                        <ProtectedRoute redirect={!isAuthenticated}>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    } />
                 </Routes>
             </Router>
         </div>

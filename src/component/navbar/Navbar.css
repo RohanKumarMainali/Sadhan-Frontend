@@ -106,3 +106,15 @@ form:valid a {
 .login-body input{
     border-radius: 0px;
 }
+
+
+.login-list{
+    width: 33%;
+    justify-content: 'space-around';
+}
+
+.login-list img{
+    height:50px !important;
+    border-radius: 50%;
+
+}

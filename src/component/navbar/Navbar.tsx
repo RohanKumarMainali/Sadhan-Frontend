@@ -5,6 +5,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
+import AlertPop from '../modal//Alert';
 import {
     Modal,
     ModalOverlay,
@@ -24,7 +25,6 @@ import { FcGoogle } from 'react-icons/fc';
 import { BsFacebook, BsTwitter } from 'react-icons/bs';
 let logo = require('../../images/newLogo.png')
 
-
 function Navbar({ user }: any) {
     const search = useRef<HTMLInputElement>(null);
     const initialValue = {
@@ -37,11 +37,11 @@ function Navbar({ user }: any) {
     }
 
     const [values, setValues] = useState(initialValue);
+    const [statusCode, setStatusCode] = useState(0);
 
     const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
         // name-> e.target.name
         // value-> e.target.value
-
         const { name, value } = e.currentTarget;
 
         setValues({
@@ -55,17 +55,20 @@ function Navbar({ user }: any) {
         localStorage.setItem("user", JSON.stringify(user));
     };
     const getUser = async () => {
-        const response = await axios.get(`${url}/session`,{
-            headers: {
-                'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',
-            }
-            ,
-            withCredentials: true
-        });
-        const user = response.data.user;
+        try {
+            const response = await axios.get(`${url}/session`, {
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            });
+            console.log('res ' + JSON.stringify(response.data))
 
-        console.log('response ' + JSON.stringify(user))
+        } catch (error: any) {
+            console.log('status ' + error.response.status)
+        }
     }
+
     const login = async () => {
         try {
             const payload = { email: values.email, password: values.password }
@@ -75,11 +78,16 @@ function Navbar({ user }: any) {
                     'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
                 }
             });
-            if (response.status == 200) storeAuthentication(response.data);
-            console.log(response)
+            if (response.status == 200) {storeAuthentication(response.data);
+                setStatusCode(200);
+                onLoginClose();
 
-        } catch (error) {
-            console.log(error)
+            }
+            console.log(JSON.stringify(response.data.message))
+
+        } catch (error: any) {
+            let status = error.response.status;
+            if (status == 401) setStatusCode(401);
         }
     }
     const focusSearch = () => {
@@ -99,9 +107,8 @@ function Navbar({ user }: any) {
         window.open("http://localhost:5000/api/logout", "_self");
     };
     useEffect(() => {
-        console.log(user?.email)
         getUser();
-    });
+    }, []);
 
 
     return (
@@ -133,6 +140,9 @@ function Navbar({ user }: any) {
                             <button className='login-btn' onClick={login}>
                                 Login
                             </button>
+                            {statusCode == 401 ? <div>
+                                <AlertPop statusCode={401} message='Incorrect username or password ' />
+                            </div> : <></>}
                             <FormControl mt={6}>
                                 <button className='social-login-btn' onClick={google}>
                                     <FcGoogle className='social-logo' /> Continue with Google
@@ -242,7 +252,7 @@ function Navbar({ user }: any) {
                                 </i>
                             </form>
                         </div>
-                        <div className="col-md-5 nav-container">
+                       <div className="col-md-5 nav-container">
                             <nav>
 
                                 <ul>

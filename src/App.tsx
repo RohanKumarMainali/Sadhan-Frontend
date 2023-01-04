@@ -22,7 +22,7 @@ const ProtectedRoute = ({ redirect, children }: any) => {
 function App() {
     const userData = useAuth().user;
     const { isAuthenticated } = useAuth();
-    console.log('authenticate '+isAuthenticated)
+    console.log('authenticate ' + isAuthenticated)
     const [user, setUser] = useState({});
     const getUser = () => {
         axios

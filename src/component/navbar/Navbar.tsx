@@ -55,10 +55,12 @@ function Navbar({ user }: any) {
         localStorage.setItem("user", JSON.stringify(user));
     };
     const getUser = async () => {
-        const response = await axios.get(`${url}/session`, {
+        const response = await axios.get(`${url}/session`,{
             headers: {
-                'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
+                'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',
             }
+            ,
+            withCredentials: true
         });
         const user = response.data.user;
 
@@ -249,7 +251,7 @@ function Navbar({ user }: any) {
                                     {user?.email_verified ? (<>
 
                                         <li className='login-list'>
-                                        <img src={user.picture} className='avatar' />
+                                            <img src={user.picture} className='avatar' />
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
                                         </li>
                                     </>) :

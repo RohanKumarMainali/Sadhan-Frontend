@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import LoginModal from '../modal/LoginModal'
+import {CgProfile} from 'react-icons/cg'
 let logo = require('../../images/newLogo.png')
 
 function Navbar({ user }: any) {
@@ -41,8 +42,13 @@ function Navbar({ user }: any) {
         window.open('http://localhost:5000/api/google', '_self');
     }
 
-    const logout = () => {
-        window.open("http://localhost:5000/api/logout", "_self");
+    const logout = async() => {
+        
+        const response = await axios.get(`${url}/logout`,{
+               withCredentials: true})
+        localStorage.clear()
+        //console.log(response)
+        //window.open("http://localhost:5000/api/logout", "_self");
     };
     useEffect(() => {
         getUser();
@@ -71,10 +77,11 @@ function Navbar({ user }: any) {
                                 <ul>
                                     <button className='btn'>Rent Vehicle</button>
                                     <button className='btn'>Become Host</button>
-                                    {user?.email_verified ? (<>
+                                    {(user?.email_verified || user?.firstName) ? (<>
 
                                         <li className='login-list'>
-                                            <img src={user.picture} className='avatar' />
+                                        <CgProfile/>
+                                            {user.firstName}
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
                                         </li>
                                     </>) :

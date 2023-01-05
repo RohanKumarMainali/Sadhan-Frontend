@@ -70,9 +70,12 @@ export const LoginModal = ( {show , close}: Props) => {
             });
             if (response.status == 200) {storeAuthentication(response.data);
                 setStatusCode(200);
+
                 onLoginClose();
 
+        window.location.replace(`http://localhost:3000`)
             }
+
             console.log(JSON.stringify(response.data.message))
 } catch (error: any) {
             let status = error.response.status;

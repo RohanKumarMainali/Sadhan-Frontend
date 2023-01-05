@@ -21,17 +21,8 @@ const ProtectedRoute = ({ redirect, children }: any) => {
 
 function App() {
     const userData = useAuth().user;
-    const { isAuthenticated } = useAuth();
-    console.log('authenticate ' + isAuthenticated)
-    const [user, setUser] = useState({});
-    const getUser = () => {
-        axios
-            .get("http://localhost:5000/api/login/success", {
-                withCredentials: true
-            },)
-            .then(data => console.log(data))
-            .catch(error => console.log('errror ' + error));
-    };
+    const { user,isAuthenticated } = useAuth();
+
     const getUsers = () => {
         fetch("http://localhost:5000/api/login/success", {
             method: "GET",
@@ -43,8 +34,7 @@ function App() {
                 throw new Error("authentication has been failed!");
             })
             .then((resObject) => {
-                setUser(resObject.user);
-                console.log(resObject.user);
+                localStorage.setItem('user',resObject.data)
             })
             .catch((err) => {
                 console.log(err);
@@ -53,13 +43,6 @@ function App() {
     useEffect(() => {
         getUsers();
     }, []);
-
-    const obj = {
-        isLoggedIn: true
-    }
-
-
-
 
     return (
         <div className="App">

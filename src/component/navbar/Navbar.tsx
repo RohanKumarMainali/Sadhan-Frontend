@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'
+import { Link ,useNavigate } from 'react-router-dom'
 import LoginModal from '../modal/LoginModal'
 import {CgProfile} from 'react-icons/cg'
 let logo = require('../../images/newLogo.png')
@@ -43,12 +43,10 @@ function Navbar({ user }: any) {
     }
 
     const logout = async() => {
-        
         const response = await axios.get(`${url}/logout`,{
                withCredentials: true})
         localStorage.clear()
-        //console.log(response)
-        //window.open("http://localhost:5000/api/logout", "_self");
+        window.location.replace(`http://localhost:3000`)
     };
     useEffect(() => {
         getUser();

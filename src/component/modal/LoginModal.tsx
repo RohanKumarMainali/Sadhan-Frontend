@@ -1,5 +1,5 @@
 
-import React ,{useState, useEffect}from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -18,15 +18,17 @@ import {
 import AlertPop from './Alert'
 import axios from 'axios'
 import { FcGoogle } from 'react-icons/fc';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BsFacebook, BsTwitter } from 'react-icons/bs';
 let logo = require('../../images/newLogo.png')
 
 interface Props {
-        show : boolean,
-        close : ()=>void
-    }
+    show: boolean,
+    close: () => void
+}
 
-export const LoginModal = ( {show , close}: Props) => {
+export const LoginModal = ({ show, close }: Props) => {
 
     const initialValue = {
         email: "",
@@ -58,7 +60,7 @@ export const LoginModal = ( {show , close}: Props) => {
     const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure()
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-     
+
     const login = async () => {
         try {
             const payload = { email: values.email, password: values.password }
@@ -68,18 +70,51 @@ export const LoginModal = ( {show , close}: Props) => {
                     'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
                 }
             });
-            if (response.status == 200) {storeAuthentication(response.data);
+            if (response.status == 200) {
+                storeAuthentication(response.data);
                 setStatusCode(200);
 
                 onLoginClose();
 
-        window.location.replace(`http://localhost:3000`)
+                window.location.replace(`http://localhost:3000`)
             }
 
             console.log(JSON.stringify(response.data.message))
-} catch (error: any) {
+        } catch (error: any) {
             let status = error.response.status;
             if (status == 401) setStatusCode(401);
+        }
+    }
+
+    const showMessage = (message: string, statusCode: number) => {
+        if (statusCode == 200) toast.success(message)
+        else toast.error(message)
+    }
+
+    const signup = async () => {
+        try {
+
+            const payload = { firstName: values.firstName, lastName: values.lastName, email: values.signupEmail, password: values.signupPassword }
+            const response = await axios.post(`${url}/user/signup`,
+                payload,
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': "*", 'Content-Type': 'application/json'
+                    }
+                }
+            )
+            console.log(response)
+            onSignupClose();
+            showMessage(response.data.message, 201);
+        } catch (error: any) {
+
+            let status = error.response.status
+            if (status == 409) {
+                console.log(error.message)
+                showMessage(error.response.data, status);
+            }
+
+            onSignupClose();
         }
     }
 
@@ -90,134 +125,147 @@ export const LoginModal = ( {show , close}: Props) => {
     const logout = () => {
         window.open("http://localhost:5000/api/logout", "_self");
     };
- 
+
     return (
-        <div> 
-                    <Modal
-                    initialFocusRef={initialRef}
-                    finalFocusRef={finalRef}
-                    isOpen={show}
-                    onClose={close}
-                >
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Login</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody pb={10} className='login-body'>
-                            <FormControl>
-                                <FormLabel>Email</FormLabel>
-                                <Input name='email' value={values.email} onChange={handleInputChange} ref={initialRef} placeholder='Email' />
-                            </FormControl>
+        <div>
+            <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                isOpen={show}
+                onClose={close}
+            >
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Login</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={10} className='login-body'>
+                        <FormControl>
+                            <FormLabel>Email</FormLabel>
+                            <Input name='email' value={values.email} onChange={handleInputChange} ref={initialRef} placeholder='Email' />
+                        </FormControl>
 
-                            <FormControl mt={6}>
-                                <FormLabel>Password</FormLabel>
-                                <Input name='password' type='password' value={values.password} onChange={handleInputChange} placeholder='Password' />
-                            </FormControl>
+                        <FormControl mt={6}>
+                            <FormLabel>Password</FormLabel>
+                            <Input name='password' type='password' value={values.password} onChange={handleInputChange} placeholder='Password' />
+                        </FormControl>
 
-                            <button className='login-btn' onClick={login}>
+                        <button className='login-btn' onClick={login}>
+                            Login
+                        </button>
+                        {statusCode == 401 ? <div>
+                            <AlertPop statusCode={401} message='Incorrect username or password ' />
+                        </div> : <></>}
+                        <FormControl mt={6}>
+                            <button className='social-login-btn' onClick={google}>
+                                <FcGoogle className='social-logo' /> Continue with Google
+                            </button>
+                        </FormControl>
+
+                        <FormControl mt={3}>
+                            <button className='social-login-btn'>
+                                <BsFacebook color='3b5998' className=' social-logo' /> Continue with Facebook
+                            </button>
+                        </FormControl>
+
+                        <FormControl mt={3}>
+                            <button className='social-login-btn'>
+                                <BsTwitter color='00acee' className='social-logo' /> Continue with Twitter
+                            </button>
+                        </FormControl>
+
+                        <div className='login-footer'>
+                            <p>Don't have an account?</p>
+                            <button onClick={() => { close(); onSignupOpen(); }} className='signup-btn'>
+                                Sign up
+                            </button>
+                        </div>
+
+                    </ModalBody>
+
+                </ModalContent>
+            </Modal>
+
+
+            <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                isOpen={isSignupOpen}
+                onClose={onSignupClose}
+            >
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Let's Get Started</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={10} className='signup-body'>
+                        <div className='signup-name'>
+                            <FormControl style={{ width: '43%' }}>
+                                <FormLabel>First Name</FormLabel>
+                                <Input name='firstName' value={values.firstName} onChange={handleInputChange} ref={initialRef} placeholder='First Name' />
+                            </FormControl>
+                            <FormControl style={{ width: '43%' }}>
+                                <FormLabel>Last Name</FormLabel>
+                                <Input name='lastName' value={values.lastName} onChange={handleInputChange} placeholder='Last Name' />
+                            </FormControl>
+                        </div>
+
+                        <FormControl mt={2}>
+                            <FormLabel>Email</FormLabel>
+                            <Input name='signupEmail' value={values.signupEmail} onChange={handleInputChange} placeholder='Email' />
+                        </FormControl>
+
+                        <FormControl mt={2}>
+                            <FormLabel>Password</FormLabel>
+                            <Input name='signupPassword' value={values.signupPassword} onChange={handleInputChange} placeholder='Password' />
+                        </FormControl>
+
+
+                        <button className='login-btn' onClick={signup}>
+                            Signup
+                        </button>
+                        <FormControl mt={6}>
+                            <button className='social-login-btn'>
+                                <FcGoogle className='social-logo' /> Continue with Google
+                            </button>
+                        </FormControl>
+
+                        <FormControl mt={3}>
+                            <button className='social-login-btn'>
+                                <BsFacebook color='3b5998' className=' social-logo' /> Continue with Facebook
+                            </button>
+                        </FormControl>
+
+                        <FormControl mt={3}>
+                            <button className='social-login-btn'>
+                                <BsTwitter color='00acee' className='social-logo' /> Continue with Twitter
+                            </button>
+                        </FormControl>
+
+                        <div className='login-footer'>
+                            <p>Already have an account?</p>
+                            <button className='signup-btn' onClick={() => { onSignupClose(); close(); }}>
                                 Login
                             </button>
-                            {statusCode == 401 ? <div>
-                                <AlertPop statusCode={401} message='Incorrect username or password ' />
-                            </div> : <></>}
-                            <FormControl mt={6}>
-                                <button className='social-login-btn' onClick={google}>
-                                    <FcGoogle className='social-logo' /> Continue with Google
-                                </button>
-                            </FormControl>
+                        </div>
 
-                            <FormControl mt={3}>
-                                <button className='social-login-btn'>
-                                    <BsFacebook color='3b5998' className=' social-logo' /> Continue with Facebook
-                                </button>
-                            </FormControl>
+                    </ModalBody>
 
-                            <FormControl mt={3}>
-                                <button className='social-login-btn'>
-                                    <BsTwitter color='00acee' className='social-logo' /> Continue with Twitter
-                                </button>
-                            </FormControl>
+                </ModalContent>
+            </Modal>
 
-                            <div className='login-footer'>
-                                <p>Don't have an account?</p>
-                                <button onClick={() => { close(); onSignupOpen(); }} className='signup-btn'>
-                                    Sign up
-                                </button>
-                            </div>
-
-                        </ModalBody>
-
-                    </ModalContent>
-                </Modal>
-
- 
-                <Modal
-                    initialFocusRef={initialRef}
-                    finalFocusRef={finalRef}
-                    isOpen={isSignupOpen}
-                    onClose={onSignupClose}
-                >
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Let's Get Started</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody pb={10} className='signup-body'>
-                            <div className='signup-name'>
-                                <FormControl style={{ width: '43%' }}>
-                                    <FormLabel>First Name</FormLabel>
-                                    <Input name='firstName' value={values.firstName} onChange={handleInputChange} ref={initialRef} placeholder='First Name' />
-                                </FormControl>
-                                <FormControl style={{ width: '43%' }}>
-                                    <FormLabel>Last Name</FormLabel>
-                                    <Input name='lastName' value={values.lastName} onChange={handleInputChange} placeholder='Last Name' />
-                                </FormControl>
-                            </div>
-
-                            <FormControl mt={2}>
-                                <FormLabel>Email</FormLabel>
-                                <Input name='signupEmail' value={values.signupEmail} onChange={handleInputChange} placeholder='Email' />
-                            </FormControl>
-
-                            <FormControl mt={2}>
-                                <FormLabel>Password</FormLabel>
-                                <Input name='singupPassword' value={values.signupPassword} onChange={handleInputChange} placeholder='Password' />
-                            </FormControl>
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
 
 
-                            <button className='login-btn' >
-                                Signup
-                            </button>
-                            <FormControl mt={6}>
-                                <button className='social-login-btn'>
-                                    <FcGoogle className='social-logo' /> Continue with Google
-                                </button>
-                            </FormControl>
-
-                            <FormControl mt={3}>
-                                <button className='social-login-btn'>
-                                    <BsFacebook color='3b5998' className=' social-logo' /> Continue with Facebook
-                                </button>
-                            </FormControl>
-
-                            <FormControl mt={3}>
-                                <button className='social-login-btn'>
-                                    <BsTwitter color='00acee' className='social-logo' /> Continue with Twitter
-                                </button>
-                            </FormControl>
-
-                            <div className='login-footer'>
-                                <p>Already have an account?</p>
-                                <button className='signup-btn' onClick={() => { onSignupClose(); close(); }}>
-                                    Login
-                                </button>
-                            </div>
-
-                        </ModalBody>
-
-                    </ModalContent>
-                </Modal>
-
-       
         </div>
     )
 }

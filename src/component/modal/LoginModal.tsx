@@ -87,7 +87,7 @@ export const LoginModal = ({ show, close }: Props) => {
     }
 
     const showMessage = (message: string, statusCode: number) => {
-        if (statusCode == 200) toast.success(message)
+        if (statusCode == 201) toast.success(message)
         else toast.error(message)
     }
 

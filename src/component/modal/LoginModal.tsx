@@ -41,6 +41,7 @@ export const LoginModal = ({ show, close }: Props) => {
 
     const [values, setValues] = useState(initialValue);
     const [statusCode, setStatusCode] = useState(0);
+
     const url = 'http://localhost:5000/api';
 
     const storeAuthentication = (user: any) => {
@@ -76,7 +77,7 @@ export const LoginModal = ({ show, close }: Props) => {
 
                 onLoginClose();
 
-                window.location.replace(`http://localhost:3000`)
+//                window.location.replace(`http://localhost:3000`)
             }
 
             console.log(JSON.stringify(response.data.message))

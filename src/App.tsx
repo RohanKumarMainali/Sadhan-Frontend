@@ -22,7 +22,7 @@ const ProtectedRoute = ({ redirect, children }: any) => {
 function App() {
     const userData = useAuth().user;
     const { user,isAuthenticated } = useAuth();
-    console.log('auth ' + isAuthenticated)
+    
 
     const getUsers = () => {
         fetch("http://localhost:5000/api/login/success", {
@@ -43,7 +43,7 @@ function App() {
     };
     useEffect(() => {
         getUsers();
-    },[]);
+    }, []);
 
     return (
         <div className="App">

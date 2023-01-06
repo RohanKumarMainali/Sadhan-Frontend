@@ -13,12 +13,11 @@ function Navbar({ user }: any) {
     const search = useRef<HTMLInputElement>(null);
     const [statusCode, setStatusCode] = useState(0);
     const [showLogin, setShowLogin] = useState(false);
+    const [logged, setLogged] = useState(false);
+    const[newUser, setNewUser] = useState();
+  
 
    const url = 'http://localhost:5000/api';
-
-    const storeAuthentication = (user: any) => {
-        localStorage.setItem("user", JSON.stringify(user));
-    };
     const getUser = async () => {
         try {
             const response = await axios.get(`${url}/session`, {
@@ -28,7 +27,6 @@ function Navbar({ user }: any) {
                 withCredentials: true
             });
             console.log('res ' + JSON.stringify(response.data))
-
         } catch (error: any) {
             console.log('status ' + error.response.status)
         }
@@ -50,7 +48,7 @@ function Navbar({ user }: any) {
     };
     useEffect(() => {
         getUser();
-    }, []);
+    });
 
 
     return (
@@ -75,11 +73,11 @@ function Navbar({ user }: any) {
                                 <ul>
                                     <button className='btn'>Rent Vehicle</button>
                                     <button className='btn'>Become Host</button>
-                                    {(user?.email_verified || user?.firstName) ? (<>
+                                    {(newUser || user?.email_verified || user?.firstName) ? (<>
 
                                         <li className='login-list'>
                                         <CgProfile/>
-                                            {user.firstName}
+                                            {user?.firstName}
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
                                         </li>
                                     </>) :

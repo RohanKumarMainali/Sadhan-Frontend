@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -21,6 +21,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BsFacebook, BsTwitter } from 'react-icons/bs';
+import {UserContext} from '../../App'
 let logo = require('../../images/newLogo.png')
 
 interface Props {
@@ -30,6 +31,7 @@ interface Props {
 
 export const LoginModal = ({ show, close }: Props) => {
 
+    const {state,dispatch} = useContext(UserContext)
     const initialValue = {
         email: "",
         password: "",
@@ -74,9 +76,8 @@ export const LoginModal = ({ show, close }: Props) => {
             if (response.status == 200) {
                 storeAuthentication(response.data);
                 setStatusCode(200);
-
                 onLoginClose();
-
+                dispatch({type: "USER", payload:true})
 //                window.location.replace(`http://localhost:3000`)
             }
 
@@ -88,7 +89,7 @@ export const LoginModal = ({ show, close }: Props) => {
     }
 
     const showMessage = (message: string, statusCode: number) => {
-        if (statusCode == 201) toast.success(message)
+        if (statusCode == 201 || statusCode == 200) toast.success(message)
         else toast.error(message)
     }
 
@@ -126,6 +127,8 @@ export const LoginModal = ({ show, close }: Props) => {
     const logout = () => {
         window.open("http://localhost:5000/api/logout", "_self");
     };
+
+    useEffect(()=>{console.log(state)})
 
     return (
         <div>

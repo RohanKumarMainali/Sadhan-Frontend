@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,createContext, useReducer} from 'react';
 import './App.css';
 import { Navigate, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './component/Home';
@@ -6,6 +6,7 @@ import Navbar from './component/navbar/Navbar'
 import Dashboard from './component/Dashboard'
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
+import {initialState, reducer} from './reducer/UseReducer'
 
 
 interface userInfo {
@@ -19,11 +20,21 @@ const ProtectedRoute = ({ redirect, children }: any) => {
     return children
 }
 
-function App() {
+type initialStateType = {
+       login: boolean 
+    }
+export const UserContext = createContext<{
+    state: boolean;
+    dispatch: React.Dispatch<any>;
+}>({
+    state: initialState,
+    dispatch: ()=>false
+    });
+const App = () => {
+
+    const [state,dispatch] = useReducer(reducer, initialState);
     const userData = useAuth().user;
     const { user,isAuthenticated } = useAuth();
-    
-
     const getUsers = () => {
         fetch("http://localhost:5000/api/login/success", {
             method: "GET",
@@ -36,6 +47,7 @@ function App() {
             })
             .then((resObject) => {
                 localStorage.setItem('user',resObject.data)
+                
             })
             .catch((err) => {
                 console.log(err);
@@ -43,11 +55,13 @@ function App() {
     };
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [user]);
 
     return (
+    <UserContext.Provider value = {{state,dispatch}}>
         <div className="App">
-            <Navbar user={user} />
+
+            {user? <Navbar user={user}/> : <Navbar user = {null}/>}
             <Router>
                 <Routes>
                     <Route path='/' element={<Home />} />
@@ -60,6 +74,7 @@ function App() {
             </Router>
         </div>
 
+    </UserContext.Provider>
     );
 }
 

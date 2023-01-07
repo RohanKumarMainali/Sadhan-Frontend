@@ -10,7 +10,6 @@ import {initialState, reducer} from './reducer/UseReducer'
 
 
 interface userInfo {
-
     name: string,
     isLoggedIn: boolean,
 }
@@ -34,6 +33,7 @@ export const UserContext = createContext<{
 const App = () => {
 
     const [state,dispatch] = useReducer(reducer, initialState);
+    const [googleUser, setGoogleUser ] = useState();
     const userData = useAuth().user;
     const { user,isAuthenticated } = useAuth();
     const getUsers = () => {
@@ -43,11 +43,15 @@ const App = () => {
         },
         )
             .then((response) => {
-                if (response.status === 200) return response.json();
-                throw new Error("authentication has been failed!");
+                if (response.status === 200){
+                    
+                    return response.json()};
+                    throw new Error("authentication has been failed!");
             })
             .then((resObject) => {
-                localStorage.setItem('user',resObject.data)
+                
+                    setGoogleUser(resObject.user)
+                localStorage.setItem('user',JSON.stringify(resObject.user))
                 
             })
             .catch((err) => {
@@ -55,14 +59,14 @@ const App = () => {
             });
     };
     useEffect(() => {
-        getUsers();
-    }, [user]);
+       getUsers();
+    },[] );
 
     return (
     <UserContext.Provider value = {{state,dispatch}}>
         <div className="App">
 
-            {user? <Navbar user={user}/> : <Navbar user = {null}/>}
+             <Navbar user={googleUser}/>
             <Router>
                 <Routes>
                     <Route path='/' element={<Home />} />

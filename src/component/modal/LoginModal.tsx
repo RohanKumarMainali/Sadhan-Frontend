@@ -76,7 +76,7 @@ export const LoginModal = ({ show, close }: Props) => {
             if (response.status == 200) {
                 storeAuthentication(response.data);
                 setStatusCode(200);
-                onLoginClose();
+                close();
                 dispatch({type: "USER", payload:true})
 //                window.location.replace(`http://localhost:3000`)
             }
@@ -87,6 +87,7 @@ export const LoginModal = ({ show, close }: Props) => {
             if (status == 401) setStatusCode(401);
         }
     }
+
 
     const showMessage = (message: string, statusCode: number) => {
         if (statusCode == 201 || statusCode == 200) toast.success(message)

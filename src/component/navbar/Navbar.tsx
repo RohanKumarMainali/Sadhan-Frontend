@@ -12,7 +12,7 @@ let logo = require('../../images/newLogo.png')
 
 function Navbar({ user }: any) {
 
-    const {state,dispatch} = useContext(UserContext)
+    const {state,dispatch} = useContext(UserContext) 
     const search = useRef<HTMLInputElement>(null);
     const [statusCode, setStatusCode] = useState(0);
     const [showLogin, setShowLogin] = useState(false);
@@ -42,9 +42,13 @@ function Navbar({ user }: any) {
     const google = () => {
         window.open('http://localhost:5000/api/google', '_self');
     }
+    const logoutGoogle = () => {
+        window.open("http://localhost:5000/api/logout", "_self");
+        localStorage.clear();
+    };
 
     const logout = async() => {
-        const response = await axios.get(`${url}/logout`,{
+        const response = await axios.get(`${url}/user/logout`,{
                withCredentials: true})
         localStorage.clear()
         dispatch({type: "USER" , payload:false})
@@ -76,19 +80,21 @@ function Navbar({ user }: any) {
                                 <ul>
                                     <button className='btn'>Rent Vehicle</button>
                                     <button className='btn'>Become Host</button>
-                                    {state ? (<>
 
+                                    {(state && !user?.email_verfied) ?  
                                         <li className='login-list'>
                                         <CgProfile/>
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
-                                        </li>
-                                    </>) :
-                                        (<button className='btn btn-primary' onClick = {()=> setShowLogin(true)} >Login</button>)
-                                    }
-                                </ul>
-                            </nav>
-                        
-                        <LoginModal show = {showLogin} close ={()=>setShowLogin(!showLogin)}/>
+                                        </li> : (user) ?  <li className='login-list'>
+                                        <CgProfile/>
+                                            <button className='btn btn-primary' onClick={logoutGoogle} >Logout</button>
+                                        </li> :
+
+
+                                        (<button className='btn btn-primary' onClick = {()=> setShowLogin(true)} >Login</button>) }
+                                       </ul>
+                                        </nav>
+                                        <LoginModal show = {showLogin} close ={()=>setShowLogin(!showLogin)}/>
                         </div>
 
                     </div>

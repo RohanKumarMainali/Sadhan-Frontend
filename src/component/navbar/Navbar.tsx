@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -7,9 +7,13 @@ import axios from 'axios';
 import { Link ,useNavigate } from 'react-router-dom'
 import LoginModal from '../modal/LoginModal'
 import {CgProfile} from 'react-icons/cg'
+import {UserContext} from '../../App'
 let logo = require('../../images/newLogo.png')
 
+
 function Navbar({ user }: any) {
+
+    const {state,dispatch} = useContext(UserContext)
     const search = useRef<HTMLInputElement>(null);
     const [statusCode, setStatusCode] = useState(0);
     const [showLogin, setShowLogin] = useState(false);
@@ -44,6 +48,7 @@ function Navbar({ user }: any) {
         const response = await axios.get(`${url}/logout`,{
                withCredentials: true})
         localStorage.clear()
+        dispatch({type: "USER" , payload:false})
         window.location.replace(`http://localhost:3000`)
     };
     useEffect(() => {
@@ -73,11 +78,10 @@ function Navbar({ user }: any) {
                                 <ul>
                                     <button className='btn'>Rent Vehicle</button>
                                     <button className='btn'>Become Host</button>
-                                    {(newUser || user?.email_verified || user?.firstName) ? (<>
+                                    {state ? (<>
 
                                         <li className='login-list'>
                                         <CgProfile/>
-                                            {user?.firstName}
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
                                         </li>
                                     </>) :

@@ -23,11 +23,12 @@ const ProtectedRoute = ({ redirect, children }: any) => {
 type initialStateType = {
        login: boolean 
     }
+     
 export const UserContext = createContext<{
     state: boolean;
     dispatch: React.Dispatch<any>;
 }>({
-    state: initialState,
+    state:initialState, 
     dispatch: ()=>false
     });
 const App = () => {

@@ -10,7 +10,6 @@ import {CgProfile} from 'react-icons/cg'
 import {UserContext} from '../../App'
 let logo = require('../../images/newLogo.png')
 
-
 function Navbar({ user }: any) {
 
     const {state,dispatch} = useContext(UserContext)
@@ -21,7 +20,7 @@ function Navbar({ user }: any) {
     const[newUser, setNewUser] = useState();
   
 
-   const url = 'http://localhost:5000/api';
+    const url = 'http://localhost:5000/api';
     const getUser = async () => {
         try {
             const response = await axios.get(`${url}/session`, {
@@ -49,7 +48,6 @@ function Navbar({ user }: any) {
                withCredentials: true})
         localStorage.clear()
         dispatch({type: "USER" , payload:false})
-        window.location.replace(`http://localhost:3000`)
     };
     useEffect(() => {
         getUser();

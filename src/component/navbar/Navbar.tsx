@@ -1,24 +1,24 @@
-import React, { useEffect, useState,useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react';
 import axios from 'axios';
-import { Link ,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import LoginModal from '../modal/LoginModal'
-import {CgProfile} from 'react-icons/cg'
-import {UserContext} from '../../App'
+import { CgProfile } from 'react-icons/cg'
+import { UserContext } from '../../App'
 let logo = require('../../images/newLogo.png')
 
 function Navbar({ user }: any) {
 
-    const {state,dispatch} = useContext(UserContext) 
+    const { state, dispatch } = useContext(UserContext)
     const search = useRef<HTMLInputElement>(null);
     const [statusCode, setStatusCode] = useState(0);
     const [showLogin, setShowLogin] = useState(false);
     const [logged, setLogged] = useState(false);
-    const[newUser, setNewUser] = useState();
-  
+    const [newUser, setNewUser] = useState();
+
 
     const url = 'http://localhost:5000/api';
     const getUser = async () => {
@@ -35,7 +35,7 @@ function Navbar({ user }: any) {
         }
     }
 
-   const focusSearch = () => {
+    const focusSearch = () => {
         search.current?.focus();
     }
 
@@ -47,11 +47,12 @@ function Navbar({ user }: any) {
         localStorage.clear();
     };
 
-    const logout = async() => {
-        const response = await axios.get(`${url}/user/logout`,{
-               withCredentials: true})
+    const logout = async () => {
+        const response = await axios.get(`${url}/user/logout`, {
+            withCredentials: true
+        })
         localStorage.clear()
-        dispatch({type: "USER" , payload:false})
+        dispatch({ type: "USER", payload: false })
     };
     useEffect(() => {
         getUser();
@@ -75,26 +76,26 @@ function Navbar({ user }: any) {
                                 </i>
                             </form>
                         </div>
-                       <div className="col-md-5 nav-container">
+                        <div className="col-md-5 nav-container">
                             <nav>
                                 <ul>
                                     <button className='btn'>Rent Vehicle</button>
                                     <button className='btn'>Become Host</button>
 
-                                    {(state && !user?.email_verfied) ?  
+                                    {(state && !user?.email_verfied) ?
                                         <li className='login-list'>
-                                        <CgProfile/>
+
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
-                                        </li> : (user) ?  <li className='login-list'>
-                                        <CgProfile/>
+                                        </li> : (user) ? <li className='login-list'>
+                                            <CgProfile />
                                             <button className='btn btn-primary' onClick={logoutGoogle} >Logout</button>
                                         </li> :
 
 
-                                        (<button className='btn btn-primary' onClick = {()=> setShowLogin(true)} >Login</button>) }
-                                       </ul>
-                                        </nav>
-                                        <LoginModal show = {showLogin} close ={()=>setShowLogin(!showLogin)}/>
+                                            (<button className='btn btn-primary' onClick={() => setShowLogin(true)} >Login</button>)}
+                                </ul>
+                            </nav>
+                            <LoginModal show={showLogin} close={() => setShowLogin(!showLogin)} />
                         </div>
 
                     </div>

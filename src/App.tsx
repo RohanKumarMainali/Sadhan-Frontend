@@ -4,6 +4,7 @@ import { Navigate, BrowserRouter as Router, Route, Routes } from 'react-router-d
 import Home from './component/Home';
 import Navbar from './component/navbar/Navbar'
 import Dashboard from './component/Dashboard'
+import SignInSide from './component/admin/SignInSide'
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
 import {initialState, reducer} from './reducer/UseReducer'
@@ -70,6 +71,8 @@ const App = () => {
             <Router>
                 <Routes>
                     <Route path='/' element={<Home />} />
+                    
+                        <Route path = '/admin/login' element = {<SignInSide/>}/>
                     <Route path='/dashboard' element={
                         <ProtectedRoute redirect={!isAuthenticated}>
                             <Dashboard />

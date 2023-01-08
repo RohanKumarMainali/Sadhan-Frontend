@@ -123,6 +123,7 @@ export const LoginModal = ({ show, close }: Props) => {
 
     const google = () => {
         window.open('http://localhost:5000/api/google', '_self');
+        dispatch({type: "USER", payload:true})
     }
 
     const logout = () => {
@@ -220,7 +221,7 @@ export const LoginModal = ({ show, close }: Props) => {
 
                         <FormControl mt={2}>
                             <FormLabel>Password</FormLabel>
-                            <Input name='signupPassword' value={values.signupPassword} onChange={handleInputChange} placeholder='Password' />
+                            <Input type='password' name='signupPassword' value={values.signupPassword} onChange={handleInputChange} placeholder='Password' />
                         </FormControl>
 
 

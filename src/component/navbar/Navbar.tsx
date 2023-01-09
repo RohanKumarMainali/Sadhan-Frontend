@@ -29,7 +29,6 @@ function Navbar({ user }: any) {
                 },
                 withCredentials: true
             });
-            console.log('res ' + JSON.stringify(response.data))
         } catch (error: any) {
             console.log('status ' + error.response.status)
         }

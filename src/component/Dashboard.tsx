@@ -3,8 +3,8 @@ import {useEffect ,useState} from 'react'
 import axios from 'axios'
 
 function Dashboard() {
-    const url = 'http://localhost:3000'
-    const[user,setUser] = useState();
+    const url = 'http://localhost:5000/api'
+    const[user,setUser] = useState({})
     const getUser = async () => {
         try {
             const response = await axios.get(`${url}/session`, {
@@ -14,7 +14,9 @@ function Dashboard() {
                 withCredentials: true
             });
             console.log('res ' + JSON.stringify('user response ' +response.data))
-            setUser(response.data)
+            
+            setUser(response.data.payload)
+            console.log(response.data.payload)
         } catch (error: any) {
             console.log('status ' + error.response.status)
         }
@@ -23,13 +25,13 @@ function Dashboard() {
     useEffect(() => {
       
     getUser();
-    console.log(user)
     }, [])
     
 
   return (
     <>
-        <h1 style={{margin: 'auto'}}>Hello user, you are authenticated</h1>
+        {user ? <>{user}</> : null}
+        <h1 style={{margin: 'auto'}}> Hello user, you are authenticated</h1>
     
     </>
   )

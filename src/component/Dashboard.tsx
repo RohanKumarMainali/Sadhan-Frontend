@@ -42,7 +42,6 @@ function Dashboard() {
                 setUserName(details.firstName + ' ' + details.lastName);
                 setEmail(details.email);
                 setRole(details.role)
-                console.log(response)
             }
         } catch (error) {
             console.log(error)
@@ -90,8 +89,7 @@ function Dashboard() {
                         <h1>role: {role}</h1>
                     </>
                     :
-                    <h1 style={{ margin: 'auto' }}> JWT token is expired!!</h1>
-                }
+            null    }
 
 
             </>

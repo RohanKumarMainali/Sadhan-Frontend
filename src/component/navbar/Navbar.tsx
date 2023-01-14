@@ -78,7 +78,7 @@ function Navbar({ user }: any) {
                         <div className="col-md-5 nav-container">
                             <nav>
                                 <ul>
-                                    <button className='btn'>Rent Vehicle</button>
+                                    <button className='btn text-3xl font-bold underline'>Rent Vehicle</button>
                                     <button className='btn'>Become Host</button>
 
                                     {(state && !user?.email_verfied) ?

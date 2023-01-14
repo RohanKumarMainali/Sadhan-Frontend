@@ -5,6 +5,10 @@ import Home from './component/Home';
 import Navbar from './component/navbar/Navbar'
 import Dashboard from './component/Dashboard'
 import SignInSide from './component/admin/SignInSide'
+import Sidebar from './component/dashboard/Sidebar'
+import Profile from './component/dashboard/Profile'
+import Vehicles from './component/dashboard/Vehicles'
+
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
 import { initialState, reducer } from './reducer/UseReducer'
@@ -38,8 +42,6 @@ const App = () => {
     const userData = useAuth().user;
     const { user, isAuthenticated } = useAuth();
 
-
- 
     const getUsers = () => {
         fetch("http://localhost:5000/api/login/success", {
             method: "GET",
@@ -72,23 +74,40 @@ const App = () => {
             <UserContext.Provider value={{ state, dispatch }}>
       
                     <div className="App">
-
-                        <Navbar user={googleUser} />
-                        <Router>
-                            <Routes>
-                                <Route path='/' element={<Home />} />
-
-                                <Route path='/admin/login' element={<SignInSide />} />
-                                <Route path='/dashboard' element={
+                     <Router>
+                        <Routes>
+                            <Route path='/dashboard' element={
                                     <ProtectedRoute redirect={!isAuthenticated}>
+                                    <Sidebar/>
                                         <Dashboard />
                                     </ProtectedRoute>
                                 } />
+                            <Route path='/dashboard/profile' element={
+                                    <ProtectedRoute redirect={!isAuthenticated}>
+                                    <Sidebar/>
+                                        <Profile />
+                                    </ProtectedRoute>
+                                } />
+                            <Route path='/dashboard/vehicles' element={
+                                    <ProtectedRoute redirect={!isAuthenticated}>
+                                    <Sidebar/>
+                                        <Vehicles />
+                                    </ProtectedRoute>
+                                } />
+ 
+                        </Routes>
+                    </Router>
+
+
+                        <Router>
+                            <Routes>
+                                <Route path='/' element={<><Navbar user={googleUser}/> <Home /></>} />
+
+                                <Route path='/admin/login' element={<SignInSide />} />
                             </Routes>
                         </Router>
                     </div>
-
-            </UserContext.Provider>
+                                </UserContext.Provider>
 
     );
 }

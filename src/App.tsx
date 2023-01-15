@@ -71,43 +71,43 @@ const App = () => {
 
     return (
 
-            <UserContext.Provider value={{ state, dispatch }}>
-      
-                    <div className="App">
-                     <Router>
-                        <Routes>
-                            <Route path='/dashboard' element={
-                                    <ProtectedRoute redirect={!isAuthenticated}>
-                                    <Sidebar/>
-                                        <Dashboard />
-                                    </ProtectedRoute>
-                                } />
-                            <Route path='/dashboard/profile' element={
-                                    <ProtectedRoute redirect={!isAuthenticated}>
-                                    <Sidebar/>
-                                        <Profile />
-                                    </ProtectedRoute>
-                                } />
-                            <Route path='/dashboard/vehicles' element={
-                                    <ProtectedRoute redirect={!isAuthenticated}>
-                                    <Sidebar/>
-                                        <Vehicles />
-                                    </ProtectedRoute>
-                                } />
- 
-                        </Routes>
-                    </Router>
+        <UserContext.Provider value={{ state, dispatch }}>
+
+            <div className="App">
+                <Router>
+                    <Routes>
+                        <Route path='/dashboard' element={
+                            <ProtectedRoute redirect={!isAuthenticated}>
+                                <Sidebar />
+                                <Dashboard />
+                            </ProtectedRoute>
+                        } />
+                        <Route path='/dashboard/profile' element={
+                            <ProtectedRoute redirect={!isAuthenticated}>
+                                <Sidebar />
+                                <Profile />
+                            </ProtectedRoute>
+                        } />
+                        <Route path='/dashboard/vehicles' element={
+                            <ProtectedRoute redirect={!isAuthenticated}>
+                                <Sidebar />
+                                <Vehicles />
+                            </ProtectedRoute>
+                        } />
+
+                    </Routes>
+                </Router>
 
 
-                        <Router>
-                            <Routes>
-                                <Route path='/' element={<><Navbar user={googleUser}/> <Home /></>} />
+                <Router>
+                    <Routes>
+                        <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
 
-                                <Route path='/admin/login' element={<SignInSide />} />
-                            </Routes>
-                        </Router>
-                    </div>
-                                </UserContext.Provider>
+                        <Route path='/admin/login' element={<SignInSide />} />
+                    </Routes>
+                </Router>
+            </div>
+        </UserContext.Provider>
 
     );
 }

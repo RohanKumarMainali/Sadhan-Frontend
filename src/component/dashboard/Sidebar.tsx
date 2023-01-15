@@ -13,13 +13,13 @@ const Sidebar = () => {
 
     return (
         <div className="flex">
-            <div className="flex flex-col h-screen p-3 bg-gray-900 text-white shadow w-60 fixed top-0 left-0">
+            <div className="flex flex-col h-screen p-3 bg-gray-900 text-white shadow w-56 fixed top-0 left-0">
                 <div className="space-y-3">
                     <div className="flex items-center border-solid border-2 border-white-600 ">
                         <h2 className="text-2xl font-bold text-center mx-auto align-middle m-0 p-3">Dashboard</h2>
                     </div>
                     <div className="flex-1">
-                        <ul className="pt-2 pb-4 space-y-1 text-sm">
+                        <ul className="p-0 space-y-1 text-sm">
                             {SidebarData.map((item: sidebarItem, index: number) => {
                                 return (
                                     <li key={index} className="rounded-sm">

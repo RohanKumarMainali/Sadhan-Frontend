@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useContext } from 'react'
+import {Formik,Form, Field} from 'formik';
 import {
     Modal,
     ModalOverlay,
@@ -29,19 +30,60 @@ interface Props {
     close: () => void
 }
 
+interface loginType {
+        email: string,
+        password: string
+    }
 export const LoginModal = ({ show, close }: Props) => {
 
     const {state,dispatch} = useContext(UserContext)
-    const initialValue = {
-        email: "",
-        password: "",
+    const inValues = {
         firstName: "",
         lastName: "",
         signupEmail: "",
         signupPassword: "",
     }
+    // formik
+ 
+    const login = async (formik:loginType) => {
+        try {
+            console.log('button clicked')
+            const payload = { email: formik.email, password: formik.password }
+            const response = await axios.post(`${url}/user/login`, payload, {
+                withCredentials: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
+                }
+            });
+            if (response.status == 200) {
+                storeAuthentication(response.data);
+                setStatusCode(200);
+                close();
+                dispatch({type: "USER", payload:true})
+//              0 window.location.replace(`http://localhost:3000`)
+            }
 
-    const [values, setValues] = useState(initialValue);
+            console.log(JSON.stringify(response.data.message))
+        } catch (error: any) {
+            let status = error.response.status;
+            if (status == 401) setStatusCode(401);
+        }
+    }
+
+
+   
+    const validate = (values:loginType) =>{
+        const errors = {email:'',password:''};
+        if(!values.email)errors.email = 'Required';
+        else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)){
+                errors.email = 'Invalid email address';
+            }
+        if(!values.password) errors.password = 'Required';
+        else if(values.password.length <8) errors.password = 'Must be 8 characters or more';
+        return errors;
+        }
+
+    const [values, setValues] = useState(inValues);
     const [statusCode, setStatusCode] = useState(0);
 
     const url = 'http://localhost:5000/api';
@@ -63,32 +105,6 @@ export const LoginModal = ({ show, close }: Props) => {
     const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure()
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-
-    const login = async () => {
-        try {
-            const payload = { email: values.email, password: values.password }
-            const response = await axios.post(`${url}/user/login`, payload, {
-                withCredentials: true,
-                headers: {
-                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
-                }
-            });
-            if (response.status == 200) {
-                storeAuthentication(response.data);
-                setStatusCode(200);
-                close();
-                dispatch({type: "USER", payload:true})
-//                window.location.replace(`http://localhost:3000`)
-            }
-
-            console.log(JSON.stringify(response.data.message))
-        } catch (error: any) {
-            let status = error.response.status;
-            if (status == 401) setStatusCode(401);
-        }
-    }
-
-
     const showMessage = (message: string, statusCode: number) => {
         if (statusCode == 201 || statusCode == 200) toast.success(message)
         else toast.error(message)
@@ -121,6 +137,28 @@ export const LoginModal = ({ show, close }: Props) => {
         }
     }
 
+// formik 
+//
+//
+ 
+ function validateEmail(value: string) {
+   let errors;
+   if (!value) {
+     errors = 'Required';
+   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+     errors = 'Invalid email address';
+   }
+   return errors;
+ }
+ 
+ function validatePassword(value: string) {
+   let errors;
+   if (!value ) {
+     errors = 'Required';
+   }
+   return errors;
+ }
+
     const google = () => {
         window.open('http://localhost:5000/api/google', '_self');
         dispatch({type: "USER", payload:true})
@@ -134,7 +172,20 @@ export const LoginModal = ({ show, close }: Props) => {
 
     return (
         <div>
+            
+
+        <Formik
+            initialValues ={{
+            email: "",
+            password: "",
+        }}
+
+        onSubmit= values =>{login(values)}
+
+        >
+
             <Modal
+
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
                 isOpen={show}
@@ -145,19 +196,22 @@ export const LoginModal = ({ show, close }: Props) => {
                     <ModalHeader>Login</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={10} className='login-body'>
-                        <FormControl>
+                    <Form>
+                        <FormControl >
                             <FormLabel>Email</FormLabel>
-                            <Input name='email' value={values.email} onChange={handleInputChange} ref={initialRef} placeholder='Email' />
+                            <Field name='email' validate={validateEmail}/>
+                            {errors.email ? <div  className="text-xs text-red-700 mt-1">{errors.email}</div> : null}
                         </FormControl>
-
-                        <FormControl mt={6}>
+                        <FormControl mt={4}>
                             <FormLabel>Password</FormLabel>
-                            <Input name='password' type='password' value={values.password} onChange={handleInputChange} placeholder='Password' />
+                            <Field name='password' validate={validatePassword}/>
+                            {errors.password ? <div className='text-xs text-red-700 mt-1'> {errors.password}</div>: null}
                         </FormControl>
 
-                        <button className='login-btn' onClick={login}>
+                        <button className='login-btn' type='submit' >
                             Login
                         </button>
+
                         {statusCode == 401 ? <div>
                             <AlertPop statusCode={401} message='Incorrect username or password ' />
                         </div> : <></>}
@@ -178,6 +232,7 @@ export const LoginModal = ({ show, close }: Props) => {
                                 <BsTwitter color='00acee' className='social-logo' /> Continue with Twitter
                             </button>
                         </FormControl>
+                        </Form>
 
                         <div className='login-footer'>
                             <p>Don't have an account?</p>
@@ -191,7 +246,7 @@ export const LoginModal = ({ show, close }: Props) => {
                 </ModalContent>
             </Modal>
 
-
+</Formik>
             <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}

@@ -2,6 +2,7 @@
 const Profile = () => {
     return (
         <div className=' w-[calc(100%-14rem)]  float-right'>
+           <div className = 'main-profile w-4/5 mt-14 mx-auto '>
             <div className='row'>
                 <div className='col-8 h-50 bg-slate-50 '>
                     <form className="w-full">
@@ -80,6 +81,7 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     )

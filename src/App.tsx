@@ -71,11 +71,13 @@ const App = () => {
 
     return (
 
+ 
         <UserContext.Provider value={{ state, dispatch }}>
 
             <div className="App">
                 <Router>
                     <Routes>
+
                         <Route path='/dashboard' element={
                             <ProtectedRoute redirect={!isAuthenticated}>
                                 <Sidebar />
@@ -95,12 +97,8 @@ const App = () => {
                             </ProtectedRoute>
                         } />
 
-                    </Routes>
-                </Router>
 
 
-                <Router>
-                    <Routes>
                         <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
 
                         <Route path='/admin/login' element={<SignInSide />} />

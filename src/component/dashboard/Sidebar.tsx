@@ -25,7 +25,8 @@ const Sidebar = () => {
                                     <li key={index} className="rounded-sm">
                                     <Link to ={item.path}
                                             className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
-                                            <span className='p-3 text-xl'>{item.title}</span>
+                                           <li className="text-2xl">{item.icon}</li>
+                                           <span className='p-3 text-xl'>{item.title}</span>
                                     </Link>
                                     </li>
 

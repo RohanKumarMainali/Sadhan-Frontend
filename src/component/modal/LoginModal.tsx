@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useContext } from 'react'
-import {Formik,Form, Field} from 'formik';
+import { Formik, Form, Field } from 'formik';
 import {
     Modal,
     ModalOverlay,
@@ -22,7 +22,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BsFacebook, BsTwitter } from 'react-icons/bs';
-import {UserContext} from '../../App'
+import { UserContext } from '../../App'
 let logo = require('../../images/newLogo.png')
 
 interface Props {
@@ -31,12 +31,12 @@ interface Props {
 }
 
 interface loginType {
-        email: string,
-        password: string
-    }
+    email: string,
+    password: string
+}
 export const LoginModal = ({ show, close }: Props) => {
 
-    const {state,dispatch} = useContext(UserContext)
+    const { state, dispatch } = useContext(UserContext)
     const inValues = {
         firstName: "",
         lastName: "",
@@ -44,8 +44,8 @@ export const LoginModal = ({ show, close }: Props) => {
         signupPassword: "",
     }
     // formik
- 
-    const login = async (formik:loginType) => {
+
+    const login = async (formik: loginType) => {
         try {
             console.log('button clicked')
             const payload = { email: formik.email, password: formik.password }
@@ -59,8 +59,8 @@ export const LoginModal = ({ show, close }: Props) => {
                 storeAuthentication(response.data);
                 setStatusCode(200);
                 close();
-                dispatch({type: "USER", payload:true})
-//              0 window.location.replace(`http://localhost:3000`)
+                dispatch({ type: "USER", payload: true })
+                //              0 window.location.replace(`http://localhost:3000`)
             }
 
             console.log(JSON.stringify(response.data.message))
@@ -71,17 +71,17 @@ export const LoginModal = ({ show, close }: Props) => {
     }
 
 
-   
-    const validate = (values:loginType) =>{
-        const errors = {email:'',password:''};
-        if(!values.email)errors.email = 'Required';
-        else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)){
-                errors.email = 'Invalid email address';
-            }
-        if(!values.password) errors.password = 'Required';
-        else if(values.password.length <8) errors.password = 'Must be 8 characters or more';
-        return errors;
+
+    const validate = (values: loginType) => {
+        const errors = { email: '', password: '' };
+        if (!values.email) errors.email = 'Required';
+        else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            errors.email = 'Invalid email address';
         }
+        if (!values.password) errors.password = 'Required';
+        else if (values.password.length < 8) errors.password = 'Must be 8 characters or more';
+        return errors;
+    }
 
     const [values, setValues] = useState(inValues);
     const [statusCode, setStatusCode] = useState(0);
@@ -137,53 +137,42 @@ export const LoginModal = ({ show, close }: Props) => {
         }
     }
 
-// formik 
-//
-//
- 
- function validateEmail(value: string) {
-   let errors;
-   if (!value) {
-     errors = 'Required';
-   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-     errors = 'Invalid email address';
-   }
-   return errors;
- }
- 
- function validatePassword(value: string) {
-   let errors;
-   if (!value ) {
-     errors = 'Required';
-   }
-   return errors;
- }
+    // formik 
+    //
+    //
+
+    function validateEmail(value: string) {
+        let errors;
+        if (!value) {
+            errors = 'Required';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+            errors = 'Invalid email address';
+        }
+        return errors;
+    }
+
+    function validatePassword(value: string) {
+        let errors;
+        if (!value) {
+            errors = 'Required';
+        }
+        else if(value.length<8) errors = "Password must be greater than 8 characters"
+        return errors;
+    }
 
     const google = () => {
         window.open('http://localhost:5000/api/google', '_self');
-        dispatch({type: "USER", payload:true})
+        dispatch({ type: "USER", payload: true })
     }
 
     const logout = () => {
         window.open("http://localhost:5000/api/logout", "_self");
     };
 
-    useEffect(()=>{console.log(state)})
+    useEffect(() => { console.log(state) })
 
     return (
         <div>
-            
-
-        <Formik
-            initialValues ={{
-            email: "",
-            password: "",
-        }}
-
-        onSubmit= values =>{login(values)}
-
-        >
-
             <Modal
 
                 initialFocusRef={initialRef}
@@ -196,43 +185,55 @@ export const LoginModal = ({ show, close }: Props) => {
                     <ModalHeader>Login</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={10} className='login-body'>
-                    <Form>
-                        <FormControl >
-                            <FormLabel>Email</FormLabel>
-                            <Field name='email' validate={validateEmail}/>
-                            {errors.email ? <div  className="text-xs text-red-700 mt-1">{errors.email}</div> : null}
-                        </FormControl>
-                        <FormControl mt={4}>
-                            <FormLabel>Password</FormLabel>
-                            <Field name='password' validate={validatePassword}/>
-                            {errors.password ? <div className='text-xs text-red-700 mt-1'> {errors.password}</div>: null}
-                        </FormControl>
+                        <Formik
+                            initialValues={{
+                                email: "",
+                                password: "",
+                            }}
 
-                        <button className='login-btn' type='submit' >
-                            Login
-                        </button>
+                            onSubmit={values => { login(values) }}
 
-                        {statusCode == 401 ? <div>
-                            <AlertPop statusCode={401} message='Incorrect username or password ' />
-                        </div> : <></>}
-                        <FormControl mt={6}>
-                            <button className='social-login-btn' onClick={google}>
-                                <FcGoogle className='social-logo' /> Continue with Google
-                            </button>
-                        </FormControl>
+                        >
+                            {({ errors, touched, isValidating }) => (
+                                <Form>
+                                    <FormControl >
+                                        <FormLabel>Email</FormLabel>
+                                        <Field name='email' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='email' validate={validateEmail} />
+                                        {errors.email && touched.email && <div className='text-xs text-red-700 mt-1'>{errors.email}</div>}
+                                    </FormControl>
+                                    <FormControl mt={4}>
+                                        <FormLabel>Password</FormLabel>
+                                        <Field type='password' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='password' name='password' validate={validatePassword} />
+                                        {errors.password && touched.password && <div className='text-xs text-red-700 mt-1'>{errors.password}</div>}
+                                    </FormControl>
 
-                        <FormControl mt={3}>
-                            <button className='social-login-btn'>
-                                <BsFacebook color='3b5998' className=' social-logo' /> Continue with Facebook
-                            </button>
-                        </FormControl>
+                                    <button className='login-btn' type='submit' >
+                                        Login
+                                    </button>
 
-                        <FormControl mt={3}>
-                            <button className='social-login-btn'>
-                                <BsTwitter color='00acee' className='social-logo' /> Continue with Twitter
-                            </button>
-                        </FormControl>
-                        </Form>
+                                    {statusCode == 401 ? <div>
+                                        <AlertPop statusCode={401} message='Incorrect username or password ' />
+                                    </div> : <></>}
+                                    <FormControl mt={6}>
+                                        <button className='social-login-btn' onClick={google}>
+                                            <FcGoogle className='social-logo' /> Continue with Google
+                                        </button>
+                                    </FormControl>
+
+                                    <FormControl mt={3}>
+                                        <button className='social-login-btn'>
+                                            <BsFacebook color='3b5998' className=' social-logo' /> Continue with Facebook
+                                        </button>
+                                    </FormControl>
+
+                                    <FormControl mt={3}>
+                                        <button className='social-login-btn'>
+                                            <BsTwitter color='00acee' className='social-logo' /> Continue with Twitter
+                                        </button>
+                                    </FormControl>
+                                </Form>
+                            )}
+                        </Formik>
 
                         <div className='login-footer'>
                             <p>Don't have an account?</p>
@@ -246,7 +247,6 @@ export const LoginModal = ({ show, close }: Props) => {
                 </ModalContent>
             </Modal>
 
-</Formik>
             <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
@@ -327,7 +327,7 @@ export const LoginModal = ({ show, close }: Props) => {
             />
 
 
-        </div>
+        </div >
     )
 }
 

@@ -8,6 +8,8 @@ import SignInSide from './component/admin/SignInSide'
 import Sidebar from './component/dashboard/Sidebar'
 import Profile from './component/dashboard/Profile'
 import Vehicles from './component/dashboard/Vehicles'
+import ForgotPasswordEmail from './component/user/ForgotPasswordEmail'
+import ForgotPassword from './component/user/ForgotPassword'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -100,6 +102,8 @@ const App = () => {
 
 
                         <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
+                        <Route path='/forgot-password-email' element={<><ForgotPasswordEmail /></>} />
+                        <Route path='/api/user/forgotPassword/:id/:token' element={<><ForgotPassword /></>} />
 
                         <Route path='/admin/login' element={<SignInSide />} />
                     </Routes>

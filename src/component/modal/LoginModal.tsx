@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom'
 import React, { useState, useEffect, useContext } from 'react'
 import { Formik, Form, Field } from 'formik';
 import {
@@ -156,7 +157,7 @@ export const LoginModal = ({ show, close }: Props) => {
         if (!value) {
             errors = 'Required';
         }
-        else if(value.length<8) errors = "Password must be greater than 8 characters"
+        else if (value.length < 8) errors = "Password must be greater than 8 characters"
         return errors;
     }
 
@@ -210,6 +211,10 @@ export const LoginModal = ({ show, close }: Props) => {
                                     <button className='login-btn' type='submit' >
                                         Login
                                     </button>
+                                    <FormControl mt={1}>
+                                        <label className="flex flex-row text-sm">Forgot Password ? <Link to='/forgot-password-email' onClick={close} className='text-sm text-blue-500 underline ml-2'> Click Here</Link></label>
+                                    </FormControl>
+
 
                                     {statusCode == 401 ? <div>
                                         <AlertPop statusCode={401} message='Incorrect username or password ' />

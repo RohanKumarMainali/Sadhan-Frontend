@@ -10,6 +10,7 @@ import Profile from './component/dashboard/Profile'
 import Vehicles from './component/dashboard/Vehicles'
 import ForgotPasswordEmail from './component/user/ForgotPasswordEmail'
 import ForgotPassword from './component/user/ForgotPassword'
+import ChangePassword from './component/user/ChangePassword'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -100,6 +101,12 @@ const App = () => {
                         } />
 
 
+                        <Route path='/dashboard/change-password' element={
+                            <ProtectedRoute redirect={!isAuthenticated}>
+                                <Sidebar />
+                                <ChangePassword/>
+                            </ProtectedRoute>
+                        } />
 
                         <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
                         <Route path='/forgot-password-email' element={<><ForgotPasswordEmail /></>} />

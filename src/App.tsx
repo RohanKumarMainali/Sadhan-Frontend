@@ -104,7 +104,7 @@ const App = () => {
                         <Route path='/dashboard/change-password' element={
                             <ProtectedRoute redirect={!isAuthenticated}>
                                 <Sidebar />
-                                <ChangePassword/>
+                                <ChangePassword user= {userData}/>
                             </ProtectedRoute>
                         } />
 

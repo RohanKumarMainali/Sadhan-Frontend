@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom'
-
 const Profile = () => {
+
 
     return (
         <div className=' w-[calc(100%-14rem)]  float-right'>
@@ -86,6 +86,7 @@ const Profile = () => {
 
 
                         <Link to = "/dashboard/change-password"><button className="w-3/4 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Change Password</button></Link>
+
                     </div>
                 </div>
             </div>

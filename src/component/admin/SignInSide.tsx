@@ -1,127 +1,80 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import React, { useState, useEffect, useContext } from 'react'
+import { Formik, Form, Field } from 'formik';
+import AlertPop from '../modal/Alert'
+import {Link} from 'react-router-dom'
+import { UserContext } from '../../App'
 
 export default function SignInSide() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={9}
-          sx={{
-            backgroundImage: 'url(https://images.squarespace-cdn.com/content/v1/59071cec1b10e3b407dd74be/1563434043144-CWCJ07RPM9EL1OJZF9ZH/OT_Toma_06.04.2019-002.jpg)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t:any) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <Grid item xs={12} sm={8} md={3} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
-  );
+
+    const { state, dispatch } = useContext(UserContext)
+    const [statusCode, setStatusCode] = useState(0);
+
+    const url = 'http://localhost:5000/api';
+
+    const storeAuthentication = (user: any) => {
+        localStorage.setItem("user", JSON.stringify(user));
+    };
+    function validateEmail(value: string) {
+        let errors;
+        if (!value) {
+            errors = 'Required';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+            errors = 'Invalid email address';
+        }
+        return errors;
+    }
+
+    function validatePassword(value: string) {
+        let errors;
+        if (!value) {
+            errors = 'Required';
+        }
+        else if (value.length < 8) errors = "Password must be greater than 8 characters"
+        return errors;
+    }
+
+
+ 
+    return (
+
+    < div className= "h-screen w-100 flex justify-center items-center bg-slate-900 ">
+                        <h1 className='absolute text-white top-52 text-2xl font-bold'>Admin Login</h1>
+                        <div className="main w-1/4 flex  justify-center items-center h-2/5 bg-gray-900  rounded-lg shadow-2xl">
+                         <Formik
+                            initialValues={{
+                                email: "",
+                                password: "",
+                            }}
+
+                            onSubmit={values => { console.log(values) }}
+
+                        >
+                            {({ errors, touched, isValidating }) => (
+                                <Form className= ' px-10  '> 
+                                        <label className="text-white float-left mb-2">Email</label>
+                                        <Field name='email' className="w-full border mb-2 border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='email' validate={validateEmail} />
+                                        {errors.email && touched.email && <div className='text-xs text-red-700 mt-1'>{errors.email}</div>}
+                                        <label className="text-white float-left mb-2">Password</label>
+                                        <Field type='password' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='password' name='password' validate={validatePassword} />
+                                        {errors.password && touched.password && <div className='text-xs text-red-700 mt-1'>{errors.password}</div>}
+
+                                    <button className='login-btn mt-4  rounded' type='submit' >
+                                        Login
+                                    </button>
+                                        <label className="flex flex-row text-sm text-white mt-3">Forgot Password ? <Link to='/forgot-password-email' className='text-sm text-blue-500 underline ml-2'> Click Here</Link></label>
+
+
+                                    {statusCode == 401 ? <div>
+                                        <AlertPop statusCode={401} message='Incorrect username or password ' />
+                                    </div> : <></>}
+                                </Form>
+                            )}
+                        </Formik>
+
+                        </div>
+
+        
+    </div>
+ )
 }

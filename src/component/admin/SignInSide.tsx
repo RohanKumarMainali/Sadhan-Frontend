@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Formik, Form, Field } from 'formik';
 import AlertPop from '../modal/Alert'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { UserContext } from '../../App'
+import axios from 'axios';
+
+interface loginType {
+    email: string,
+    password: string
+}
 
 export default function SignInSide() {
 
@@ -11,10 +17,39 @@ export default function SignInSide() {
     const [statusCode, setStatusCode] = useState(0);
 
     const url = 'http://localhost:5000/api';
-
+    const navigate = useNavigate();
     const storeAuthentication = (user: any) => {
         localStorage.setItem("user", JSON.stringify(user));
     };
+
+
+    const login = async(formik: loginType)=>{
+          try {
+            console.log('button clicked')
+            const payload = { email: formik.email, password: formik.password }
+            const response = await axios.post(`${url}/admin/login`, payload, {
+                withCredentials: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
+                }
+            });
+            if (response.status == 200) {
+                storeAuthentication(response.data);
+                setStatusCode(200);
+                dispatch({ type: "USER", payload: true })
+
+                navigate('/dashboard')
+                //              0 window.location.replace(`http://localhost:3000`)
+            }
+
+        } catch (error: any) {
+            let status = error.response.status;
+
+            if (status == 401) setStatusCode(401);
+        }
+    }
+
+    
     function validateEmail(value: string) {
         let errors;
         if (!value) {
@@ -47,7 +82,7 @@ export default function SignInSide() {
                                 password: "",
                             }}
 
-                            onSubmit={values => { console.log(values) }}
+                            onSubmit={values => { login(values) }}
 
                         >
                             {({ errors, touched, isValidating }) => (

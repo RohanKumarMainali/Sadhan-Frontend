@@ -1,6 +1,8 @@
 import React from 'react'
 import { SidebarData } from './SidebarData'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import {useEffect, useState} from 'react'
 
 interface sidebarItem {
     title: string,
@@ -10,6 +12,39 @@ interface sidebarItem {
 }
 
 const Sidebar = () => {
+
+    const url = 'http://localhost:5000/api'
+    const [user, setUser] = useState({})
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState();
+    const [role, setRole] = useState();
+
+ 
+    const getUser = async () => {
+        try {
+            const response = await axios.get(`${url}/session`, {
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            });
+            let details = response.data.payload
+            setUser(details)
+            setUserName(details.firstName + ' ' + details.lastName);
+            setEmail(details.email);
+            setRole(details.role)
+
+        } catch (error: any) {
+            console.log('error')
+        }
+    }
+
+    useEffect(() => {
+
+        getUser();
+    }, [])
+
+
 
     return (
         <div className="flex">
@@ -23,11 +58,14 @@ const Sidebar = () => {
                             {SidebarData.map((item: sidebarItem, index: number) => {
                                 return (
                                     <li key={index} className="rounded-sm">
-                                    <Link to ={item.path}
+                                    {(role == 'user' && item.title == 'Users') ? null : 
+                                         <Link to={item.path}
                                             className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
-                                           <li className="text-2xl">{item.icon}</li>
-                                           <span className='p-3 text-xl'>{item.title}</span>
-                                    </Link>
+                                            <li className="text-2xl">{item.icon}</li>
+                                            <span className='p-3 text-xl'>{item.title}</span>
+                                        </Link>
+                                    }
+                                    
                                     </li>
 
                                 )
@@ -36,7 +74,7 @@ const Sidebar = () => {
                     </div>
                 </div>
             </div>
-            
+
         </div>
     )
 }

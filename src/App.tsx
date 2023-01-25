@@ -11,6 +11,7 @@ import Vehicles from './component/dashboard/Vehicles'
 import ForgotPasswordEmail from './component/user/ForgotPasswordEmail'
 import ForgotPassword from './component/user/ForgotPassword'
 import ChangePassword from './component/user/ChangePassword'
+import Users from './component/admin/Users'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -74,7 +75,7 @@ const App = () => {
 
     return (
 
- 
+
         <UserContext.Provider value={{ state, dispatch }}>
 
             <div className="App">
@@ -104,10 +105,16 @@ const App = () => {
                         <Route path='/dashboard/change-password' element={
                             <ProtectedRoute redirect={!isAuthenticated}>
                                 <Sidebar />
-                                <ChangePassword user= {userData}/>
+                                <ChangePassword user={userData} />
                             </ProtectedRoute>
                         } />
 
+                        <Route path='/dashboard/users' element={
+                            <ProtectedRoute redirect={!isAuthenticated}>
+                                <Sidebar />
+                                <Users />
+                            </ProtectedRoute>
+                        } />
                         <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
                         <Route path='/forgot-password-email' element={<><ForgotPasswordEmail /></>} />
                         <Route path='/api/user/forgotPassword/:id/:token' element={<><ForgotPassword /></>} />

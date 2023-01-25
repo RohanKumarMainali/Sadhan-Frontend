@@ -23,6 +23,13 @@ export const SidebarData = [
         icon: <GiIcon.GiSteeringWheel />,
         cName: 'sidebar-text'
     },
+     
+    {
+        title: 'Users',
+        path: '/dashboard/users',
+        icon: <GiIcon.GiSteeringWheel />,
+        cName: 'sidebar-text'
+    },
     {
         title: 'Logout',
         path: '/dashboard/logout',

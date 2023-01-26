@@ -11,6 +11,7 @@ const Users = () => {
     const [user, setUser] = useState([])
     const [showModal, setShowModal] = useState(false);
     const [userId, setUserId] = useState(0);
+    const [request , setRequest ] = useState(false);
 
     const getUsers = async () => {
 
@@ -27,6 +28,7 @@ const Users = () => {
     const deleteUser = (id: number) => {
         setShowModal(true);
         setUserId(id);
+          
 
     }
 
@@ -36,6 +38,11 @@ const Users = () => {
             const response = await axios.delete(`${url}/deleteUser/${userId}`)
             console.log(response)
             showMessage(response.data.message,200);
+            if (request) {
+             setRequest(false)
+            } else {
+            setRequest(true)
+            }
         } catch (error) {
            showMessage("Couldn't Delete User", 400)
         }
@@ -49,8 +56,8 @@ const Users = () => {
 
 
     useEffect(() => {
-        getUsers();
-    }, [user])
+            getUsers()
+    }, [request])
 
     return (
         <div className=" w-[calc(100%-14rem)]  float-right h-screen bg-red bg-slate-100">

@@ -83,11 +83,12 @@ function Navbar({ user }: any) {
                                     <button className='btn'>Become Host</button>
 
                                     {(state && !user?.email_verfied) ?
+                                        
                                         <li className='login-list'>
 
+                                         <Link to ='/dashboard'><button className='btn mr-2'>Dashboard</button></Link>
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
                                         </li> : (user) ? <li className='login-list'>
-                                            <CgProfile />
                                             <button className='btn btn-primary' onClick={logoutGoogle} >Logout</button>
                                         </li> :
 

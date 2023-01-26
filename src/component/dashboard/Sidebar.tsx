@@ -2,7 +2,7 @@ import React from 'react'
 import { SidebarData } from './SidebarData'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
 interface sidebarItem {
     title: string,
@@ -19,7 +19,7 @@ const Sidebar = () => {
     const [email, setEmail] = useState();
     const [role, setRole] = useState();
 
- 
+
     const getUser = async () => {
         try {
             const response = await axios.get(`${url}/session`, {
@@ -58,19 +58,25 @@ const Sidebar = () => {
                             {SidebarData.map((item: sidebarItem, index: number) => {
                                 return (
                                     <li key={index} className="rounded-sm">
-                                    {(role == 'user' && item.title == 'Users') ? null : 
-                                         <Link to={item.path}
-                                            className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
-                                            <li className="text-2xl">{item.icon}</li>
-                                            <span className='p-3 text-xl'>{item.title}</span>
-                                        </Link>
-                                    }
-                                    
+                                        {(role == 'user' && item.title == 'Users') ? null :
+                                            <Link to={item.path}
+                                                className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
+                                                <li className="text-2xl">{item.icon}</li>
+                                                <span className='p-3 text-xl'>{item.title}</span>
+                                            </Link>
+                                        }
+
                                     </li>
 
                                 )
                             })}
                         </ul>
+                    </div>
+                    <div className="flex items-center absolute bottom-0 border-solid  ">
+                    <Link to= '/'>
+                        <h2 className="text-sm  text-center text-slate-50 mx-auto align-middle m-0 p-3 underline"> Back to website</h2>
+
+                    </Link>
                     </div>
                 </div>
             </div>

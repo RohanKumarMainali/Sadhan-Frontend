@@ -2,6 +2,7 @@ import * as BsIcon from 'react-icons/bs'
 import * as GiIcon from 'react-icons/gi'
 import * as AiIcons from 'react-icons/ai'
 
+import * as FaIcon from 'react-icons/fa'
 export const SidebarData = [
 
     {
@@ -27,7 +28,7 @@ export const SidebarData = [
     {
         title: 'Users',
         path: '/dashboard/users',
-        icon: <GiIcon.GiSteeringWheel />,
+        icon: <FaIcon.FaUsers />,
         cName: 'sidebar-text'
     },
     {

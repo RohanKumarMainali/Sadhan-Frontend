@@ -1,6 +1,82 @@
 import { Link } from 'react-router-dom'
+import {useEffect, useState} from 'react'
 import {AiOutlineStar} from 'react-icons/ai';
+import axios from 'axios'
 const Profile = () => {
+    const url = 'http://localhost:5000/api'
+    const [user, setUser] = useState({})
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState();
+    const [role, setRole] = useState();
+
+
+    const getTokenFromCookies = async () => {
+        const response = await axios.get(`${url}/token`,
+            {
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            }
+        )
+        let accessToken = ''
+        let refreshToken = ''
+        if (response) {
+            accessToken = response.data.accessToken;
+            refreshToken = response.data.refreshToken;
+        }
+        return { accessToken, refreshToken }
+    }
+    const renewToken = async () => {
+        try {
+            const { refreshToken } = await getTokenFromCookies();
+
+            if (refreshToken !== '') {
+                const response = await axios.post(`${url}/renewToken`, { refreshToken: refreshToken })
+                const details = response.data.payload;
+                localStorage.setItem('user', JSON.stringify(response.data.payload))
+                setUser(details)
+                setUserName(details.firstName + ' ' + details.lastName);
+                setEmail(details.email);
+                setRole(details.role)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+     const getUser = async () => {
+        try {
+            const response = await axios.get(`${url}/session`, {
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            });
+            let details = response.data.payload
+            setUser(details)
+            setUserName(details.firstName + ' ' + details.lastName);
+            setEmail(details.email);
+            setRole(details.role)
+
+        } catch (error: any) {
+            console.log('status code' + JSON.stringify(error.response))
+            localStorage.clear();
+            if (error.response.data == 'jwt expired') {
+                console.log('jwt expired')
+                renewToken();
+            }
+        }
+    }
+
+    useEffect(() => {
+
+        getUser();
+    }, [])
+
+
+ 
 
 
     return (
@@ -16,9 +92,9 @@ const Profile = () => {
                                 <div className="h-40 float-left  w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full" style={{ backgroundImage: `url('https://media.istockphoto.com/id/1040308104/photo/mature-handsome-business-man.jpg?s=612x612&w=0&k=20&c=QbyH3XFmLOoy8NESjLQC8PYsm6g3UBL6COFaF-Qnnbk=')` }}>
                                 </div>
                                 <div>
-                                    <h1 className=" text-sm   text-left text-gray-700 text-2xl font-bold ">Rohan Kumar Mainali</h1>
+                                    <h1 className=" text-sm   text-left text-gray-700 text-2xl font-bold ">{userName}</h1>
                                 
-                                       <p className='text-sm text-left'> Joined : 2012/12</p>
+                                       <p className='text-sm text-left'> Joined : 2023/01/25</p>
                                 </div>
 
                             </div>
@@ -37,8 +113,8 @@ const Profile = () => {
 
                                         </div>
                                        <div className= 'verify-right '>
-                                        <p className='text-right text-lg '>rohanmainali@gmail.com</p>
-                                        <p className='text-right text-lg '>User </p>
+                                        <p className='text-right text-lg '>{email}</p>
+                                        <p className='text-right text-lg '> {role} </p>
                                         <p className='text-right text-lg text-red-400'>Pending </p>
 
                                         <p className='text-right text-lg text-indigo-500'>Verify license</p>

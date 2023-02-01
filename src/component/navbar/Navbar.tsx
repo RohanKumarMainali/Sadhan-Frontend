@@ -84,11 +84,11 @@ function Navbar({ user }: any) {
 
                                     {(state && !user?.email_verfied) ?
                                         
+                                         <><Link to ='dashboard'><button className='btn'>Dashboard</button></Link>
                                         <li className='login-list'>
 
-                                         <Link to ='/dashboard'><button className='btn mr-2'>Dashboard</button></Link>
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>
-                                        </li> : (user) ? <li className='login-list'>
+                                        </li></> : (user) ? <li className='login-list'>
                                             <button className='btn btn-primary' onClick={logoutGoogle} >Logout</button>
                                         </li> :
 

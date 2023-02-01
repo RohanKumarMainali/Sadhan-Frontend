@@ -5,10 +5,16 @@
 
 body {
   margin: 0;
-  font-family: 'Poppins', 'Helvetica Neue',
+  font-family: 'Poppins',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+*{
+  font-family: 'Poppins',
+    sans-serif;
+ 
 }
 
 code {

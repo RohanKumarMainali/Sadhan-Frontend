@@ -102,24 +102,129 @@ function Banner() {
                 <div className='popular-categories mt-5 h-96  w-full  mx-auto '>
 
                     <h2 className='text-5xl text-center font-semibold '>Top Rated Vehicles</h2>
-                    <div className='h-60 w-1/4 shadow rounded-lg drop-shadow-sm'>
-                        <div className='h-4/5'
-                            style={{
-                                backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
-                                maxWidth: '100%',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'top',
+                    <div className=' grid gap-12 grid-cols-3 mt-20 mb-20'>
+                        <div className='h-60  shadow rounded-lg drop-shadow-sm'>
+                            <div className='h-4/5'
+                                style={{
+                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
+                                    maxWidth: '100%',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'top',
 
-                            }}     >
+                                }}     >
+                            </div>
+
+                            <div className='h-1/5 flex items-center justify-between'>
+                                <div className='left-side'>
+                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
+                                </div>
+
+                                <div className='right-side'>
+
+                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className='h-1/5 flex items-center justify-center'> 
-                          <span className='text-lg font-semibold text-center'>Tesla Model X</span> 
+                        <div className='h-60  shadow rounded-lg drop-shadow-sm'>
+                            <div className='h-4/5'
+                                style={{
+                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
+                                    maxWidth: '100%',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'top',
+
+                                }}     >
+                            </div>
+
+                            <div className='h-1/5 flex items-center justify-between'>
+                                <div className='left-side'>
+                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
+                                </div>
+
+                                <div className='right-side'>
+
+                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
+                                </div>
+                            </div>
                         </div>
+
+                        <div className='h-60 shadow rounded-lg drop-shadow-sm'>
+                            <div className='h-4/5'
+                                style={{
+                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
+                                    maxWidth: '100%',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'top',
+
+                                }}     >
+                            </div>
+
+                            <div className='h-1/5 flex items-center justify-between'>
+                                <div className='left-side'>
+                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
+                                </div>
+
+                                <div className='right-side'>
+
+                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='h-60  shadow rounded-lg drop-shadow-sm'>
+                            <div className='h-4/5'
+                                style={{
+                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
+                                    maxWidth: '100%',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'top',
+
+                                }}     >
+                            </div>
+
+                            <div className='h-1/5 flex items-center justify-between'>
+                                <div className='left-side'>
+                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
+                                </div>
+
+                                <div className='right-side'>
+
+                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='h-60 shadow rounded-lg drop-shadow-sm'>
+                            <div className='h-4/5'
+                                style={{
+                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
+                                    maxWidth: '100%',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'top',
+
+                                }}     >
+                            </div>
+
+                            <div className='h-1/5 flex items-center justify-between'>
+                                <div className='left-side'>
+                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
+                                </div>
+
+                                <div className='right-side'>
+
+                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
-
-
 
                 </div>
             </div>

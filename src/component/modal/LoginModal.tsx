@@ -170,7 +170,6 @@ export const LoginModal = ({ show, close }: Props) => {
         window.open("http://localhost:5000/api/logout", "_self");
     };
 
-    useEffect(() => { console.log(state) })
 
     return (
         <div>

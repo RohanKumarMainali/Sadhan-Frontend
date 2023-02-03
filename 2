@@ -193,58 +193,37 @@ function Vehicles() {
                 {({ errors, touched, isValidating, resetForm, values }) => (
                     <Form className='w-5/6 h-5/6 mx-auto mt-3 py-5'>
                     <div className = 'flex justify-between'>
-                         <div className='flex flex-col w-2/5'>
+                         <div className='flex flex-col'>
                            <label className= 'text-left'>Name</label>
                            <Field type='text' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Old Password' name='oldPassword' validate={validateOldPassword} />
                            {errors.newPassword && touched.newPassword && <div className='text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
                         </div>
-                        <div className= 'flex flex-col w-1/4'>
+                        <div className= 'flex flex-col'>
                         <label className= 'text-left'>Model</label>
-                        <Field type='text' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Model' name='newPassword' validate={validateNewPassword} />
+                        <Field type='text' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='New Password' name='newPassword' validate={validateNewPassword} />
                         {errors.newPassword && touched.newPassword && <div className=' text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
-                        </div>
 
-                        <div className= 'flex flex-col w-1/4'>
-                        <label className= 'text-left'>Price</label>
-                        <Field type='number' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='price' name='newPassword' validate={validateNewPassword} />
-                        {errors.newPassword && touched.newPassword && <div className=' text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
-                        </div>
-
-
-                    </div>
-                     <div className = 'flex justify-between'>
-                         <div className='flex flex-col w-2/5'>
-                           <label className= 'text-left'>Location</label>
-                           <Field type='number' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Seat' name='seat' validate={validateOldPassword} />
-                           {errors.newPassword && touched.newPassword && <div className='text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
-                        </div>
-                        <div className= 'flex flex-col w-1/4'>
-                        <label className= 'text-left'>Milage</label>
-                        <Field type='number' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Milage' name='Milage' validate={validateNewPassword} />
-                        {errors.newPassword && touched.newPassword && <div className=' text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
-                        </div>
-
-                        <div className= 'flex flex-col w-1/4'>
-                        <label className= 'text-left'>Seat</label>
-                        <Field type='number' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='price' name='newPassword' validate={validateNewPassword} />
+                       <label className= 'text-left'>Price</label>
+                        <Field type='number' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='New Password' name='newPassword' validate={validateNewPassword} />
                         {errors.newPassword && touched.newPassword && <div className=' text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
                         </div>
                     </div>
                      <div className = 'flex justify-between'>
-                         <div className='flex flex-col w-2/5'>
-                           <label className= 'text-left'>Vehicle Number</label>
-                           <Field type='number' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Seat' name='seat' validate={validateOldPassword} />
+                         <div className='flex flex-col'>
+                           <Field type='password' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Old Password' name='oldPassword' validate={validateOldPassword} />
                            {errors.newPassword && touched.newPassword && <div className='text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
                         </div>
-                    </div>
-                     
-                     <div className = 'flex justify-between'>
-                         <div className='flex flex-col w-2/5'>
-                           <label className= 'text-left'>Vehicle Number</label>
-                           <Field type='file' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Seat' name='seat' validate={validateOldPassword} />
-                           {errors.newPassword && touched.newPassword && <div className='text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
+                        <div className= 'flex flex-col'>
+                        <Field type='password' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='New Password' name='newPassword' validate={validateNewPassword} />
+                        {errors.newPassword && touched.newPassword && <div className=' text-left text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
                         </div>
+
                     </div>
+
+                        <Field type='password' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Confirm Password' name='confirmPassword' validate={validateConfirmPassword} />
+                        {errors.confirmPassword && touched.confirmPassword && <div className='text-xs text-red-700 mt-1'>{errors.confirmPassword}</div>}
+
+
                         <button className='login-btn' type='submit' >
                             Submit
                         </button>

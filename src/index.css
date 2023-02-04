@@ -17,6 +17,13 @@ body {
  
 }
 
+.ck-editor{
+width: '100%' !important
+}
+.ck.ck-editor{
+  width: '100%' !important
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

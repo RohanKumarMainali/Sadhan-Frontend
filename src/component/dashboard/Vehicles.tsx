@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useEffect, useState,useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
+import {Link} from 'react-router-dom'
 import moment from 'moment'
 import { Formik, Form, Field } from 'formik'
 import { useParams } from 'react-router-dom'
@@ -134,13 +135,13 @@ function Vehicles() {
             })}
           </tbody>
         </table>
-
-        <button
-          className="border py-2 px-1 text-white rounded bg-indigo-500 text-xs font-medium"
-          onClick={() => setAddVehicleModal(true)}
-        >
-          Add vehicle
-        </button>
+        <Link to = '/dashboard/addVehicle'>
+           <button
+             className="border py-2 px-1 text-white rounded bg-indigo-500 text-xs font-medium"
+           >
+              Add vehicle
+            </button>
+        </Link>
         {showModal ? (
           <div
             id="popup-modal"
@@ -212,220 +213,7 @@ function Vehicles() {
           <></>
         )}
 
-        {/* Add vehicle */}
-        {addVehicleModal ? (
-          <>
-            <div
-              id="popup-modal"
-              tabIndex={-1}
-              className="fixed top-0 left-0 right-0 z-50  flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
-            >
-              <div className="relative h-4/5 w-3/5  ">
-                <div className="relative h-full bg-white rounded-lg shadow dark:bg-gray-700">
-                  <button
-                    type="button"
-                    onClick={() => setAddVehicleModal(false)}
-                    className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-red-200 hover:text-red-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
-                    data-modal-hide="popup-modal"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="sr-only">Close modal</span>
-                  </button>
-                  <Formik
-                    initialValues={{
-                      name: '',
-                      model: '',
-                      price: '',
-                      milage: '',
-                      seat: '',
-                      location: '',
-                      vehicleNumber: '',
-                      image: null,
-                      bluebookImage: null,
-                      insuranceImage: null,
-                    }}
-                    onSubmit={(values, { resetForm }) => {
-                      //addVehicle(values)
-                      console.log(values)
-                      resetForm({
-                        values: {
-                      name: '',
-                      model: '',
-                      price: '',
-                      milage: '',
-                      seat: '',
-                      location: '',
-                      vehicleNumber: '',
-                      image: null,
-                      bluebookImage: null,
-                      insuranceImage: null,
-                        }
-                      })
-                    }}
-                  >
-                    {({ errors, touched, isValidating, resetForm, values, setFieldValue }) => (
-                      <Form className=" flex flex-col gap-4 w-5/6 h-5/6 mx-auto mt-3 py-5">
-                        <div className="flex justify-between">
-                          <div className="flex flex-col w-2/5">
-                            <label className="text-left">Name</label>
-                            <Field
-                              type="text"
-                              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                              placeholder="Name "
-                              name="name"
-                             // validate={validateOldPassword}
-                            />
-                            {/*                             {errors.newPassword && touched.newPassword && (
-                              <div className="text-left text-xs text-red-700 mt-1">
-                                {errors.newPassword}
-                              </div>
-                            )}
-                             */}
-
-                          </div>
-                          <div className="flex flex-col w-1/4">
-                            <label className="text-left">Model</label>
-                            <Field
-                              type="text"
-                              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                              placeholder="Model"
-                              name="model"
-                            />
-
-                          </div>
-
-                          <div className="flex flex-col w-1/4">
-                            <label className="text-left">Price</label>
-                            <Field
-                              type="number"
-                              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                              placeholder="price"
-                              name="price"
-                            />
-                         </div>
-                        </div>
-                        <div className="flex justify-between">
-                          <div className="flex flex-col w-2/5">
-                            <label className="text-left">Location</label>
-                            <Field
-                              type="text"
-                              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                              placeholder="Seat"
-                              name="location"
-                            />
-                         </div>
-                          <div className="flex flex-col w-1/4">
-                            <label className="text-left">Milage</label>
-                            <Field
-                              type="number"
-                              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                              placeholder="Milage"
-                              name="milage"
-                            />
-                         </div>
-
-                          <div className="flex flex-col w-1/4">
-                            <label className="text-left">Seat</label>
-                            <Field
-                              type="number"
-                              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                              placeholder="seat"
-                              name="newPassword"
-                            />
-                         </div>
-                        </div>
-                        <div className="flex justify-between">
-                          <div className="flex flex-col w-2/5">
-                            <label className="text-left">Vehicle Number</label>
-                            <Field
-                              type="number"
-                              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                              placeholder="vehicleNumber"
-                              name="seat"
-                            />
-                         </div>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <div className="flex flex-col w-2/5">
-                            <label className="text-left">Vehicle Image</label>
-                            <input
-                              type="file"
-                              
-                              className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                              name="image"
-                              onChange = {(e:any)=>{setFieldValue("image",e.target.files[0])}} 
-                            />
-                            {values.image && <PreviewImage file={values.image}/> }
-
-                         </div>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <div className="flex flex-col w-2/5">
-                            <label className="text-left">Insurance Image</label>
-                            <input
-                              type="file"
-                              className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                              placeholder="insuranceImage"
-                              name="insuranceImage"
-                              onChange = {(e:any)=>{setFieldValue("insuranceImage",e.target.files[0])}} 
-                            />
-                         </div>
-
-                          <div className="flex flex-col w-2/5">
-                            <label className="text-left">Bluebook Image</label>
-                            < input
-                              type="file"
-                              className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                              placeholder="bluebookImage"
-                              name="bluebookImage"
-                              onChange = {(e:any)=>{setFieldValue("bluebookImage",e.target.files[0])}} 
-                            />
-                         </div>
-                        </div>
-
-                        <div className="flex justify-between w-full">
-                          <CKEditor
-                            editor={ClassicEditor}
-                            data="<p>Hello from CKEditor 5!</p>"
-                            onReady={(editor: any) => {
-                              // You can store the "editor" and use when it is needed.
-                              console.log('Editor is ready to use!', editor)
-                            }}
-                            onChange={(event: any, editor: any) => {
-                              const data = editor.getData()
-                              console.log({ event, editor, data })
-                            }}
-                          />
-                        </div>
-                        <button className="login-btn" type="submit">
-                          Submit
-                        </button>
-                      </Form>
-                    )}
-                  </Formik>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
-
-        <div></div>
+                <div></div>
       </div>
       <ToastContainer
         position="top-right"

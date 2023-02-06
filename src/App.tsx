@@ -13,6 +13,7 @@ import ForgotPassword from './component/user/ForgotPassword'
 import ChangePassword from './component/user/ChangePassword'
 import Users from './component/admin/Users'
 import AddVehicle from './component/dashboard/AddVehicle'
+import EditVehicle from './component/dashboard/EditVehicle'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -121,6 +122,13 @@ const App = () => {
                             <ProtectedRoute redirect={!isAuthenticated}>
                                 <Sidebar />
                                 <AddVehicle />
+                            </ProtectedRoute>
+                        } />
+
+                        <Route path='/dashboard/editVehicle/:id' element={
+                            <ProtectedRoute redirect={!isAuthenticated}>
+                                <Sidebar />
+                                <EditVehicle />
                             </ProtectedRoute>
                         } />
                         <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />

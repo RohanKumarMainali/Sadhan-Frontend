@@ -23,7 +23,7 @@ function Vehicles() {
   const [vehicles, setVehicles] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [addVehicleModal, setAddVehicleModal] = useState(false)
-  const [userId, setUserId] = useState(0)
+  const [vehicleId, setVehicleId] = useState(0)
   const [request, setRequest] = useState(false)
   const fileRef = useRef(null)
 
@@ -37,15 +37,15 @@ function Vehicles() {
     }
   }
 
-  const deleteUser = (id: number) => {
+  const deleteVehicle = (id: number) => {
     setShowModal(true)
-    setUserId(id)
+    setVehicleId(id)
   }
 
   const confirmDelete = async () => {
     setShowModal(false)
     try {
-      const response = await axios.delete(`${url}/deleteVehicle/${userId}`)
+      const response = await axios.delete(`${url}/deleteVehicle/${vehicleId}`)
       console.log(response)
       showMessage(response.data.message, 200)
       if (request) {
@@ -54,7 +54,7 @@ function Vehicles() {
         setRequest(true)
       }
     } catch (error) {
-      showMessage("Couldn't Delete User", 400)
+      showMessage("Couldn't Delete Vehicle", 400)
     }
   }
 
@@ -119,12 +119,13 @@ function Vehicles() {
                     </td>
                     <td className="border border-slate-300">unverified</td>
                     <td className="border border-slate-300 align-left ">
-                      <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
+                      <Link to = {`/dashboard/editVehicle/${vehicle._id}`}><button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
                         Edit
                       </button>
+                      </Link>
                       <button
                         className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
-                        onClick={() => deleteUser(vehicle._id)}
+                        onClick={() => deleteVehicle(vehicle._id)}
                       >
                         Delete
                       </button>
@@ -200,7 +201,9 @@ function Vehicles() {
                   </button>
                   <button
                     data-modal-hide="popup-modal"
-                    onClick={() => setShowModal(false)}
+                    onClick={() =>{ confirmDelete();
+                                  setShowModal(false);}
+                    }
                     className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                   >
                     No, cancel
@@ -213,7 +216,6 @@ function Vehicles() {
           <></>
         )}
 
-                <div></div>
       </div>
       <ToastContainer
         position="top-right"

@@ -28,7 +28,12 @@ interface vehicleType {
 
     const [image, setImage] = useState('');
     const url = 'http://localhost:5000/api'
-    const addVehicle = async(values : vehicleType)=>{
+
+    const showMessage = (message: string, statusCode: number) => {
+      if (statusCode == 201 || statusCode == 200) toast.success(message)
+      else toast.error(message)
+      }    
+     const addVehicle = async(values : vehicleType)=>{
                   
             var form : any= new FormData();
             form.append("name", values.name)
@@ -43,10 +48,14 @@ interface vehicleType {
             form.append("bluebookImage", values.bluebookImage)
             form.append("insuranceImage", values.insuranceImage)
             console.log(form)
-            const response = await axios.post(`${url}/postVehicle`, form)
-            console.log(response)
-        }
-     
+            try {
+             
+              const response = await axios.post(`${url}/postVehicle`, form)
+              showMessage("Vehicle Posted Successfully! ", 200);   
+            } catch (error : any) {
+              showMessage(error.message, 400);    
+            }
+    }
     return (
         
         <div className=" w-[calc(100%-14rem)]  h-auto float-right h-screen bg-red bg-slate-100">
@@ -240,6 +249,18 @@ interface vehicleType {
                       </Form>
                     )}
                   </Formik>
+       <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
          </div>
         </div>
     )

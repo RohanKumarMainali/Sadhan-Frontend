@@ -1,3 +1,4 @@
+
 import axios from 'axios'
 import { useEffect, useState,useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
@@ -18,40 +19,68 @@ interface vehicleType {
    location: string,
    description: string,
    vehicleNumber: string,
-   image: any,
+   images: any,
    bluebookImage: any,
    insuranceImage: any,
 
    }
 
- const AddVehicle = () => {
 
+ const EditVehicle = () => {
 
+    let {id} = useParams();
+    const [image, setImage] = useState('');
+    const [vehicle, setVehicle] = useState([]);
+    const [carImage, setCarImage] = useState();
+    const [insuranceImage, setInsuranceImage] = useState();
+    const [request, setRequest] = useState(false);
+    const [bluebookImage, setbluebookImage] = useState();
     const url = 'http://localhost:5000/api'
-    const addVehicle = async(values : vehicleType)=>{
+    
+    const showMessage = (message: string, statusCode: number) => {
+      if (statusCode == 201 || statusCode == 200) toast.success(message)
+      else toast.error(message)
+      }    
+
+      const getVehicle = async()=>{
+            try {
+             
+              const response = await axios.get(`${url}/getVehicle/${id}`)
+              setVehicle(response.data.data);
+              console.log(response.data.data)
+            
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+     const addVehicle = async(values : vehicleType)=>{
                   
-            var form = new FormData();
+            var form : any= new FormData();
             form.append("name", values.name)
             form.append("model", values.model)
-            form.append("price", values.price)
-            form.append("milage", values.milage)
-            form.append("seat", values.seat)
+            form.append("price", JSON.stringify(values.price))
+            form.append("milage", JSON.stringify(values.milage))
+            form.append("seat",  JSON.stringify(values.seat))
             form.append("location", values.location)
             form.append("description", values.description)
             form.append("vehicleNumber", values.vehicleNumber)
-            form.append("image", values.image)
+            form.append("images", values.images)
             form.append("bluebookImage", values.bluebookImage)
             form.append("insuranceImage", values.insuranceImage)
-            const response = await axios.post(`${url}/postVehicle`, form,
-               {
-                withCredentials: true,
-                headers: {
-                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
-                }
+            console.log(form)
+            try {
+             
+              const response = await axios.post(`${url}/postVehicle`, form)
+              showMessage("Vehicle Posted Successfully! ", 200);   
+            } catch (error : any) {
+              showMessage(error.message, 400);    
+            }
+    }
 
-            )
-        }
-     
+    useEffect(()=>{getVehicle();
+    },[])
+
     return (
         
         <div className=" w-[calc(100%-14rem)]  h-auto float-right h-screen bg-red bg-slate-100">
@@ -61,38 +90,25 @@ interface vehicleType {
 
                     <h1 className='text-left text-2xl font-semibold p-2'>Add Vehicle</h1>
                 </div>
+                {vehicle.map((item: any)=> {return(<>
                   <Formik
                     initialValues={{
-                      name: '',
-                      model: '',
-                      price: 0,
-                      milage: 0,
-                      seat: 0,
-                      location: '',
-                      description:'',
-                      vehicleNumber: '',
-                      image: null,
+                      name: item.name,
+                      model: item.model,
+                      price: item.price,
+                      milage: item.milage,
+                      seat: item.seat,
+                      location: item.location,
+                      description:item.description,
+                      vehicleNumber: item.vehicleNumber,
+                      images: null,
                       bluebookImage: null,
                       insuranceImage: null,
                     }}
                     onSubmit={(values, { resetForm }) => {
                       //addVehicle(values)
                       addVehicle(values)
-                      resetForm({
-                        values: {
-                    name: '',
-                      model: '',
-                      price: 0,
-                      milage: 0,
-                      seat: 0,
-                      location: '',
-                      description:'',
-                      vehicleNumber: '',
-                      image: null,
-                      bluebookImage: null,
-                      insuranceImage: null,
-                        }
-                      })
+                    
                     }}
                   >
                     {({ errors, touched, isValidating, resetForm, values, setFieldValue }) => (
@@ -185,10 +201,13 @@ interface vehicleType {
                               type="file"
                               
                               className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                              name="image"
-                              onChange = {(e:any)=>{setFieldValue("image",e.target.files[0])}} 
+                              name="images"
+                              onChange = {(e:any)=>{
+                                  setFieldValue("images",e.target.files[0])
+                                  }
+                                  } 
                             />
-                            {values.image && <PreviewImage file={values.image}/> }
+                            {values.images && <PreviewImage file={values.images}/> }
 
                          </div>
                         </div>
@@ -228,7 +247,6 @@ interface vehicleType {
                             data="<p>Hello from CKEditor 5!</p>"
                             onReady={(editor: any) => {
                               // You can store the "editor" and use when it is needed.
-                              console.log('Editor is ready to use!', editor)
                             }}
                             onChange={(event: any, editor: any) => {
                               const data = editor.getData()
@@ -237,15 +255,30 @@ interface vehicleType {
                           />
                         </div>
                         <button className="login-btn" type="submit">
-                          Submit
+                          Update
                         </button>
                       </Form>
                     )}
                   </Formik>
+
+                </>
+                )})
+                }
+                         <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
          </div>
         </div>
     )
 }
 
-export default AddVehicle;
-
+export default EditVehicle;

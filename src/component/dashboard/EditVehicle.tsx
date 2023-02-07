@@ -10,6 +10,11 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
 import '../../index.css'
 
+interface image{
+        public_id: string | null,
+        url: string | null,
+    }
+
 interface vehicleType {
    name: string, 
    model: string,
@@ -19,7 +24,7 @@ interface vehicleType {
    location: string,
    description: string,
    vehicleNumber: string,
-   images: any,
+   carImages: any,
    bluebookImage: any,
    insuranceImage: any,
 
@@ -28,13 +33,9 @@ interface vehicleType {
 
  const EditVehicle = () => {
 
-    let {id} = useParams();
+    const [id, setId] = useState( useParams().id);
     const [image, setImage] = useState('');
     const [vehicle, setVehicle] = useState([]);
-    const [carImage, setCarImage] = useState();
-    const [insuranceImage, setInsuranceImage] = useState();
-    const [request, setRequest] = useState(false);
-    const [bluebookImage, setbluebookImage] = useState();
     const url = 'http://localhost:5000/api'
     
     const showMessage = (message: string, statusCode: number) => {
@@ -54,25 +55,25 @@ interface vehicleType {
             }
         }
 
-     const addVehicle = async(values : vehicleType)=>{
+     const editVehicle = async(values : vehicleType)=>{
                   
             var form : any= new FormData();
             form.append("name", values.name)
             form.append("model", values.model)
-            form.append("price", JSON.stringify(values.price))
-            form.append("milage", JSON.stringify(values.milage))
-            form.append("seat",  JSON.stringify(values.seat))
+            form.append("price", values.price)
+            form.append("milage", values.milage)
+            form.append("seat",  values.seat)
             form.append("location", values.location)
             form.append("description", values.description)
             form.append("vehicleNumber", values.vehicleNumber)
-            form.append("images", values.images)
-            form.append("bluebookImage", values.bluebookImage)
-            form.append("insuranceImage", values.insuranceImage)
+            if(values.carImages) form.append("carImages", values.carImages)
+            if(values.bluebookImage) form.append("bluebookImage", values.bluebookImage)
+            if(values.insuranceImage) form.append("insuranceImage", values.insuranceImage)
             console.log(form)
             try {
              
-              const response = await axios.post(`${url}/postVehicle`, form)
-              showMessage("Vehicle Posted Successfully! ", 200);   
+              const response = await axios.put(`${url}/updateVehicle/${id}`, form)
+              showMessage("Vehicle Updated Successfully! ", 200);   
             } catch (error : any) {
               showMessage(error.message, 400);    
             }
@@ -88,7 +89,7 @@ interface vehicleType {
 
                 <div className='w-11/12 mx-auto'>
 
-                    <h1 className='text-left text-2xl font-semibold p-2'>Add Vehicle</h1>
+                    <h1 className='text-left text-2xl font-semibold p-2'>Edit Vehicle</h1>
                 </div>
                 {vehicle.map((item: any)=> {return(<>
                   <Formik
@@ -101,13 +102,13 @@ interface vehicleType {
                       location: item.location,
                       description:item.description,
                       vehicleNumber: item.vehicleNumber,
-                      images: null,
+                      carImages: null,
                       bluebookImage: null,
                       insuranceImage: null,
                     }}
                     onSubmit={(values, { resetForm }) => {
                       //addVehicle(values)
-                      addVehicle(values)
+                      editVehicle(values)
                     
                     }}
                   >
@@ -201,13 +202,14 @@ interface vehicleType {
                               type="file"
                               
                               className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                              name="images"
+                              name="carImages"
                               onChange = {(e:any)=>{
-                                  setFieldValue("images",e.target.files[0])
+                                  setFieldValue("carImages",e.target.files[0])
                                   }
                                   } 
                             />
-                            {values.images && <PreviewImage file={values.images}/> }
+                            { (values.carImages == null && item.carImages[0].url) && <img src = {item?.carImages[0]?.url} width= '200px' height='200px'></img>}
+                             {values.carImages  && <PreviewImage file={values.carImages}/> } 
 
                          </div>
                         </div>
@@ -223,7 +225,9 @@ interface vehicleType {
                               onChange = {(e:any)=>{setFieldValue("insuranceImage",e.target.files[0])}} 
                             />
 
-                            {values.insuranceImage && <PreviewImage file={values.insuranceImage}/> }
+                            { (values.insuranceImage == null && item.insuranceImage.url) && <img src = {item?.insuranceImage?.url} width= '200px' height='200px'></img>}
+
+                            {values.insuranceImage && <PreviewImage file={values.insuranceImage}/> } 
                          </div>
 
                           <div className="flex flex-col w-2/5">
@@ -236,7 +240,8 @@ interface vehicleType {
                               onChange = {(e:any)=>{setFieldValue("bluebookImage",e.target.files[0])}} 
                             />
 
-                            {values.bluebookImage && <PreviewImage file={values.bluebookImage}/> }
+                            { (values.bluebookImage == null && item.bluebookImage.url) && <img src = {item?.bluebookImage?.url} width= '200px' height='200px'></img>}
+                           {values.bluebookImage && <PreviewImage file={values.bluebookImage}/> } 
                          </div>
                         </div>
 
@@ -244,7 +249,7 @@ interface vehicleType {
                           <CKEditor 
                             editor={ClassicEditor}
 
-                            data="<p>Hello from CKEditor 5!</p>"
+                            data={values.description}
                             onReady={(editor: any) => {
                               // You can store the "editor" and use when it is needed.
                             }}

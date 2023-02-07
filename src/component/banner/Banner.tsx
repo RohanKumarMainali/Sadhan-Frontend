@@ -1,11 +1,36 @@
 import React from 'react'
 import './Banner.css'
+import axios from 'axios'
+import { useEffect, useState,useRef } from 'react'
+import {Link} from 'react-router-dom'
+
+
 //test the ssh
 let bikes = require('../../images/bikes.jpg');
 let bike = require('../../images/bike.jpg');
 let yellowBike = require('../../images/yellowBike.png');
 
 function Banner() {
+
+    
+    const [image, setImage] = useState('');
+    const [vehicles ,setVehicles] = useState([]);
+    const url = 'http://localhost:5000/api'
+    
+     const getVehicle = async()=>{
+            try {
+             
+              const response = await axios.get(`${url}/getVehicle`)
+              setVehicles(response.data.vehicles);
+              console.log(response.data.data)
+            
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    useEffect(()=>{getVehicle();
+    },[])
+
 
     return (
         <div>
@@ -103,127 +128,43 @@ function Banner() {
 
                     <h2 className='text-5xl text-center font-semibold '>Top Rated Vehicles</h2>
                     <div className=' grid gap-12 grid-cols-3 mt-20 mb-20'>
-                        <div className='h-60  shadow rounded-lg drop-shadow-sm'>
-                            <div className='h-4/5'
-                                style={{
-                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
-                                    maxWidth: '100%',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'top',
+                    
 
-                                }}     >
-                            </div>
+                    {/* Vehicle list */}
 
-                            <div className='h-1/5 flex items-center justify-between'>
-                                <div className='left-side'>
-                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
+
+                        {vehicles && vehicles.map((item: any, index: number) =>{
+                             return (
+
+                            <Link to = {`vehicle/${item._id}`}>
+                             <div key = {index}>
+
+                                   <div className='h-60  shadow rounded-lg drop-shadow-sm'>
+                                      <div className='h-4/5'
+                                          style={{
+                                               backgroundImage: `url(${item.carImages[0].url})`,
+                                               maxWidth: '100%',
+                                               backgroundRepeat: 'no-repeat',
+                                               backgroundSize: 'cover',
+                                               backgroundPosition: 'top',
+                                               }}>
+                                       </div>
+
+                                      <div className='h-1/5 flex items-center justify-between'>
+                                        <div className='left-side'>
+                                          <p className='text-lg font-semibold  px-2 text-left'>{ `${item.name} ${item.model}`  }</p>
+                                         </div>
+
+                                       <div className='right-side'>
+
+                                          <p className='text-lg font-semibold px-2 text-right'>{`Rs ${item.price}/day`}</p>
+                                       </div>
+                                    </div>
+                                  </div>
                                 </div>
-
-                                <div className='right-side'>
-
-                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='h-60  shadow rounded-lg drop-shadow-sm'>
-                            <div className='h-4/5'
-                                style={{
-                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
-                                    maxWidth: '100%',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'top',
-
-                                }}     >
-                            </div>
-
-                            <div className='h-1/5 flex items-center justify-between'>
-                                <div className='left-side'>
-                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
-                                </div>
-
-                                <div className='right-side'>
-
-                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='h-60 shadow rounded-lg drop-shadow-sm'>
-                            <div className='h-4/5'
-                                style={{
-                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
-                                    maxWidth: '100%',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'top',
-
-                                }}     >
-                            </div>
-
-                            <div className='h-1/5 flex items-center justify-between'>
-                                <div className='left-side'>
-                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
-                                </div>
-
-                                <div className='right-side'>
-
-                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='h-60  shadow rounded-lg drop-shadow-sm'>
-                            <div className='h-4/5'
-                                style={{
-                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
-                                    maxWidth: '100%',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'top',
-
-                                }}     >
-                            </div>
-
-                            <div className='h-1/5 flex items-center justify-between'>
-                                <div className='left-side'>
-                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
-                                </div>
-
-                                <div className='right-side'>
-
-                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='h-60 shadow rounded-lg drop-shadow-sm'>
-                            <div className='h-4/5'
-                                style={{
-                                    backgroundImage: `url(https://i.imgur.com/XthjgWc.png)`,
-                                    maxWidth: '100%',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'top',
-
-                                }}     >
-                            </div>
-
-                            <div className='h-1/5 flex items-center justify-between'>
-                                <div className='left-side'>
-                                    <p className='text-lg font-semibold  px-2 text-left'>Tesla Model X</p>
-                                </div>
-
-                                <div className='right-side'>
-
-                                    <p className='text-lg font-semibold px-2 text-right'>Rs 5000/day</p>
-                                </div>
-                            </div>
-                        </div>
-
-
+                                </Link>
+                             )   
+                            })}
                     </div>
 
                 </div>

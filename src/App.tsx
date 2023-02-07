@@ -14,6 +14,7 @@ import ChangePassword from './component/user/ChangePassword'
 import Users from './component/admin/Users'
 import AddVehicle from './component/dashboard/AddVehicle'
 import EditVehicle from './component/dashboard/EditVehicle'
+import Vehicle from './component/vehicle/Vehicle'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -132,6 +133,7 @@ const App = () => {
                             </ProtectedRoute>
                         } />
                         <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
+                        <Route path='/vehicle/:id' element={<><Navbar user={googleUser} /> <Vehicle /></>} />
                         <Route path='/forgot-password-email' element={<><ForgotPasswordEmail /></>} />
                         <Route path='/api/user/forgotPassword/:id/:token' element={<><ForgotPassword /></>} />
 

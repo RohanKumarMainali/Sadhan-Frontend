@@ -136,13 +136,15 @@ function Vehicles() {
             })}
           </tbody>
         </table>
+        <div className=' mt-3 w-11/12 mx-auto'>
         <Link to = '/dashboard/addVehicle'>
            <button
-             className="border py-2 px-1 text-white rounded bg-indigo-500 text-xs font-medium"
+             className="border float-left py-2 px-1 text-white rounded bg-indigo-500 text-xs font-medium"
            >
               Add vehicle
             </button>
         </Link>
+        </div>
         {showModal ? (
           <div
             id="popup-modal"

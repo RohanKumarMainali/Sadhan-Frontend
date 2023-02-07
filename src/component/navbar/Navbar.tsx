@@ -65,9 +65,11 @@ function Navbar({ user }: any) {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-3 navbar-logo">
+                        <Link to ='/'>
                             <img src={logo} alt="Logo" />
+                            </Link>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-md-3">
                             <form action="" className='navbar-form'>
                                 <input type="text" ref={search} onClick={focusSearch} className='navbar-search-input' placeholder='Search Vehicle ...' required />
                                 <i className="fa">
@@ -75,7 +77,7 @@ function Navbar({ user }: any) {
                                 </i>
                             </form>
                         </div>
-                        <div className="col-md-5 nav-container">
+                        <div className="col-md-6 nav-container">
                             <nav>
                                 <ul>
                                     <button className='btn'>Rent Vehicle</button>

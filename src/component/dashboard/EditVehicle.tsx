@@ -245,7 +245,7 @@ interface vehicleType {
                          </div>
                         </div>
 
-                        <div className="flex justify-between w-full" style={{height: '265px'}}>
+                        <div className="flex justify-between w-full h-auto" >
                           <CKEditor 
                             editor={ClassicEditor}
 

@@ -15,6 +15,7 @@ import Users from './component/admin/Users'
 import AddVehicle from './component/dashboard/AddVehicle'
 import EditVehicle from './component/dashboard/EditVehicle'
 import Vehicle from './component/vehicle/Vehicle'
+import PhoneNumber from './component/kyc/PhoneNumber'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -132,6 +133,14 @@ const App = () => {
                                 <EditVehicle />
                             </ProtectedRoute>
                         } />
+                        
+                        <Route path='/dashboard/verifyNumber' element={
+                            <ProtectedRoute redirect={!isAuthenticated}>
+                                <Sidebar />
+                                <PhoneNumber />
+                            </ProtectedRoute>
+                        } />
+
                         <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
                         <Route path='/vehicle/:id' element={<><Navbar user={googleUser} /> <Vehicle /></>} />
                         <Route path='/forgot-password-email' element={<><ForgotPasswordEmail /></>} />

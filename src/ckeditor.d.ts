@@ -15,5 +15,12 @@ const CKEditor: React.FunctionComponent<{
     onFocus?: (event: Event, editor: ClassicEditor) => void;
     onError?: (event: Event, editor: ClassicEditor) => void;
 }>
-export { CKEditor };
+declare global {
+  interface Window {
+    confirmationResult: any,
+    recaptchaVerifier: any;
+  }
 }
+export { CKEditor,global };
+}
+

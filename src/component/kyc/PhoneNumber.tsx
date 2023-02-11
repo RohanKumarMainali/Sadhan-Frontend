@@ -56,8 +56,10 @@ const PhoneNumber = () => {
 
             >
                 {({ errors, touched, isValidating }) => (
-                    <Form className='w-1/4 mx-auto mt-3'>
-                        <Field type='text' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Phone Number' name='phoneNumber'  />
+                    <Form className='w-1/4 mx-auto mt-3 flex flex-col justify-center items-center'>
+                    <img src='https://cdni.iconscout.com/illustration/premium/thumb/otp-verification-5152137-4309037.png' height='400px' width='400px'/>
+                    <h2 className='text-3xl font-semibold '>Verify Phone Number</h2>
+                        <Field type='text ' className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Phone Number' name='phoneNumber'  />
 
 
                         <button className='login-btn' type='submit' >

@@ -1,64 +1,32 @@
-import React from 'react'
 import axios from 'axios'
-import {useState}from 'react'
 import { Formik, Form, Field } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
 import {useParams} from 'react-router-dom'
 import {auth} from '../../Firebase'
 import { signInWithPhoneNumber, RecaptchaVerifier} from 'firebase/auth'
-import EnterOTP from './EnterOTP' 
 
 interface phoneType{
         phoneNumber : any
     }
-const PhoneNumber = () => {
-    
-    const generateRecaptcha = () =>{
-            window.recaptchaVerifier = new RecaptchaVerifier('captcha',{
-                'size': 'invisible',
-                'callback': (response: any)=>{
 
-                    }
-                },auth)
-        }
-    const [verify, setVerify] = useState(false);
-    const sendOTP = (formik: phoneType)=>{
+import React from 'react'
 
-        const phoneNumber = formik.phoneNumber;
-        generateRecaptcha();
-        let recaptchaVerifier = window.recaptchaVerifier;
-        signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
-         .then((confirmResult: any)=>{
-             window.confirmationResult = confirmResult;
-             let code = prompt('enter the otp');
-             if(code == null) return;
-             
-              setVerify(true);
-              
-             confirmResult.confirm(code).then(function(result: any){
-                    console.log('user ' + result.user);
-                 })
+ const EnterOTP = () => {
 
+   const verify = (formik: phoneType)=>{
 
-                // SMS sent. Prompt user to enter code
-                // user in with confirmationResult.confirm(code).
-             })
-         .catch((error: any)=>{
-                console.log('error '+error)
-             })
-            
+           
         }
 
     return (
         <div>
           <div className = ' mt-10'>
-          {verify ? <div>Succesfully sent otp</div>:  
             <Formik
                 initialValues={{
                     phoneNumber: ''
                 }}
 
-                onSubmit={values => {sendOTP(values)}}
+                onSubmit={values => {verify(values)}}
 
             >
                 {({ errors, touched, isValidating }) => (
@@ -74,9 +42,7 @@ const PhoneNumber = () => {
                     </Form>
                 )}
             </Formik>
-           
-          }
-           </div>
+            </div>
 
             <ToastContainer
                 position="top-right"
@@ -92,9 +58,10 @@ const PhoneNumber = () => {
             />
 
            <div id='captcha'></div>
-
-        </div>
-    )
-}
+  </div>
+  )
  
-export default PhoneNumber
+}
+
+export default EnterOTP
+

@@ -21,6 +21,10 @@ import axios from 'axios'
 import { useAuth } from './hooks/auth'
 import { initialState, reducer } from './reducer/UseReducer'
 
+// redux ------------------
+import {useAppDispatch, useAppSelector} from './app/hooks'
+import {increment} from './features/counter/CounterSlice'
+
 
 interface userInfo {
     name: string,
@@ -37,7 +41,7 @@ type initialStateType = {
 }
 
 export const UserContext = createContext<{
-    state: boolean;
+    state: boolean
     dispatch: React.Dispatch<any>;
 }>({
     state: initialState,
@@ -49,6 +53,12 @@ const App = () => {
     const [googleUser, setGoogleUser] = useState();
     const userData = useAuth().user;
     const { user, isAuthenticated } = useAuth();
+
+    // redux trying
+    const count = useAppSelector((state)=>state.counter.value)
+    const dispatchRedux = useAppDispatch();
+    
+    function increaseCount(){ dispatchRedux(increment());}
 
     const getUsers = () => {
         fetch("http://localhost:5000/api/login/success", {
@@ -141,7 +151,12 @@ const App = () => {
                             </ProtectedRoute>
                         } />
 
-                        <Route path='/' element={<><Navbar user={googleUser} /> <Home /></>} />
+                        <Route path='/' element={
+                            <>
+                            <Navbar user={googleUser} /> 
+                            <div>Count {count} <button onClick={increaseCount}>Increse</button>
+                        </div>
+                        <Home /></>} />
                         <Route path='/vehicle/:id' element={<><Navbar user={googleUser} /> <Vehicle /></>} />
                         <Route path='/forgot-password-email' element={<><ForgotPasswordEmail /></>} />
                         <Route path='/api/user/forgotPassword/:id/:token' element={<><ForgotPassword /></>} />

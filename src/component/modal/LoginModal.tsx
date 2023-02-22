@@ -24,6 +24,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BsFacebook, BsTwitter } from 'react-icons/bs';
 import { UserContext } from '../../App'
+
+// 'react-redux'
+
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import {loginAuth} from '../../features/login/loginSlice'
+
 let logo = require('../../images/newLogo.png')
 
 interface Props {
@@ -44,7 +50,15 @@ export const LoginModal = ({ show, close }: Props) => {
         signupEmail: "",
         signupPassword: "",
     }
-    // formik
+// redux
+
+    const loginDetail = useAppSelector((state)=>state.login.loggedIn)
+    const dispatchRedux = useAppDispatch();
+
+    function changeLoginState(){ dispatchRedux(loginAuth());}
+ 
+
+// formik
 
     const login = async (formik: loginType) => {
         try {
@@ -61,6 +75,8 @@ export const LoginModal = ({ show, close }: Props) => {
                 setStatusCode(200);
                 close();
                 dispatch({ type: "USER", payload: true })
+                changeLoginState();
+
                 //              0 window.location.replace(`http://localhost:3000`)
             }
 

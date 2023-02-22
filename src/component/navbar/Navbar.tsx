@@ -8,18 +8,27 @@ import { Link, useNavigate } from 'react-router-dom'
 import LoginModal from '../modal/LoginModal'
 import { CgProfile } from 'react-icons/cg'
 import { UserContext } from '../../App'
+
+
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import {logoutAuth} from '../../features/login/loginSlice'
+
+
 let logo = require('../../images/newLogo.png')
 
 function Navbar({ user }: any) {
 
+
     const { state, dispatch } = useContext(UserContext)
     const search = useRef<HTMLInputElement>(null);
-    const [statusCode, setStatusCode] = useState(0);
     const [showLogin, setShowLogin] = useState(false);
-    const [logged, setLogged] = useState(false);
-    const [newUser, setNewUser] = useState();
 
 
+    const loginDetail = useAppSelector((state)=>state.login.loggedIn)
+    const dispatchRedux = useAppDispatch();
+
+    function changeLoginState(){ dispatchRedux(logoutAuth());}
+    
     const url = 'http://localhost:5000/api';
     const getUser = async () => {
         try {
@@ -52,6 +61,8 @@ function Navbar({ user }: any) {
         })
         localStorage.clear()
         dispatch({ type: "USER", payload: false })
+        changeLoginState();
+
     };
     useEffect(() => {
         getUser();

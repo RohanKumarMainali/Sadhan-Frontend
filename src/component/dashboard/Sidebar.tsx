@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
+
 interface sidebarItem {
     title: string,
     path: string,
@@ -18,6 +20,9 @@ const Sidebar = () => {
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState();
     const [role, setRole] = useState();
+
+    // redux
+    const userRole = useAppSelector((state)=>state.login.role)
 
 
     const getUser = async () => {
@@ -58,14 +63,14 @@ const Sidebar = () => {
                             {SidebarData.map((item: sidebarItem, index: number) => {
                                 return (
                                     <li key={index} className="rounded-sm">
-                                        {(role == 'admin' ) &&
+                                        {(userRole == 'admin' ) &&
                                             <Link to={item.path}
                                                 className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
                                                 <li className="text-2xl">{item.icon}</li>
                                                 <span className='p-3 text-xl'>{item.title}</span>
                                             </Link>
                                         }
-                                      {(role == 'user' && item.title != 'Users' ) && 
+                                      {(userRole == 'user' && item.title != 'Users' ) && 
                                             <Link to={item.path}
                                                 className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
                                                 <li className="text-2xl">{item.icon}</li>

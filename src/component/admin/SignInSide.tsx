@@ -4,7 +4,8 @@ import AlertPop from '../modal/Alert'
 import {Link, useNavigate} from 'react-router-dom'
 import { UserContext } from '../../App'
 import axios from 'axios';
-
+import {useAppSelector, useAppDispatch} from '../../app/hooks'
+import {loginAuthAdmin} from '../../features/login/loginSlice'
 interface loginType {
     email: string,
     password: string
@@ -22,6 +23,10 @@ export default function SignInSide() {
         localStorage.setItem("user", JSON.stringify(user));
     };
 
+    const dispatchRedux = useAppDispatch();
+
+    const adminLogin =()=> dispatchRedux(loginAuthAdmin())
+
 
     const login = async(formik: loginType)=>{
           try {
@@ -37,7 +42,7 @@ export default function SignInSide() {
                 storeAuthentication(response.data);
                 setStatusCode(200);
                 dispatch({ type: "USER", payload: true })
-
+                dispatchRedux(loginAuthAdmin());
                 navigate('/dashboard')
                 //              0 window.location.replace(`http://localhost:3000`)
             }
@@ -45,10 +50,9 @@ export default function SignInSide() {
         } catch (error: any) {
             let status = error.response.status;
 
-            if (status == 401) setStatusCode(401);
+            if (status == 401) {setStatusCode(401);}
         }
     }
-
     
     function validateEmail(value: string) {
         let errors;

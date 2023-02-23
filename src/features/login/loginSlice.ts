@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
+
 interface loginState {
   role: string;
   loggedIn: boolean;
@@ -36,17 +38,24 @@ const response = await axios.get(`${url}/token`,
         return { accessToken, refreshToken }
     }
 
-    const renewToken = async () => {
+const renewToken = async () => {
         try {
             const { refreshToken } = await getTokenFromCookies();
 
             if (refreshToken !== '') {
-                const response = await axios.post(`${url}/renewToken`, { refreshToken: refreshToken })
+               const response = await  axios(`${url}/renewToken`, {
+                 method: "post",
+                 data: {refreshToken: refreshToken} ,
+                 withCredentials: true
+                 })
                 const details = response.data.payload;
                 localStorage.setItem('user', JSON.stringify(response.data.payload))
+                console.log('from inside '+ JSON.stringify(details))
+                return details.role
             }
         } catch (error) {
             console.log(error)
+            return ''
         }
     }
 
@@ -59,7 +68,6 @@ export const getUserThunk = createAsyncThunk("getUser/",async(thunkAPI)=>{
                 withCredentials: true
             });
             let details = response.data.payload
-            console.log('thunk '+details.role)
             return details.role
 
         } catch (error: any) {
@@ -67,7 +75,8 @@ export const getUserThunk = createAsyncThunk("getUser/",async(thunkAPI)=>{
             localStorage.clear();
             if (error.response.data == 'jwt expired') {
                 console.log('jwt expired')
-                renewToken();
+                const newRole = await renewToken();
+                return newRole;
             }
             return '';
         }

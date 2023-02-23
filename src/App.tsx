@@ -24,6 +24,7 @@ import { initialState, reducer } from './reducer/UseReducer'
 // redux ------------------
 import {useAppDispatch, useAppSelector} from './app/hooks'
 import {increment} from './features/counter/CounterSlice'
+import {getUserThunk} from './features/login/loginSlice'
 
 
 interface userInfo {
@@ -59,7 +60,6 @@ const App = () => {
     const dispatchRedux = useAppDispatch();
     
     function increaseCount(){ dispatchRedux(increment());}
-
     const getUsers = () => {
         fetch("http://localhost:5000/api/login/success", {
             method: "GET",
@@ -77,7 +77,6 @@ const App = () => {
 
                 setGoogleUser(resObject.user)
                 localStorage.setItem('user', JSON.stringify(resObject.user))
-
             })
             .catch((err) => {
                 console.log(err);
@@ -85,6 +84,7 @@ const App = () => {
     };
     useEffect(() => {
         getUsers();
+        dispatchRedux(getUserThunk())
     }, []);
 
     return (
@@ -154,8 +154,6 @@ const App = () => {
                         <Route path='/' element={
                             <>
                             <Navbar user={googleUser} /> 
-                            <div>Count {count} <button onClick={increaseCount}>Increse</button>
-                        </div>
                         <Home /></>} />
                         <Route path='/vehicle/:id' element={<><Navbar user={googleUser} /> <Vehicle /></>} />
                         <Route path='/forgot-password-email' element={<><ForgotPasswordEmail /></>} />

@@ -11,7 +11,7 @@ import { UserContext } from '../../App'
 
 
 import {useAppDispatch, useAppSelector} from '../../app/hooks'
-import {logoutAuth} from '../../features/login/loginSlice'
+import {logoutAuth,getUserThunk} from '../../features/login/loginSlice'
 
 
 let logo = require('../../images/newLogo.png')
@@ -66,6 +66,7 @@ function Navbar({ user }: any) {
     };
     useEffect(() => {
         getUser();
+        dispatchRedux(getUserThunk())
     });
 
 

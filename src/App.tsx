@@ -55,7 +55,7 @@ const App = () => {
     const userData = useAuth().user;
     const { user, isAuthenticated } = useAuth();
 
-    // redux trying
+    // redux 
     const count = useAppSelector((state)=>state.counter.value)
     const dispatchRedux = useAppDispatch();
     

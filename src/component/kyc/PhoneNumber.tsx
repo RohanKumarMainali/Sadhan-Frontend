@@ -1,12 +1,13 @@
 import React from 'react'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import { Formik, Form, Field } from 'formik'
 import { ToastContainer, toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import { auth } from '../../Firebase'
 import { signInWithPhoneNumber, RecaptchaVerifier } from 'firebase/auth'
 import EnterOTP from './EnterOTP'
+import EmailVerify from './EmailVerify'
 import { Steps } from 'rsuite'
 import './steps.css'
 
@@ -22,6 +23,7 @@ const PhoneNumber = () => {
     
     // redux 
     const count = useAppSelector((state)=>state.kyc.kycFormStage)
+    const [kycStage,setKycStage] = useState(0); 
     const dispatchRedux = useAppDispatch();
 
     const generateRecaptcha = () => {
@@ -41,9 +43,23 @@ const PhoneNumber = () => {
         let recaptchaVerifier = window.recaptchaVerifier
 
         dispatchRedux(proceedKycForm()) 
+        signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
+        .then((confirmResult: any)=>{
+             window.confirmationResult = confirmResult;
+         }).catch((error: any) => {
+                console.log(error)
+             })
        
        };
+    const checkState = () =>{
 
+            if(count == 0)setKycStage(0)  
+            if(count == 2)setKycStage(1)  
+            if(count == 4)setKycStage(2)  
+            if(count == 5)setKycStage(3)  
+        }
+
+    useEffect(()=>{checkState();},[count])
        return (
 
         <div>
@@ -54,13 +70,13 @@ const PhoneNumber = () => {
                                 style={{ height: '90vh' }}
                             >
                                 <div className=" w-full">
-                                    <Steps current={0} className="w-2/3 mx-auto mt-5 p-0">
+                                    <Steps current={kycStage} className="w-2/3 mx-auto mt-5 p-0">
                                         <Steps.Item title="Verify Number" />
                                         <Steps.Item title="Verify Email" />
                                         <Steps.Item title="KYC Form" />
                                         <Steps.Item title="Confirm Details" />
                                     </Steps>
-                                    { count == 1 ? <EnterOTP/> : 
+                                    { count == 1 ? <EnterOTP/>  : count == 2 ? <EmailVerify/> :  
                                     <Formik
                                         initialValues={{
                                             phoneNumber: ''

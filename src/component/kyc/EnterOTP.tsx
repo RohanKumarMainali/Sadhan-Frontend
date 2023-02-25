@@ -6,25 +6,44 @@ import {useParams} from 'react-router-dom'
 import {auth} from '../../Firebase'
 import { signInWithPhoneNumber, RecaptchaVerifier} from 'firebase/auth'
 
+
+// redux ------------------
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import {proceedKycForm} from '../../features/kyc/kycSlice'
+
 interface phoneType{
-        phoneNumber : any
+        otp : any
     }
 
 
  const EnterOTP = () => {
 
-   const verify = (formik: phoneType)=>{
 
-       }
+    const dispatchRedux = useAppDispatch();
+    const verifyOTP =(formik: phoneType)=>{
+        let otp = formik.otp;
+        let recaptchaVerifier = window.recaptchaVerifier;
+        window.confirmationResult.confirm(otp)
+        .then(async(res :any) => {
+                console.log(res)
+                
+               dispatchRedux(proceedKycForm()) 
+            })
+        .catch((error : any) => {
+            console.log(error)
+            })
+
+        } 
+
 
     return (
         <div>
           <div className = ' mt-10'>
             <Formik
                 initialValues={{
-                    phoneNumber: ''
+                    otp: ''
                 }}
-                onSubmit={values => {verify(values)}}
+                onSubmit={values => {verifyOTP(values)}}
             >
                 {({ errors, touched, isValidating }) => (
                     <Form className='w-1/4 mx-auto mt-3 flex flex-col justify-center items-center'>
@@ -33,7 +52,7 @@ interface phoneType{
 
                     <h4 className='text-xl font-semibold '>Enter a verification code</h4>
                     <p className='text-sm '> A 6 digit OTP verification code was sent on your phone number</p>
-                        <Field type='text ' className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Phone Number' name='phoneNumber'  />
+                        <Field type='text ' className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Phone Number' name='otp'  />
                         <button className='login-btn' type='submit' >
                             Submit
                         </button>

@@ -3,48 +3,48 @@ import axios from 'axios'
 import { Formik, Form, Field } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
 
+
+// redux ------------------
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import {proceedKycForm} from '../../features/kyc/kycSlice'
+
+
 function EmailVerify() {
 
+
+    // get user id from local storage
+    const user:any = localStorage?.getItem('user') ? localStorage.getItem('user') : null;
+    const email = JSON.parse(user).email
+    const id = JSON.parse(user).id
+    const dispatchRedux = useAppDispatch();
     const url = 'http://localhost:5000/api'
+
     type loginType = {
         email: string
         }
-    const sendEmail = async (formik: loginType) => {
-        try {
-            console.log('button clicked')
-            const payload = { email: formik.email}
-            const response = await axios.post(`${url}/user/forgotPassword`, payload, {
+        
+
+    // verify email button click, send otp in email
+    const sendEmail = async () => {
+            try {
+              const response = await axios.post(`${url}/sendEmailOTP`, {email:email, id: id}, {
                 withCredentials: true,
                 headers: {
                     'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
                 }
-            });
-
-            console.log(JSON.stringify(response.data.message))
-
-            showMessage(response.data.message, 200);
-            formik.email = ''
-        } catch (error: any) {
-            let status = error.response.status;
+                  })    
+                showMessage('OTP is sent on your email', 200)
+                dispatchRedux(proceedKycForm()) 
+            } catch (error: any) {
+                showMessage(error.message, 400)
+               console.log(error.message) 
+            }
         }
-    }
-    function validateEmail(value: string) {
-        let errors;
-        if (!value) {
-            errors = 'Required';
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-            errors = 'Invalid email address';
-        }
-        return errors;
-    }
     
     const showMessage = (message: string, statusCode: number) => {
         if (statusCode == 201 || statusCode == 200) toast.success(message)
         else toast.error(message)
     }
-
-
-
 
   return (
 
@@ -53,6 +53,7 @@ function EmailVerify() {
           src="https://res.cloudinary.com/degtbdhfn/image/upload/v1677322210/sadhan_extra_images/email_deaf1e.png"
            height="200px"
            width="200px"
+           alt = 'otp-image'
             /> 
                                               
           <div className= 'content w-full'> 
@@ -60,10 +61,11 @@ function EmailVerify() {
 
                     <p className='text-sm mt-4'> You need to verify the your email address to proceed KYC verification. Please verify your email by clicking the button below.</p>
   
-                        <button className="login-btn mt-4" type="submit">
+                        <button className="login-btn mt-4"  onClick = {sendEmail}>
                              Verify 
                         </button>          
           </div>
+
             </div>
 
   )

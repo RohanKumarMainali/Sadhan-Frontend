@@ -7,7 +7,10 @@ import { useParams } from 'react-router-dom'
 import { auth } from '../../Firebase'
 import { signInWithPhoneNumber, RecaptchaVerifier } from 'firebase/auth'
 import EnterOTP from './EnterOTP'
+import EmailOTP from './EmailOTP'
 import EmailVerify from './EmailVerify'
+import KYCForm from './KYCForm'
+import ViewKyc from './ViewKyc'
 import { Steps } from 'rsuite'
 import './steps.css'
 
@@ -19,12 +22,18 @@ import {proceedKycForm} from '../../features/kyc/kycSlice'
 interface phoneType {
     phoneNumber: any
 }
+
 const PhoneNumber = () => {
     
     // redux 
     const count = useAppSelector((state)=>state.kyc.kycFormStage)
     const [kycStage,setKycStage] = useState(0); 
     const dispatchRedux = useAppDispatch();
+    const url = 'http://localhost:5000/api'
+
+    // get user id from local storage
+    const user:any = localStorage?.getItem('user') ? localStorage.getItem('user') : null;
+    const userId = user.id;
 
     const generateRecaptcha = () => {
         window.recaptchaVerifier = new RecaptchaVerifier(
@@ -51,6 +60,8 @@ const PhoneNumber = () => {
              })
        
        };
+ 
+
     const checkState = () =>{
 
             if(count == 0)setKycStage(0)  
@@ -76,7 +87,7 @@ const PhoneNumber = () => {
                                         <Steps.Item title="KYC Form" />
                                         <Steps.Item title="Confirm Details" />
                                     </Steps>
-                                    { count == 1 ? <EnterOTP/>  : count == 2 ? <EmailVerify/> :  
+                                    { count == 1 ? <EnterOTP/>  : count == 2 ? <EmailVerify/> : count ==3 ? <EmailOTP/> : count == 4 ? <KYCForm/> :  count == 5 ? <ViewKyc/> :
                                     <Formik
                                         initialValues={{
                                             phoneNumber: ''

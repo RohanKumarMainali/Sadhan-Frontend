@@ -18,15 +18,34 @@ interface phoneType{
 
  const EnterOTP = () => {
 
+     const url = 'http://localhost:5000/api'
+    // get user id from local storage
+    const user:any = localStorage?.getItem('user') ? localStorage.getItem('user') : null;
+    const userId = JSON.parse(user).id;
+    console.log(user)
+    console.log(userId)
+
+    // verify phone number 
+    const verifyPhoneNumber = async () =>{
+        try {
+        const response = await axios.post(`${url}/verifyPhoneNumber`, {id: userId})
+        console.log(response)    
+        } catch (error: any) {
+          console.log(error.message)    
+        }
+    }
+
+    // redux
 
     const dispatchRedux = useAppDispatch();
+
     const verifyOTP =(formik: phoneType)=>{
         let otp = formik.otp;
         let recaptchaVerifier = window.recaptchaVerifier;
         window.confirmationResult.confirm(otp)
         .then(async(res :any) => {
                 console.log(res)
-                
+               verifyPhoneNumber(); 
                dispatchRedux(proceedKycForm()) 
             })
         .catch((error : any) => {

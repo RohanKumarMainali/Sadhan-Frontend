@@ -20,6 +20,9 @@ const kycFormSlice = createSlice({
             // this works because it uses immer under the hood
             state.kycFormStage++;
         },
+        backKycForm(state){
+            state.kycFormStage--;
+        },
         //decrement
         //reset
     },

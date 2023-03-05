@@ -50,3 +50,49 @@ code {
   background-color: #3498ff;
   color: white;
 }
+
+.back-button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #333;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.back-button:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: translateY(-50%) rotate(135deg);
+}
+
+.back-button:hover {
+  background-color: #555;
+}
+
+.confirmKycButton{
+
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #593cfb;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+
+}

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 interface sidebarItem {
     title: string,
@@ -22,7 +22,7 @@ const Sidebar = () => {
     const [role, setRole] = useState();
 
     // redux
-    const userRole = useAppSelector((state)=>state.login.role)
+    const userRole = useAppSelector((state) => state.login.role)
 
 
     const getUser = async () => {
@@ -63,14 +63,14 @@ const Sidebar = () => {
                             {SidebarData.map((item: sidebarItem, index: number) => {
                                 return (
                                     <li key={index} className="rounded-sm">
-                                        {(userRole == 'admin' ) &&
+                                        {(userRole == 'admin') &&
                                             <Link to={item.path}
                                                 className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
                                                 <li className="text-2xl">{item.icon}</li>
                                                 <span className='p-3 text-xl'>{item.title}</span>
                                             </Link>
                                         }
-                                      {(userRole == 'user' && item.title != 'Users' ) && 
+                                        {(userRole == 'user' && item.title != 'Users') &&
                                             <Link to={item.path}
                                                 className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
                                                 <li className="text-2xl">{item.icon}</li>
@@ -85,10 +85,10 @@ const Sidebar = () => {
                         </ul>
                     </div>
                     <div className="flex items-center absolute bottom-0 border-solid  ">
-                    <Link to= '/'>
-                        <h2 className="text-sm  text-center text-slate-50 mx-auto align-middle m-0 p-3 underline"> Back to website</h2>
+                        <Link to='/'>
+                            <h2 className="text-sm  text-center text-slate-50 mx-auto align-middle m-0 p-3 underline"> Back to website</h2>
 
-                    </Link>
+                        </Link>
                     </div>
                 </div>
             </div>

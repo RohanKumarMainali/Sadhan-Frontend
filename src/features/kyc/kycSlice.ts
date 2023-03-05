@@ -28,6 +28,6 @@ const kycFormSlice = createSlice({
     },
 });
 
-export const { proceedKycForm } = kycFormSlice.actions;
+export const { proceedKycForm , backKycForm} = kycFormSlice.actions;
 
 export default kycFormSlice.reducer;

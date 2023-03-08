@@ -143,7 +143,6 @@ function ViewKyc() {
           </div>
         </div>
       </div>
-
       <button className="float-left mt-4 back-button" style = {{width: '10%'}} onClick={goBack}> Back</button>
       <button className="mr-5 float-left confirmKycButton mt-4" style = {{width: '15%'}}>Confirm</button>
     </div>

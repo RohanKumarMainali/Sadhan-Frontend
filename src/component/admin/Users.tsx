@@ -42,6 +42,8 @@ const Users = () => {
     }
   }
 
+  // verify user
+
   const showMessage = (message: string, statusCode: number) => {
     if (statusCode == 201 || statusCode == 200) toast.success(message)
     else toast.error(message)
@@ -91,11 +93,13 @@ const Users = () => {
                     <td className="border border-slate-300  ">
                       {moment.utc(singleUser.createdOn).format('MM/DD/YYYY')}
                     </td>
-                    <td className="border border-slate-300">unverified</td>
+                    <td className="border border-slate-300">{singleUser.status}</td>
                     <td className="border border-slate-300 align-left ">
-                      <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
-                        Verify
+
+                     <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
+                        View
                       </button>
+                     
                       <button
                         className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
                         onClick={() => deleteUser(singleUser._id)}

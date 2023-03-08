@@ -1,7 +1,6 @@
 import * as BsIcon from 'react-icons/bs'
 import * as GiIcon from 'react-icons/gi'
 import * as AiIcons from 'react-icons/ai'
-
 import * as FaIcon from 'react-icons/fa'
 export const SidebarData = [
 
@@ -29,6 +28,12 @@ export const SidebarData = [
         title: 'Users',
         path: '/dashboard/users',
         icon: <FaIcon.FaUsers />,
+        cName: 'sidebar-text'
+    },
+    {
+        title: 'Kyc',
+        path: '/dashboard/kyc-requests',
+        icon: <FaIcon.FaFileSignature/>,
         cName: 'sidebar-text'
     },
     {

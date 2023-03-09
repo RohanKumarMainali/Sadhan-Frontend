@@ -174,7 +174,7 @@ const App = () => {
             />
 
             <Route
-              path="/dashboard/verifyNumber"
+              path="/dashboard/verifyKyc"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <Sidebar />

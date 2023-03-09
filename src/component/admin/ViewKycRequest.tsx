@@ -3,8 +3,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import { ToastContainer, toast } from 'react-toastify'
-
-
+import { useNavigate } from 'react-router-dom'
 
 export interface UserDataProps {
   userData: {
@@ -62,27 +61,33 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
   } = userData.kycFormData
 
   const url = 'http://localhost:5000/api'
+  const navigate = useNavigate()
+
   const approveKyc = async () => {
-        try {
-           const response = await axios.post(`${url}/verifyKyc`, {id: id},{
-                withCredentials: true,
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json'
-                }
-               }) 
-           showMessage('User verified successfully',200)
-        } catch (error:any) {
-           showMessage(error.message, 400) 
+    try {
+      const response = await axios.post(
+        `${url}/verifyKyc`,
+        { id: id },
+        {
+          withCredentials: true,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+          }
         }
-      }
+      )
+      toast.success('User verified successfully')
 
-    const showMessage = (message: string, statusCode: number) => {
-        if (statusCode == 201 || statusCode == 200) toast.success(message)
-        else toast.error(message)
+      // navigate to dashboard
+    } catch (error: any) {
+      showMessage(error.message, 400)
     }
+  }
 
-
+  const showMessage = async (message: string, statusCode: number) => {
+    if (statusCode == 201 || statusCode == 200) await toast.success(message)
+    else await toast.error(message)
+  }
 
   return (
     <>
@@ -122,23 +127,22 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
                   <p className="text-left text-sm">citizenship issused by: </p>
                 </div>
                 <div className="verify-right w-1/2">
+                  <p className="text-right text-sm ">{citizenshipNumber}</p>
                   <p className="text-right text-sm ">
-                    {citizenshipNumber }
+                    {' '}
+                    {citizenshipIssuedDate}{' '}
                   </p>
-                  <p className="text-right text-sm "> {citizenshipIssuedDate} </p>
                   <p className="text-right text-sm ">{citizenshipIssuedBy} </p>
                 </div>
               </div>
             </div>
+          </div>
 
-         </div>
-
-         <div className= 'float-left m-0' >
-            <img alt= 'Citizenship Front' src = {citizenshipImageFront.url}></img>
-            <img alt= 'Citizenship Back' src = {citizenshipImageBack.url}></img>
-         </div>
+          <div className="float-left m-0">
+            <img alt="Citizenship Front" src={citizenshipImageFront.url}></img>
+            <img alt="Citizenship Back" src={citizenshipImageBack.url}></img>
+          </div>
         </div>
-
 
         <div className="p-4 mt-5  bg-blue-50 w-2/6 space-x-24 justify-center ">
           <div className="citizenship-details ">
@@ -151,27 +155,41 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
                   <p className="text-left text-sm">License Expire date:</p>
                 </div>
                 <div className="verify-right w-1/2">
+                  <p className="text-right text-sm ">{drivingLicenseNumber}</p>
                   <p className="text-right text-sm ">
-                    {drivingLicenseNumber }
+                    {' '}
+                    {drivingLicenseIssuedBy}{' '}
                   </p>
-                  <p className="text-right text-sm "> {drivingLicenseIssuedBy} </p>
-                  <p className="text-right text-sm ">{drivingLicenseIssuedDate} </p>
-                  <p className="text-right text-sm ">{drivingLicenseExpireDate} </p>
+                  <p className="text-right text-sm ">
+                    {drivingLicenseIssuedDate}{' '}
+                  </p>
+                  <p className="text-right text-sm ">
+                    {drivingLicenseExpireDate}{' '}
+                  </p>
                 </div>
               </div>
             </div>
+          </div>
 
-         </div>
-
-         <div className= 'float-left m-0' >
-            <img alt= 'License Image' src = {drivingLicenseImage.url}></img>
-         </div>
+          <div className="float-left m-0">
+            <img alt="License Image" src={drivingLicenseImage.url}></img>
+          </div>
         </div>
-
       </div>
 
-      <button className="mr-5 bg-danger float-left confirmKycButton mt-4" style = {{width: '15%'}}>Reject</button>
-      <button className="mr-5 float-left confirmKycButton mt-4" style = {{width: '15%'}} onClick={approveKyc}>Approve</button>
+      <button
+        className="mr-5 bg-danger float-left confirmKycButton mt-4"
+        style={{ width: '15%' }}
+      >
+        Reject
+      </button>
+      <button
+        className="mr-5 float-left confirmKycButton mt-4"
+        style={{ width: '15%' }}
+        onClick={approveKyc}
+      >
+        Approve
+      </button>
     </>
   )
 }

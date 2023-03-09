@@ -8,6 +8,7 @@ const Profile = () => {
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState();
     const [role, setRole] = useState();
+    const [status, setStatus] = useState('');
 
 
     const getTokenFromCookies = async () => {
@@ -59,6 +60,9 @@ const Profile = () => {
             setUserName(details.firstName + ' ' + details.lastName);
             setEmail(details.email);
             setRole(details.role)
+            const id = details.id;
+            const userData = await axios.get(`${url}/getUser/${id}`)
+            setStatus(userData.data.data.status)
 
         } catch (error: any) {
             console.log('status code' + JSON.stringify(error.response))
@@ -110,6 +114,7 @@ const Profile = () => {
                                         <p className='text-left text-lg'>Approve to drive ?</p>
                                         <p className='text-left text-lg'>Email address </p>
                                         <p className='text-left text-lg'>Phone number</p>
+                                        <p className='text-left text-lg'>Status</p>
 
                                         </div>
                                        <div className= 'verify-right '>
@@ -120,6 +125,14 @@ const Profile = () => {
                                         <p className='text-right text-lg text-indigo-500'>Verify license</p>
                                         <p className='text-right text-lg text-indigo-500'>Verify Email address </p>
                                         <p className='text-right text-indigo-500 '>Verify Number</p>
+                                        {status == 'verified' && 
+                                          <p className='text-right text-indigo-500 '>Verified</p>
+                                        }
+                                         {status != 'verified' && 
+
+                                        <Link to = '/verifyKyc'><p className='text-right text-indigo-500 '>Verify</p></Link>
+                                        }
+                                        
 
                                         </div>
 

@@ -53,7 +53,7 @@ const KycRequest = () => {
 
   const handleViewButtonClick = (user: User) => {
     console.log(user)
-      setToggle(false)
+    setToggle(false)
     setSelectedUser(user)
   }
 
@@ -112,76 +112,80 @@ const KycRequest = () => {
                 Kyc Requests
               </h1>
             </div>
-            <table className="table-auto mt-3 w-11/12 mx-auto rounded-xl shadow-xl bg-slate-100 border-collapse border border border-slate-400">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Joined</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {user.map((singleUser: any, index: number) => {
-                  return (
-                    <>
-                      <tr
-                        key={index}
-                        className={
-                          index % 2 == 0 ? 'bg-slate-50' : 'bg-slate-100'
-                        }
-                      >
-                        <td className="border border-slate-300 " width="5%">
-                          {index + 1}
-                        </td>
-                        <td className="border border-slate-300 px-3 text-left">
-                          {singleUser.firstName + ' ' + singleUser.lastName}
-                        </td>
-                        <td className="border border-slate-300  text-left px-3">
-                          {singleUser.email}
-                        </td>
-                        <td className="border border-slate-300  ">
-                          {moment
-                            .utc(singleUser.createdOn)
-                            .format('MM/DD/YYYY')}
-                        </td>
-                        <td className="border border-slate-300">
-                          {singleUser.status}
-                        </td>
-                        <td className="border border-slate-300 align-left ">
-                          <button
-                            className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700"
-                            onClick={() =>
-                              handleViewButtonClick(singleUser.kyc)
+            {user.length == 0 && <>No Kyc Requests Found</>}
+            {user.length != 0 && (
+              <div>
+                <table className="table-auto mt-3 w-11/12 mx-auto rounded-xl shadow-xl bg-slate-100 border-collapse border border border-slate-400">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Joined</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {user.map((singleUser: any, index: number) => {
+                      return (
+                        <>
+                          <tr
+                            key={index}
+                            className={
+                              index % 2 == 0 ? 'bg-slate-50' : 'bg-slate-100'
                             }
                           >
-                            View
-                          </button>
+                            <td className="border border-slate-300 " width="5%">
+                              {index + 1}
+                            </td>
+                            <td className="border border-slate-300 px-3 text-left">
+                              {singleUser.firstName + ' ' + singleUser.lastName}
+                            </td>
+                            <td className="border border-slate-300  text-left px-3">
+                              {singleUser.email}
+                            </td>
+                            <td className="border border-slate-300  ">
+                              {moment
+                                .utc(singleUser.createdOn)
+                                .format('MM/DD/YYYY')}
+                            </td>
+                            <td className="border border-slate-300">
+                              {singleUser.status}
+                            </td>
+                            <td className="border border-slate-300 align-left ">
+                              <button
+                                className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700"
+                                onClick={() =>
+                                  handleViewButtonClick(singleUser.kyc)
+                                }
+                              >
+                                View
+                              </button>
 
-                          <button
-                            className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
-                            onClick={() => deleteUser(singleUser._id)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    </>
-                  )
-                })}
-              </tbody>
-            </table>
+                              <button
+                                className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
+                                onClick={() => deleteUser(singleUser._id)}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        </>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}{' '}
           </>
         ) : (
           <>
-      {selectedUser && (
-        <div>
-          <KycUserRequest userData={selectedUser} />
-        </div>
-      )}
- 
+            {selectedUser && (
+              <div>
+                <KycUserRequest userData={selectedUser} />
+              </div>
+            )}
           </>
         )}
         {showModal ? (
@@ -268,7 +272,7 @@ const KycRequest = () => {
         pauseOnHover
         theme="light"
       />
-   </div>
+    </div>
   )
 }
 export default KycRequest

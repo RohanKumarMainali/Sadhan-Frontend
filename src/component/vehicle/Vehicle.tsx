@@ -8,6 +8,9 @@ const parser = require('html-react-parser')
 const Vehicle = () => {
   const [id, setId] = useState(useParams().id)
   const [vehicle, setVehicle] = useState([])
+  const [startDate, setStartDate] = useState<string>();
+  const [endDate, setEndDate] = useState<string>();
+  const [days, setDays] = useState<string>();
   const url = 'http://localhost:5000/api'
 
   const getVehicle = async () => {
@@ -57,24 +60,32 @@ const Vehicle = () => {
                         <input
                           name="startDate"
                           type="date"
+                          value = {startDate}
                           className="bg-white-100 rounded-sm shadow"
+                          onChange = {(e: any)=>{setStartDate(e.target.value);}}
                         ></input>
                       </div>
+
                       <div className="date-input flex justify-between w-2/3 mx-auto">
                         <label className="texl-sm">End Date</label>
                         <input
                           name="endDate"
                           type="date"
+                          value = {endDate}
                           className="bg-white-100 rounded-sm shadow"
+                          onChange = {(e: any)=>{setEndDate(e.target.value);}}
                         ></input>
                       </div>
-                      <div className="total flex w-2/3 gap-y-4 mx-auto flex-col align-left">
-                        <h1 className="text-left">
-                          Price {' ' + item.price + '/day'}
-                        </h1>
-                        <span className="text-left">Total 5 Days</span>
-                        <span className="text-left">Total Price = Rs 8000</span>
+                      <div className="total flex w-2/3 gap-y-4 mx-auto justify-between align-left">
+                        <label className="text-left text-lg font-semibold">
+                          Price
+                         </label>
+                         <label className= 'text-lg font-semibold'> { item.price + '/day'}</label>
+                        
+                        
                       </div>
+                        <span className="text-left">Total {days} Days</span>
+                        <span className="text-left">Total Price = Rs 8000</span>
                       <button className="w-2/3 bg-indigo-500 text-white mx-auto py-2 px-1 shadow-sm rounded-sm text-xl font-semibold">
                         Book Now!{' '}
                       </button>

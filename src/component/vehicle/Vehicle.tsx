@@ -8,9 +8,9 @@ const parser = require('html-react-parser')
 const Vehicle = () => {
   const [id, setId] = useState(useParams().id)
   const [vehicle, setVehicle] = useState([])
-  const [startDate, setStartDate] = useState<string>();
-  const [endDate, setEndDate] = useState<string>();
-  const [days, setDays] = useState<string>();
+  const [startDate, setStartDate] = useState<Date>(new Date())
+  const [endDate, setEndDate] = useState<Date>(new Date())
+  const [days, setDays] = useState<Date>(new Date())
   const url = 'http://localhost:5000/api'
 
   const getVehicle = async () => {
@@ -20,6 +20,68 @@ const Vehicle = () => {
       console.log(response.data.data)
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  const dayDifference = (startDate: Date, endDate: Date): number => {
+    const oneDay = 24 * 60 * 60 * 1000 // hours * minutes * seconds * miliseconds
+    const diff = Math.round(
+      Math.abs((startDate.getTime() - endDate.getTime()) / oneDay)
+    )
+    return diff
+  }
+  const correctTimezone = (e: any): Date => {
+    const dateValue = new Date(e.target.value)
+    const timezoneOffset = dateValue.getTimezoneOffset() * 60 * 1000 // convert minutes into miliseconds
+    const newDate = new Date(dateValue.getTime() - timezoneOffset)
+    return newDate
+  }
+
+  const book = async () => {
+    try {
+      const response = await axios.post(
+        'https://a.khalti.com/api/v2/epayment/initiate',
+        {
+          return_url: 'http://localhost:3000',
+          website_url: 'http://localhost:3000',
+          amount: 1300,
+          purchase_order_id: 'test12',
+          purchase_order_name: 'test',
+          customer_info: {
+            name: 'Ashim Upadhaya',
+            email: 'example@gmail.com',
+            phone: '9811496763'
+          },
+          amount_breakdown: [
+            {
+              label: 'Mark Price',
+              amount: 1000
+            },
+            {
+              label: 'VAT',
+              amount: 300
+            }
+          ],
+          product_details: [
+            {
+              identity: '1234567890',
+              name: 'Khalti logo',
+              total_price: 1300,
+              quantity: 1,
+              unit_price: 1300
+            }
+          ]
+        },
+        {
+          headers: {
+            Authorization:
+              'Key test_secret_key_acbb10c0c83044bf8d6d32f773421b67'
+          }
+        }
+      )
+      console.log(response)
+    } catch (error: any) {
+      console.log(error.message)
     }
   }
 
@@ -60,9 +122,12 @@ const Vehicle = () => {
                         <input
                           name="startDate"
                           type="date"
-                          value = {startDate}
+                          value={startDate.toISOString().substr(0, 10)}
                           className="bg-white-100 rounded-sm shadow"
-                          onChange = {(e: any)=>{setStartDate(e.target.value);}}
+                          onChange={(e: any) => {
+                            const newDate = correctTimezone(e)
+                            setStartDate(newDate)
+                          }}
                         ></input>
                       </div>
 
@@ -71,22 +136,46 @@ const Vehicle = () => {
                         <input
                           name="endDate"
                           type="date"
-                          value = {endDate}
+                          value={endDate.toISOString().substr(0, 10)}
                           className="bg-white-100 rounded-sm shadow"
-                          onChange = {(e: any)=>{setEndDate(e.target.value);}}
+                          onChange={(e: any) => {
+                            const newDate = correctTimezone(e)
+                            setEndDate(newDate)
+                          }}
                         ></input>
                       </div>
                       <div className="total flex w-2/3 gap-y-4 mx-auto justify-between align-left">
                         <label className="text-left text-lg font-semibold">
                           Price
-                         </label>
-                         <label className= 'text-lg font-semibold'> { item.price + '/day'}</label>
-                        
-                        
+                        </label>
+                        <label className="text-lg font-semibold">
+                          {' '}
+                          Rs {item.price + '/day'}
+                        </label>
                       </div>
-                        <span className="text-left">Total {days} Days</span>
-                        <span className="text-left">Total Price = Rs 8000</span>
-                      <button className="w-2/3 bg-indigo-500 text-white mx-auto py-2 px-1 shadow-sm rounded-sm text-xl font-semibold">
+
+                      <div className="total flex w-2/3 gap-y-4 mx-auto justify-between align-left">
+                        <label className="text-left text-lg font-semibold">
+                          Time
+                        </label>
+                        <label className="text-lg font-semibold">
+                          {dayDifference(startDate, endDate)} Days
+                        </label>
+                      </div>
+
+                      <div className="total flex w-2/3 gap-y-4 mx-auto justify-between align-left">
+                        <label className="text-left text-lg font-semibold">
+                          Total
+                        </label>
+                        <label className="text-lg font-semibold">
+                          Rs {dayDifference(startDate, endDate) * item.price}
+                        </label>
+                      </div>
+
+                      <button
+                        onClick={book}
+                        className="w-2/3 bg-indigo-500 text-white mx-auto py-2 px-1 shadow-sm rounded-sm text-xl font-semibold"
+                      >
                         Book Now!{' '}
                       </button>
                     </div>

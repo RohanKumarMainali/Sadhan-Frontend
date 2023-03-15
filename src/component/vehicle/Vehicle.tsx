@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import KhaltiCheckout from 'khalti-checkout-web'
 const parser = require('html-react-parser')
 
 const Vehicle = () => {
@@ -37,52 +38,53 @@ const Vehicle = () => {
     return newDate
   }
 
-  const book = async () => {
-    try {
-      const response = await axios.post(
-        'https://a.khalti.com/api/v2/epayment/initiate',
-        {
-          return_url: 'http://localhost:3000',
-          website_url: 'http://localhost:3000',
-          amount: 1300,
-          purchase_order_id: 'test12',
-          purchase_order_name: 'test',
-          customer_info: {
-            name: 'Ashim Upadhaya',
-            email: 'example@gmail.com',
-            phone: '9811496763'
-          },
-          amount_breakdown: [
-            {
-              label: 'Mark Price',
-              amount: 1000
-            },
-            {
-              label: 'VAT',
-              amount: 300
-            }
-          ],
-          product_details: [
-            {
-              identity: '1234567890',
-              name: 'Khalti logo',
-              total_price: 1300,
-              quantity: 1,
-              unit_price: 1300
-            }
-          ]
-        },
-        {
-          headers: {
-            Authorization:
-              'Key test_secret_key_acbb10c0c83044bf8d6d32f773421b67'
-          }
+  // khalti configuration
+  let config = {
+    // replace this key with yours
+    publicKey: 'test_public_key_707fd3948d384680ac905e50372648f5',
+    productIdentity: '1234567890',
+    productName: 'Drogon',
+    productUrl: 'http://gameofthrones.com/buy/Dragons',
+    eventHandler: {
+      onSuccess(payload: any) {
+        // hit merchant api for initiating verfication
+        console.log(payload)
+
+        let data = {
+          token: payload.token,
+          amount: payload.amount
         }
-      )
-      console.log(response)
-    } catch (error: any) {
-      console.log(error.message)
-    }
+
+        // verifying the request
+        const response = axios
+          .get(
+            `http://localhost:5000/api/khalti/verify/${payload.token}/${payload.amount}`
+          )
+          .then(response => {
+            console.log(response)
+          })
+      },
+      // onError handler is optional
+      onError(error: any) {
+        // handle errors
+        console.log(error)
+      },
+      onClose() {
+        console.log('widget is closing')
+      }
+    },
+    paymentPreference: [
+      'KHALTI',
+      'EBANKING',
+      'MOBILE_BANKING',
+      'CONNECT_IPS',
+      'SCT'
+    ]
+  }
+
+  let khalti = new KhaltiCheckout(config)
+  const showCheckout = () => {
+    khalti.show({ amount: 1000 })
   }
 
   useEffect(() => {
@@ -173,7 +175,7 @@ const Vehicle = () => {
                       </div>
 
                       <button
-                        onClick={book}
+                        onClick={showCheckout}
                         className="w-2/3 bg-indigo-500 text-white mx-auto py-2 px-1 shadow-sm rounded-sm text-xl font-semibold"
                       >
                         Book Now!{' '}

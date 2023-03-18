@@ -1,9 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import { formType } from './KYCForm'
-
 
 // redux ------------------
 // redux ------------------
@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { backKycForm } from '../../features/kyc/kycSlice'
 
 function ViewKyc() {
+
+
   // get user id from local storage
   const user: any = localStorage?.getItem('user')
     ? localStorage.getItem('user')
@@ -19,7 +21,8 @@ function ViewKyc() {
   const url = 'http://localhost:5000/api'
   const [kycFormData, setKyc] = useState([])
   const [kycImage, setKycImage] = useState([])
-  const reduxDispatch = useAppDispatch();
+  const reduxDispatch = useAppDispatch()
+  const navigate = useNavigate();
 
   const getUser = async () => {
     try {
@@ -33,8 +36,12 @@ function ViewKyc() {
       console.log(error)
     }
   }
-  const goBack = ()=>{
-        reduxDispatch(backKycForm()) 
+  const goBack = () => {
+    reduxDispatch(backKycForm())
+  }
+
+  const confirm = () =>{
+       navigate('/dashboard') 
       }
 
   useEffect(() => {
@@ -143,8 +150,21 @@ function ViewKyc() {
           </div>
         </div>
       </div>
-      <button className="float-left mt-4 back-button" style = {{width: '10%'}} onClick={goBack}> Back</button>
-      <button className="mr-5 float-left confirmKycButton mt-4" style = {{width: '15%'}}>Confirm</button>
+      <button
+        className="float-left mt-4 back-button"
+        style={{ width: '10%' }}
+        onClick={goBack}
+      >
+        {' '}
+        Back
+      </button>
+      <button
+        className="mr-5 float-left confirmKycButton mt-4"
+        style={{ width: '15%', margin: '5%' }}
+        onClick={confirm}
+      >
+        Confirm
+      </button>
     </div>
   )
 }

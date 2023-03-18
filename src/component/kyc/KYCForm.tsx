@@ -55,20 +55,20 @@ const KYCForm = () => {
 
   const postKyc = async (values: any) => {
     var form: any = new FormData()
-    
-    for (const keys in values){
-            form.append(keys, values[keys])
-        }
-    form.append('id',id)
-    console.log(form)
-    
-    // converting form into json to save in redux
-    let formData : any = {}
-    form.forEach(function(value: any, key: string){
-       formData[key] = value;
-    });
 
-    dispatchRedux(saveForm({kycDetail: formData}))
+    for (const keys in values) {
+      form.append(keys, values[keys])
+    }
+    form.append('id', id)
+    console.log(form)
+
+    // converting form into json to save in redux
+    let formData: any = {}
+    form.forEach(function (value: any, key: string) {
+      formData[key] = value
+    })
+
+    dispatchRedux(saveForm({ kycDetail: formData }))
     console.log(form)
     try {
       const response = await axios.put(`${url}/postKyc`, form)
@@ -127,7 +127,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="First Name"
                       name="firstName"
                       // validate={validateOldPassword}
                     />
@@ -144,7 +143,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Middle Name"
                       name="middleName"
                     />
                   </div>
@@ -154,7 +152,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Last Name"
                       name="lastName"
                     />
                   </div>
@@ -164,7 +161,6 @@ const KYCForm = () => {
                     <Field
                       type="date"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="DOB"
                       name="dateOfBirth"
                     />
                   </div>
@@ -176,7 +172,6 @@ const KYCForm = () => {
                     <Field
                       type="number"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Province"
                       name="province"
                     />
                   </div>
@@ -186,7 +181,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="District"
                       name="district"
                     />
                   </div>
@@ -196,7 +190,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Municipality"
                       name="municipality"
                     />
                   </div>
@@ -206,19 +199,17 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Ward Number"
                       name="wardNumber"
                     />
                   </div>
                 </div>
 
                 <div className="flex justify-between">
-                  <div className="flex flex-col w-1/6">
+                  <div className="flex flex-col w-1/5">
                     <label className="text-left">Citizenship Image Front</label>
                     <input
                       type="file"
                       className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                      placeholder="Citizenship Image Front"
                       name="citizenshipImageFront"
                       onChange={(e: any) => {
                         setFieldValue(
@@ -238,7 +229,6 @@ const KYCForm = () => {
                     <input
                       type="file"
                       className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                      placeholder="Citizenship Image Back"
                       name="citizenshipImageBack"
                       onChange={(e: any) => {
                         setFieldValue('citizenshipImageBack', e.target.files[0])
@@ -255,7 +245,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Citizenship Number"
                       name="citizenshipNumber"
                     />
                   </div>
@@ -265,7 +254,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Citizenship Issued By"
                       name="citizenshipIssuedBy"
                     />
                   </div>
@@ -275,19 +263,17 @@ const KYCForm = () => {
                     <Field
                       type="date"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Citizenship Issued Date"
                       name="citizenshipIssuedDate"
                     />
                   </div>
                 </div>
 
                 <div className="flex justify-between">
-                  <div className="flex flex-col w-1/6">
+                  <div className="flex flex-col w-1/5">
                     <label className="text-left">Driving Licence Image</label>
                     <input
                       type="file"
                       className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
-                      placeholder="Driving Licence Image"
                       name="drivingLicenseImage"
                       onChange={(e: any) => {
                         setFieldValue('drivingLicenseImage', e.target.files[0])
@@ -303,7 +289,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Driving Licence Number"
                       name="drivingLicenseNumber"
                     />
                   </div>
@@ -313,7 +298,6 @@ const KYCForm = () => {
                     <Field
                       type="text"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Licence Issued By"
                       name="drivingLicenseIssuedBy"
                     />
                   </div>
@@ -323,7 +307,6 @@ const KYCForm = () => {
                     <Field
                       type="date"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Licence Issued Date"
                       name="drivingLicenseIssuedDate"
                     />
                   </div>
@@ -333,12 +316,15 @@ const KYCForm = () => {
                     <Field
                       type="date"
                       className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                      placeholder="Licence Expire Date"
                       name="drivingLicenseExpireDate"
                     />
                   </div>
                 </div>
-                <button className=" w-1/4 float-left login-btn" style={{width: '20%',}}type="submit">
+                <button
+                  className=" w-1/4 float-left login-btn"
+                  style={{ width: '20%' }}
+                  type="submit"
+                >
                   Proceed
                 </button>
               </Form>

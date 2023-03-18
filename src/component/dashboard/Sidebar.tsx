@@ -64,14 +64,14 @@ const Sidebar = () => {
                                 return (
                                     <li key={index} className="rounded-sm">
                                         {(userRole == 'admin') &&
-                                            <Link to={item.path}
+                                            <Link to={item.path} key = {index}
                                                 className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
                                                 <li className="text-2xl">{item.icon}</li>
                                                 <span className='p-3 text-xl'>{item.title}</span>
                                             </Link>
                                         }
                                         {(userRole == 'user' && item.title != 'Users' && item.title != 'Kyc') &&
-                                            <Link to={item.path}
+                                            <Link to={item.path} key={index}
                                                 className="flex  no-underline text-white items-center p-2 space-x-3 rounded-md">
                                                 <li className="text-2xl">{item.icon}</li>
                                                 <span className='p-3 text-xl'>{item.title}</span>

@@ -7,13 +7,10 @@ import {Link} from 'react-router-dom'
 
 //test the ssh
 let bikes = require('../../images/bikes.jpg');
-let bike = require('../../images/bike.jpg');
-let yellowBike = require('../../images/yellowBike.png');
 
 function Banner() {
 
     
-    const [image, setImage] = useState('');
     const [vehicles ,setVehicles] = useState([]);
     const url = 'http://localhost:5000/api'
     
@@ -136,7 +133,7 @@ function Banner() {
                         {vehicles && vehicles.map((item: any, index: number) =>{
                              return (
 
-                            <Link to = {`vehicle/${item._id}`}>
+                            <Link to = {`vehicle/${item._id}`} key={index + 1}>
                              <div key = {index}>
 
                                    <div className='h-60  shadow rounded-lg drop-shadow-sm'>

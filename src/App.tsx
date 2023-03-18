@@ -82,7 +82,7 @@ const App = () => {
         localStorage.setItem('user', JSON.stringify(resObject.user))
       })
       .catch(err => {
-        console.log(err)
+        console.log('Loggin is not using social links')
       })
   }
   useEffect(() => {
@@ -151,7 +151,6 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-
 
             <Route
               path="/dashboard/addVehicle"

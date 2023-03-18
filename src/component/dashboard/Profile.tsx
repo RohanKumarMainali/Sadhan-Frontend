@@ -130,7 +130,7 @@ const Profile = () => {
                                         }
                                          {status != 'verified' && 
 
-                                        <Link to = '/verifyKyc'><p className='text-right text-indigo-500 '>Verify</p></Link>
+                                        <Link to = '/dashboard/verifyKyc'><p className='text-right text-indigo-500 '>Verify</p></Link>
                                         }
                                         
 

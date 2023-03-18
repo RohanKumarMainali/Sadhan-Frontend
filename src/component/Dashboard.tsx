@@ -1,10 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { ProSidebarProvider } from 'react-pro-sidebar';
-import { truncate } from 'fs';
-
-import Sidebar from './dashboard/Sidebar'
 
 function Dashboard() {
     const url = 'http://localhost:5000/api'

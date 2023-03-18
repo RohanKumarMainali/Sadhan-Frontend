@@ -98,7 +98,7 @@ function Navbar({ user }: any) {
 
                                     {(state && !user?.email_verfied) ?
                                         
-                                         <><Link to ='dashboard'><button className='btn'>Dashboard</button></Link>
+                                         <><Link to ='/dashboard'><button className='btn'>Dashboard</button></Link>
                                         <li className='login-list'>
 
                                             <button className='btn btn-primary' onClick={logout} >Logout</button>

@@ -50,11 +50,9 @@ const renewToken = async () => {
                  })
                 const details = response.data.payload;
                 localStorage.setItem('user', JSON.stringify(response.data.payload))
-                console.log('from inside '+ JSON.stringify(details))
                 return details.role
             }
         } catch (error) {
-            console.log(error)
             return ''
         }
     }
@@ -71,7 +69,6 @@ export const getUserThunk = createAsyncThunk("getUser/",async(thunkAPI)=>{
             return details.role
 
         } catch (error: any) {
-            console.log('status code' + JSON.stringify(error.response))
             localStorage.clear();
             if (error.response.data == 'jwt expired') {
                 console.log('jwt expired')

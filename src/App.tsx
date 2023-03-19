@@ -22,6 +22,7 @@ import AddVehicle from './component/dashboard/AddVehicle'
 import EditVehicle from './component/dashboard/EditVehicle'
 import Vehicle from './component/vehicle/Vehicle'
 import PhoneNumber from './component/kyc/PhoneNumber'
+import Footer from './component/footer/Footer'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -188,6 +189,7 @@ const App = () => {
                 <>
                   <Navbar user={googleUser} />
                   <Home />
+                  <Footer/>
                 </>
               }
             />
@@ -196,6 +198,7 @@ const App = () => {
               element={
                 <>
                   <Navbar user={googleUser} /> <Vehicle />
+                  <Footer/>
                 </>
               }
             />

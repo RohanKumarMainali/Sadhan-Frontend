@@ -25,7 +25,7 @@
 
 .banner-text1 {
   position: absolute;
-  bottom: 400px;
+  bottom: 1200;
 }
 .banner-text1 h1 {
   font-family: 'Libre Bodoni', sans-serif !important;
@@ -175,5 +175,3 @@ img {
   font-weight: normal;
   margin-left: 12px;
 }
-
-

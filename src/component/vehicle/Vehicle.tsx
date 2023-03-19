@@ -4,11 +4,15 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import KhaltiCheckout from 'khalti-checkout-web'
-const parser = require('html-react-parser')
+import VehicleSkeleton from '../skeleton/VehicleSkeleton'
+
 
 const Vehicle = () => {
+
+  const parser = require('html-react-parser')
   const [id, setId] = useState(useParams().id)
   const [vehicle, setVehicle] = useState([])
+  const [loading, setLoading] = useState(true)
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [days, setDays] = useState<Date>(new Date())
@@ -19,6 +23,7 @@ const Vehicle = () => {
       const response = await axios.get(`${url}/getVehicle/${id}`)
       setVehicle(response.data.data)
       console.log(response.data.data)
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
@@ -92,7 +97,8 @@ const Vehicle = () => {
   }, [])
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" id='vehicle-info' >
+    {loading && <VehicleSkeleton/>}
       {vehicle.map((item: any, index: number) => {
         return (
           <>
@@ -206,7 +212,7 @@ const Vehicle = () => {
                     <p className=" text-sm ">{item.vehicleNumber}</p>
                   </div>
                 </div>
-                <div className="description">
+                <div className="description mb-5">
                   <h2 className="text-xl py-4 text-left">Description</h2>
                   <p className="text-left">{parser(item.description)}</p>
                 </div>

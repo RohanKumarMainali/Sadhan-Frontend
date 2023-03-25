@@ -27,15 +27,37 @@ interface vehicleType {
  const AddVehicle = () => {
 
     const [image, setImage] = useState('');
+    const [userId, setUserId] = useState('');
     const url = 'http://localhost:5000/api'
+
+    // to get userId who is posting vehicle
+      const getUser = async () => {
+        try {
+            const response = await axios.get(`${url}/session`, {
+                headers: {
+                    'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            });
+            let details = response.data.payload
+            console.log(details)
+            setUserId(details.id)
+
+        } catch (error: any) {
+           console.log(error) 
+        }
+    }
+
 
     const showMessage = (message: string, statusCode: number) => {
       if (statusCode == 201 || statusCode == 200) toast.success(message)
       else toast.error(message)
       }    
      const addVehicle = async(values : vehicleType)=>{
+
                   
             var form : any= new FormData();
+           form.append("userId", userId)
             form.append("name", values.name)
             form.append("model", values.model)
             form.append("price", JSON.stringify(values.price))
@@ -44,7 +66,7 @@ interface vehicleType {
             form.append("location", values.location)
             form.append("description", values.description)
             form.append("vehicleNumber", values.vehicleNumber)
-            form.append("images", values.images)
+            form.append("image", values.images)
             form.append("bluebookImage", values.bluebookImage)
             form.append("insuranceImage", values.insuranceImage)
             console.log(form)
@@ -56,6 +78,12 @@ interface vehicleType {
               showMessage(error.message, 400);    
             }
     }
+
+    useEffect(()=>{
+
+        getUser();
+
+        },[])
     return (
         
         <div className=" w-[calc(100%-14rem)]  h-auto float-right h-screen bg-red bg-slate-100">

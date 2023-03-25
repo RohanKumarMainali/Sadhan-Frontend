@@ -1,18 +1,21 @@
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState, useRef } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import moment from 'moment'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import KhaltiCheckout from 'khalti-checkout-web'
 import VehicleSkeleton from '../skeleton/VehicleSkeleton'
 
-
 const Vehicle = () => {
-
   const parser = require('html-react-parser')
   const [id, setId] = useState(useParams().id)
+  const [userId, setUserId] = useState('')
   const [vehicle, setVehicle] = useState([])
+  const [vehicleId, setVehicleId] = useState('')
   const [loading, setLoading] = useState(true)
+  const [amount, setAmount] = useState(0)
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [days, setDays] = useState<Date>(new Date())
@@ -23,10 +26,34 @@ const Vehicle = () => {
       const response = await axios.get(`${url}/getVehicle/${id}`)
       setVehicle(response.data.data)
       console.log(response.data.data)
+      setVehicleId(response.data.data[0]._id)
       setLoading(false)
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
     }
+  }
+
+  // to get userId who is posting vehicle
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`${url}/session`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      })
+      let details = response.data.payload
+      console.log(details)
+      setUserId(details.id)
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
+  const showMessage = (message: string, statusCode: number) => {
+    if (statusCode == 201 || statusCode == 200) toast.success(message)
+    else toast.error(message)
   }
 
   const dayDifference = (startDate: Date, endDate: Date): number => {
@@ -43,6 +70,27 @@ const Vehicle = () => {
     return newDate
   }
 
+  // book vehicle
+
+  const bookVehicle = async (amount:number ) => {
+    try {
+      console.log(userId)
+      console.log(vehicleId)
+      const response = await axios.post(`${url}/bookVehicle`, {
+        startDate,
+        endDate,
+        userId,
+        vehicleId,
+        amount
+      })
+      console.log(response)
+      return response.data.bookingDetail._id
+    } catch (error: any) {
+      showMessage('This vehicle is currently unavailable', 400)
+      console.log(error.message)
+    }
+  }
+
   // khalti configuration
   let config = {
     // replace this key with yours
@@ -54,7 +102,6 @@ const Vehicle = () => {
       onSuccess(payload: any) {
         // hit merchant api for initiating verfication
         console.log(payload)
-
         let data = {
           token: payload.token,
           amount: payload.amount
@@ -68,10 +115,14 @@ const Vehicle = () => {
           .then(response => {
             console.log(response)
           })
+
+        bookVehicle(data.amount)
+
+        // after payment lets book the vehicle for selected date
       },
+
       // onError handler is optional
       onError(error: any) {
-        // handle errors
         console.log(error)
       },
       onClose() {
@@ -88,17 +139,20 @@ const Vehicle = () => {
   }
 
   let khalti = new KhaltiCheckout(config)
-  const showCheckout = () => {
-    khalti.show({ amount: 1000 })
+  const showCheckout = (amount: number) => {
+    // converting paisa into rupees
+
+    khalti.show({ amount: amount })
   }
 
   useEffect(() => {
     getVehicle()
+    getUser()
   }, [])
 
   return (
-    <div className="container-fluid" id='vehicle-info' >
-    {loading && <VehicleSkeleton/>}
+    <div className="container-fluid" id="vehicle-info">
+      {loading && <VehicleSkeleton />}
       {vehicle.map((item: any, index: number) => {
         return (
           <>
@@ -181,11 +235,21 @@ const Vehicle = () => {
                       </div>
 
                       <button
-                        onClick={showCheckout}
+                        onClick={() =>
+                          showCheckout(
+                            dayDifference(startDate, endDate) * item.price
+                          )
+                        }
                         className="w-2/3 bg-indigo-500 text-white mx-auto py-2 px-1 shadow-sm rounded-sm text-xl font-semibold"
                       >
                         Book Now!{' '}
                       </button>
+                      {!item.available && (
+                        <label className="text-red-400">
+                          {' '}
+                          This vehicle is currently booked or unavailable!
+                        </label>
+                      )}
                     </div>
                   </div>
                 </div>

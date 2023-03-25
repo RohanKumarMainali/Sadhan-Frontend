@@ -23,6 +23,7 @@ import EditVehicle from './component/dashboard/EditVehicle'
 import Vehicle from './component/vehicle/Vehicle'
 import PhoneNumber from './component/kyc/PhoneNumber'
 import Footer from './component/footer/Footer'
+import Bookings from './component/dashboard/Bookings'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -134,6 +135,15 @@ const App = () => {
               }
             />
 
+            <Route
+              path="/dashboard/bookings"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <Sidebar />
+                  <Bookings/>
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/dashboard/users"
               element={

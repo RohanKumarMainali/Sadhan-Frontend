@@ -18,6 +18,7 @@ const Vehicle = () => {
   const [amount, setAmount] = useState(0)
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
+  const [bookedDates, setBookedDates] = useState([])
   const [days, setDays] = useState<Date>(new Date())
   const url = 'http://localhost:5000/api'
 
@@ -28,6 +29,7 @@ const Vehicle = () => {
       console.log(response.data.data)
       setVehicleId(response.data.data[0]._id)
       setLoading(false)
+      getBookings(response.data.data[0]._id)
     } catch (error: any) {
       console.log(error)
     }
@@ -72,7 +74,7 @@ const Vehicle = () => {
 
   // book vehicle
 
-  const bookVehicle = async (amount:number ) => {
+  const bookVehicle = async (amount: number) => {
     try {
       console.log(userId)
       console.log(vehicleId)
@@ -86,9 +88,17 @@ const Vehicle = () => {
       console.log(response)
       return response.data.bookingDetail._id
     } catch (error: any) {
-      showMessage( error.response.data.message, 400)
+      showMessage(error.response.data.message, 400)
       console.log(error.message)
     }
+  }
+
+  // fetch bookings
+
+  const getBookings = async (vehicleId: string) => {
+    const response = await axios.get(`${url}/booking?vehicleId=${vehicleId}`)
+    console.log(response.data.bookings)
+    setBookedDates(response.data.bookings)
   }
 
   // khalti configuration
@@ -141,6 +151,7 @@ const Vehicle = () => {
   let khalti = new KhaltiCheckout(config)
   const showCheckout = (amount: number) => {
     // converting paisa into rupees
+    
 
     khalti.show({ amount: amount })
   }
@@ -245,11 +256,24 @@ const Vehicle = () => {
                         Book Now!{' '}
                       </button>
                       {!item.available && (
-                        <label className="text-red-400">
+                        <label className="text-sm text-red-600">
                           {' '}
-                          This vehicle is currently booked or unavailable!
+                          This vehicle is booked for given time below
                         </label>
                       )}
+                      {bookedDates.map((booking: any, index: number) => (
+                        <div key={index} className='p-4 flex justify-between'>
+                          <div className= ''>
+                          {booking.startDate.split("T")[0]}
+                          </div>
+                          <div className= ''>
+                          <span>To</span>
+                          </div>
+                          <div className= ''>
+                          {booking.endDate.split("T")[0]}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>

@@ -136,7 +136,7 @@ function Banner() {
                         {vehicles &&
                             vehicles.map((item: any, index: number) => {
                                 return (
-                                    <Link to={`vehicle/${item._id}#vehicle-info`} key={index + 1}>
+                                    <Link to={`vehicle/${item._id}`} key={index + 1}>
                                         <div key={index}>
                                             <div className="h-60  shadow rounded-lg drop-shadow-sm">
                                                 <div

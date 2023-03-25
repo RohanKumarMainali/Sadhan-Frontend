@@ -86,7 +86,7 @@ const Vehicle = () => {
       console.log(response)
       return response.data.bookingDetail._id
     } catch (error: any) {
-      showMessage('This vehicle is currently unavailable', 400)
+      showMessage( error.response.data.message, 400)
       console.log(error.message)
     }
   }

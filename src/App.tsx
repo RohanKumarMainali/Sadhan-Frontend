@@ -24,6 +24,8 @@ import Vehicle from './component/vehicle/Vehicle'
 import PhoneNumber from './component/kyc/PhoneNumber'
 import Footer from './component/footer/Footer'
 import Bookings from './component/dashboard/Bookings'
+import AnimatedSidebar from './component/sidebar/AnimatedSidebar'
+import RootLayout from './component/sidebar/RootLayout'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -98,97 +100,11 @@ const App = () => {
         <Router>
           <Routes>
             <Route
-              path="/dashboard"
+              path="/authentication"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
+                  <AnimatedSidebar />
                   <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/profile"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/vehicles"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <Vehicles />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/dashboard/change-password"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <ChangePassword user={userData} />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/dashboard/bookings"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <Bookings/>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/users"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <Users />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/kyc-requests"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <KycRequest />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/dashboard/addVehicle"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <AddVehicle />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/dashboard/editVehicle/:id"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <EditVehicle />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/dashboard/verifyKyc"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <Sidebar />
-                  <PhoneNumber />
                 </ProtectedRoute>
               }
             />
@@ -199,7 +115,7 @@ const App = () => {
                 <>
                   <Navbar user={googleUser} />
                   <Home />
-                  <Footer/>
+                  <Footer />
                 </>
               }
             />
@@ -208,7 +124,7 @@ const App = () => {
               element={
                 <>
                   <Navbar user={googleUser} /> <Vehicle />
-                  <Footer/>
+                  <Footer />
                 </>
               }
             />
@@ -228,8 +144,108 @@ const App = () => {
                 </>
               }
             />
-
             <Route path="/admin/login" element={<SignInSide />} />
+
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <Dashboard />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <Profile />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard-vehicles"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <Vehicles />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/change-password"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <ChangePassword user={userData} />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/bookings"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <Bookings />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <Users />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/kyc-requests"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <KycRequest />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard-vehicles/addVehicle"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <AddVehicle />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard-vehicles/editVehicle/:id"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <EditVehicle />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/verifyKyc"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <Sidebar />
+                  <PhoneNumber />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Router>
       </div>

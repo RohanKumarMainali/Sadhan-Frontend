@@ -53,7 +53,7 @@ const Sidebar = () => {
 
     return (
         <div className="flex">
-            <div className="flex flex-col h-screen p-3 bg-gray-900 text-white shadow w-56 fixed top-0 left-0">
+            <div className="flex flex-col h-screen p-3 bg-gray-900 text-white shadow w-[15vw] fixed top-0 left-0">
                 <div className="space-y-3">
                     <div className="flex items-center border-solid border-2 border-white-600 ">
                         <h2 className="text-2xl font-bold text-center mx-auto align-middle m-0 p-3">Dashboard</h2>

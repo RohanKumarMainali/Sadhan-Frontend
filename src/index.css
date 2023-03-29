@@ -66,7 +66,7 @@ code {
 }
 
 .back-button:before {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 5%;
@@ -81,8 +81,7 @@ code {
   background-color: #555;
 }
 
-.confirmKycButton{
-
+.confirmKycButton {
   display: inline-block;
   padding: 8px 16px;
   font-size: 16px;
@@ -94,5 +93,15 @@ code {
   cursor: pointer;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   position: relative;
+}
 
+.link {
+  @apply p-2.5 flex rounded-md gap-6 items-center md:cursor-pointer cursor-default duration-300 font-medium;
+}
+
+.active {
+  @apply bg-blue-100 text-blue-600;
+}
+a:hover {
+  text-decoration: none; /* Remove the underline from all links */
 }

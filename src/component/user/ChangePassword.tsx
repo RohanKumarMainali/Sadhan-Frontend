@@ -73,78 +73,86 @@ const ChangePassword = (user: any) => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mx-auto mt-5">Change Password</h1>
-      <Formik
-        initialValues={{
-          oldPassword: '',
-          newPassword: '',
-          confirmPassword: ''
-        }}
-        onSubmit={(values, { resetForm }) => {
-          changePassword(values)
-          resetForm({
-            values: { oldPassword: '', newPassword: '', confirmPassword: '' }
-          })
-        }}
-      >
-        {({ errors, touched, isValidating, resetForm, values }) => (
-          <Form className="w-1/4 mx-auto mt-3">
-            <Field
-              type="password"
-              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-              placeholder="Old Password"
-              name="oldPassword"
-              validate={validateOldPassword}
-            />
-            {errors.newPassword && touched.newPassword && (
-              <div className="text-xs text-red-700 mt-1">
-                {errors.newPassword}
-              </div>
-            )}
-            <Field
-              type="password"
-              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-              placeholder="New Password"
-              name="newPassword"
-              validate={validateNewPassword}
-            />
-            {errors.newPassword && touched.newPassword && (
-              <div className="text-xs text-red-700 mt-1">
-                {errors.newPassword}
-              </div>
-            )}
-            <Field
-              type="password"
-              className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              validate={validateConfirmPassword}
-            />
-            {errors.confirmPassword && touched.confirmPassword && (
-              <div className="text-xs text-red-700 mt-1">
-                {errors.confirmPassword}
-              </div>
-            )}
+      <div className="float-right bg-slate-50 p-5 w-full h-screen">
+        <div className="dashboard-home main-profile mt-14 mx-auto ">
+          <h1 className="text-2xl font-bold mx-auto mt-5">Change Password</h1>
+          <Formik
+            initialValues={{
+              oldPassword: '',
+              newPassword: '',
+              confirmPassword: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              changePassword(values)
+              resetForm({
+                values: {
+                  oldPassword: '',
+                  newPassword: '',
+                  confirmPassword: ''
+                }
+              })
+            }}
+          >
+            {({ errors, touched, isValidating, resetForm, values }) => (
+              <Form className="w-1/4 mx-auto mt-3">
+                <Field
+                  type="password"
+                  className="w-full border m-1 border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                  placeholder="Old Password"
+                  name="oldPassword"
+                  validate={validateOldPassword}
+                />
+                {errors.newPassword && touched.newPassword && (
+                  <div className="text-xs text-red-700 mt-1">
+                    {errors.newPassword}
+                  </div>
+                )}
+                <Field
+                  type="password"
+                  className="w-full border m-1 border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                  placeholder="New Password"
+                  name="newPassword"
+                  validate={validateNewPassword}
+                />
+                {errors.newPassword && touched.newPassword && (
+                  <div className="text-xs text-red-700 mt-1">
+                    {errors.newPassword}
+                  </div>
+                )}
+                <Field
+                  type="password"
+                  className="w-full border m-1 border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  validate={validateConfirmPassword}
+                />
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <div className="text-xs text-red-700 mt-1">
+                    {errors.confirmPassword}
+                  </div>
+                )}
 
-            <button className="login-btn" type="submit">
-              Submit
-            </button>
-          </Form>
-        )}
-      </Formik>
+                <button className="login-btn" type="submit">
+                  Submit
+                </button>
+              </Form>
+            )}
+          </Formik>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </div>
+      </div>
     </>
   )
 }

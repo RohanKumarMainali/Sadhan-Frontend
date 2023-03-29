@@ -1,8 +1,8 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState,useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { Formik, Form, Field } from 'formik'
 import { useParams } from 'react-router-dom'
@@ -70,15 +70,14 @@ function Vehicles() {
     const url = 'http://localhost:5000/api'
   }
 
-
   useEffect(() => {
     getUsers()
   }, [request])
 
   return (
-    <div className=" w-[calc(100%-14rem)]  float-right h-screen bg-red bg-slate-100">
+    <div className="float-right h-screen bg-red bg-slate-100 w-full p-5">
       <div
-        className="dashboard-home bg-white main-profile w-4/5 mt-14 mx-auto  rounded shadow-xl"
+        className="dashboard-home bg-white main-profile w-full mt-14 mx-auto  rounded shadow-xl"
         style={{ height: '90vh' }}
       >
         <div className="w-11/12 mx-auto">
@@ -119,9 +118,12 @@ function Vehicles() {
                     </td>
                     <td className="border border-slate-300">unverified</td>
                     <td className="border border-slate-300 align-left ">
-                      <Link to = {`/dashboard/editVehicle/${vehicle._id}`}><button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
-                        Edit
-                      </button>
+                      <Link
+                        to={`/dashboard-vehicles/editVehicle/${vehicle._id}`}
+                      >
+                        <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
+                          Edit
+                        </button>
                       </Link>
                       <button
                         className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
@@ -136,14 +138,12 @@ function Vehicles() {
             })}
           </tbody>
         </table>
-        <div className=' mt-3 w-11/12 mx-auto'>
-        <Link to = '/dashboard/addVehicle'>
-           <button
-             className="border float-left py-2 px-1 text-white rounded bg-indigo-500 text-xs font-medium"
-           >
+        <div className=" mt-3 w-11/12 mx-auto">
+          <Link to="/dashboard-vehicles/addVehicle">
+            <button className="border float-left py-2 px-1 text-white rounded bg-indigo-500 text-xs font-medium">
               Add vehicle
             </button>
-        </Link>
+          </Link>
         </div>
         {showModal ? (
           <div
@@ -203,9 +203,10 @@ function Vehicles() {
                   </button>
                   <button
                     data-modal-hide="popup-modal"
-                    onClick={() =>{ confirmDelete();
-                                  setShowModal(false);}
-                    }
+                    onClick={() => {
+                      confirmDelete()
+                      setShowModal(false)
+                    }}
                     className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                   >
                     No, cancel
@@ -217,7 +218,6 @@ function Vehicles() {
         ) : (
           <></>
         )}
-
       </div>
       <ToastContainer
         position="top-right"

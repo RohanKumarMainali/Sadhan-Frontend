@@ -3,6 +3,7 @@ import './Banner.css'
 import axios from 'axios'
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import FAQ from './FAQ'
 
 //test the ssh
 let bikes = require('../../images/bikes.jpg')
@@ -167,6 +168,7 @@ function Banner() {
                     </div>
                 </div>
             </div>
+            <FAQ />
         </div>
     )
 }

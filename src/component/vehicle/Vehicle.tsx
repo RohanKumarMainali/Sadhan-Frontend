@@ -86,6 +86,7 @@ const Vehicle = () => {
         amount
       })
       console.log(response)
+      showMessage("Vehicle Booked Successfully!",200)
       return response.data.bookingDetail._id
     } catch (error: any) {
       showMessage(error.response.data.message, 400)
@@ -103,6 +104,7 @@ const Vehicle = () => {
 
   // khalti configuration
   let config = {
+
     // replace this key with yours
     publicKey: 'test_public_key_707fd3948d384680ac905e50372648f5',
     productIdentity: '1234567890',
@@ -264,13 +266,14 @@ const Vehicle = () => {
                       {bookedDates.map((booking: any, index: number) => (
                         <div key={index} className='p-4 flex justify-between'>
                           <div className= ''>
-                          {booking.startDate.split("T")[0]}
+                          {moment(booking.startDate).format('MMMM Do YYYY')}
                           </div>
                           <div className= ''>
                           <span>To</span>
                           </div>
                           <div className= ''>
-                          {booking.endDate.split("T")[0]}
+
+                          {moment(booking.endDate).format('MMMM Do YYYY')}
                           </div>
                         </div>
                       ))}

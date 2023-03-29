@@ -80,8 +80,8 @@ function Dashboard() {
 
             {email ?
                 <>
-                    <div className=" w-[calc(100%-14rem)]  float-right bg-slate-50 h-screen">
-                        <div className="dashboard-home main-profile w-4/5 mt-14 mx-auto ">
+                    <div className="float-right bg-slate-50 p-5 w-full h-screen">
+                        <div className="dashboard-home main-profile mt-14 mx-auto ">
                             <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
                                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                                     <div className="text-sm font-medium text-gray-500 truncate">

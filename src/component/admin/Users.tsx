@@ -54,9 +54,9 @@ const Users = () => {
   }, [request])
 
   return (
-    <div className=" w-[calc(100%-14rem)]  float-right h-screen bg-red bg-slate-100">
+    <div className=" w-full p-5 float-right h-screen bg-red bg-slate-100">
       <div
-        className="dashboard-home bg-white main-profile w-4/5 mt-14 mx-auto  rounded shadow-xl"
+        className="dashboard-home bg-white main-profile mt-14 mx-auto  rounded shadow-xl"
         style={{ height: '90vh' }}
       >
         <div className="w-11/12 mx-auto">

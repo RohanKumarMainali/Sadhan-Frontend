@@ -105,14 +105,14 @@ const theme = extendTheme({
               <div className="col-md-6 nav-container">
                 <nav>
                   <ul>
-                    <button className="btn">Rent Vehicle</button>
+                    <button className="btn App-navbar-text">Rent Vehicle</button>
 
-                    <button className="btn">Become Host</button>
+                    <button className="btn App-navbar-text">Become Host</button>
 
                     {state && !user?.email_verfied ? (
                       <>
                         <Link to="/dashboard">
-                          <button className="btn">Dashboard</button>
+                          <button className="btn App-navbar-text">Dashboard</button>
                         </Link>
                         <li className="login-list">
                           <button className="btn btn-primary" onClick={logout}>

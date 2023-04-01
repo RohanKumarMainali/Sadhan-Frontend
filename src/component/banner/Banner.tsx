@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import FAQ from './FAQ'
+import GradientSection from './GradientSection'
 
 //test the ssh
 let bikes = require('../../images/bikes.jpg')
@@ -138,7 +139,7 @@ function Banner() {
                             vehicles.map((item: any, index: number) => {
                                 return (
                                     <Link to={`vehicle/${item._id}`} key={index + 1}>
-                                        <div key={index}>
+                                        <div key={index} className= 'App-link'>
                                             <div className="h-60  shadow rounded-lg drop-shadow-sm">
                                                 <div
                                                     className="h-4/5"
@@ -169,6 +170,9 @@ function Banner() {
                 </div>
             </div>
             <FAQ />
+            <div className='relative h-auto'>
+                <GradientSection/>
+            </div>
         </div>
     )
 }

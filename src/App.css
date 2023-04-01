@@ -28,6 +28,51 @@
 
 .App-link {
   color: var(--link_color);
+  text-decoration: none !important;
+}
+
+.App-login {
+  background-color: var(--body_color);
+}
+/* for login modal*/
+
+.chakra-modal__close-btn {
+  color: var(--body_background);
+}
+
+.App-login-text {
+  color: var(--body_background);
+}
+.App-navbar-text {
+  color: var(--body_color) !important;
+}
+
+/* sidebar */
+.App-sidebar {
+  background-color: var(--dashboard_sidebar);
+}
+.App-sidebar-link {
+  color: var(--dashboard_link);
+}
+
+.App-sidebar-heading {
+  color: var(--dashboard_link);
+}
+
+/*
+  Dashboard theme
+  --dashboard_background: rgb(241 245 249 );
+  --dashboard_sidebar: white; 
+  --dashboard_link: #1e1926; 
+  --thirty_percent_color: #dcf2f8; 
+  --ten_percent_color: ##2d8ca2; 
+*/
+.App-dashboard{
+  background-color: var(--dashboard_background)
+}
+
+a {
+  text-decoration: none !important;
 }
 
 @keyframes App-logo-spin {

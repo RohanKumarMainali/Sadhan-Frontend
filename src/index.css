@@ -111,11 +111,35 @@ a:hover {
 :root {
   --body_background: white;
   --body_color: black;
-  --link_color: navy;
+  --link_color: black;
+  --link_color_hover: navy;
+  --button_color: #593cfb;
+  --dominant_color: #593cfb;
+
+  /* sidebar */
+
+  --dashboard_background: rgb(241 245 249 );
+  --dashboard_sidebar: white; 
+  --dashboard_link: #1e1926; 
+  --thirty_percent_color: #dcf2f8; 
+  --ten_percent_color: ##2d8ca2; 
+}
+
+a:hover{
+    color: var(--link_color_hover)
 }
 
 [data-theme='dark'] {
   --body_background: #282c34;
   --body_color: white;
-  --link_color: cyan;
+  --link_color: white;
+  --link_color_hover: cyan;
+
+  /* sidebar */
+
+  --dashboard_sidebar: #0b0033; 
+  --dashboard_link: white; 
+  --thirty_percent_color: #dcf2f8; 
+  --ten_percent_color: ##2d8ca2; 
+
 }

@@ -78,12 +78,12 @@ const Profile = () => {
   }, [])
 
   return (
-    <div className=" w-full float-right h-screen bg-red bg-slate-100 p-5">
+    <div className=" w-full float-right h-screen p-0 px-5 rounded-xl">
       <div
-        className="dashboard-home flex bg-white main-profile w-full mt-14 mx-auto  rounded shadow-xl"
+        className="dashboard-home flex bg-white main-profile w-full mx-auto  rounded shadow-xl"
         style={{ height: '90vh' }}
       >
-        <div className=" mx-auto w-full">
+        <div className=" mx-auto w-full rounded">
           <div className=" h-1/5 bg-gradient-to-r from-slate-50 to-blue-100"></div>
           <div className=" w-11/12 p-0  h-4/5 mx-auto">
             <div className="h-3/5 main ">

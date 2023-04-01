@@ -77,8 +77,8 @@ const EditVehicle = () => {
   }, [])
 
   return (
-    <div className="w-full float-right h-screen bg-red bg-slate-100 p-5">
-      <div className="dashboard-home bg-white main-profile w-full mt-14 mx-auto  rounded shadow-xl">
+    <div className="w-full float-right h-screen p-0 px-5">
+      <div className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl">
         <div className="w-11/12 mx-auto">
           <h1 className="text-left text-2xl font-semibold p-2">Edit Vehicle</h1>
         </div>

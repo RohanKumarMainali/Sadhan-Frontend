@@ -54,11 +54,12 @@ const Users = () => {
   }, [request])
 
   return (
-    <div className=" w-full p-5 float-right h-screen bg-red bg-slate-100">
+    <div className=" w-full p-0 px-5 float-right h-screen">
       <div
-        className="dashboard-home bg-white main-profile mt-14 mx-auto  rounded shadow-xl"
+        className="dashboard-home bg-white main-profile mx-auto  rounded shadow-xl"
         style={{ height: '90vh' }}
       >
+        {/* Table*/}
         <div className="w-11/12 mx-auto">
           <h1 className="text-left text-2xl font-semibold p-2">Manage Users</h1>
         </div>
@@ -93,13 +94,14 @@ const Users = () => {
                     <td className="border border-slate-300  ">
                       {moment.utc(singleUser.createdOn).format('MM/DD/YYYY')}
                     </td>
-                    <td className="border border-slate-300">{singleUser.status}</td>
+                    <td className="border border-slate-300">
+                      {singleUser.status}
+                    </td>
                     <td className="border border-slate-300 align-left ">
-
-                     <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
+                      <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
                         View
                       </button>
-                     
+
                       <button
                         className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
                         onClick={() => deleteUser(singleUser._id)}

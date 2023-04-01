@@ -22,11 +22,11 @@ import Users from './component/admin/Users'
 import AddVehicle from './component/dashboard/AddVehicle'
 import EditVehicle from './component/dashboard/EditVehicle'
 import Vehicle from './component/vehicle/Vehicle'
-import PhoneNumber from './component/kyc/PhoneNumber'
 import Footer from './component/footer/Footer'
 import Bookings from './component/dashboard/Bookings'
 import AnimatedSidebar from './component/sidebar/AnimatedSidebar'
 import RootLayout from './component/sidebar/RootLayout'
+import PhoneNumber from './component/kyc/PhoneNumber'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -62,7 +62,7 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [googleUser, setGoogleUser] = useState()
   const userData = useAuth().user
-  const theme = useState('light') 
+  const theme = useState('light')
   const { user, isAuthenticated } = useAuth()
 
   // redux
@@ -92,15 +92,15 @@ const App = () => {
       })
   }
 
-// set theme
-  const setLightMode = () =>{
-        document.querySelector("body")?.setAttribute('data-theme','light');
-      }
+  // set theme
+  const setLightMode = () => {
+    document.querySelector('body')?.setAttribute('data-theme', 'light')
+  }
 
   useEffect(() => {
     getUsers()
     dispatchRedux(getUserThunk())
-    setLightMode();
+    setLightMode()
   }, [])
 
   return (
@@ -217,11 +217,21 @@ const App = () => {
               }
             />
             <Route
-              path="/kyc-requests"
+              path="/KYC/requests"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <RootLayout>
                     <KycRequest />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/verifyKyc"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <PhoneNumber />
                   </RootLayout>
                 </ProtectedRoute>
               }

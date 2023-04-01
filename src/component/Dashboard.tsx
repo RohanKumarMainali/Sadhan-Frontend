@@ -78,7 +78,7 @@ function Dashboard() {
     <>
       {email ? (
         <>
-          <div className="float-right p-5 w-full h-screen ">
+          <div className="float-right p-0 px-5 w-full h-screen ">
             <div className="dashboard-home main-profile mx-auto ">
               <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">

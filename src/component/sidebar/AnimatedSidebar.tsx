@@ -79,9 +79,9 @@ const AnimatedSidebar = () => {
 
   const subMenusList = [
     {
-      name: 'build',
+      name: 'KYC',
       icon: RiBuilding3Line,
-      menus: ['auth', 'app settings', 'stroage', 'hosting']
+      menus: ['Requests', 'KYC-List']
     },
     {
       name: 'analytics',

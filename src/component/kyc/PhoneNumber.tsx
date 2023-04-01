@@ -74,9 +74,9 @@ const PhoneNumber = () => {
   return (
     <div>
       <div>
-        <div className=" w-[calc(100%-14rem)]  float-right h-screen bg-red bg-slate-100">
+        <div className="float-right h-screen p-0 px-5 w-full">
           <div
-            className="dashboard-home flex bg-white main-profile w-4/5 mt-14 mx-auto  rounded shadow-xl"
+            className="dashboard-home flex bg-white main-profile w-full mx-auto  rounded shadow-xl"
             style={{ height: '90vh' }}
           >
             <div className=" w-full">

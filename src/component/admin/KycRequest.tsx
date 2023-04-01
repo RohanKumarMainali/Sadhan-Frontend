@@ -100,22 +100,22 @@ const KycRequest = () => {
   }, [request])
 
   return (
-    <div className=" w-[calc(100%-14rem)]  float-right h-screen bg-red bg-slate-100">
+    <div className="float-right h-screen px-5 p-0 w-full">
       <div
-        className="dashboard-home bg-white main-profile w-4/5 mt-14 mx-auto  rounded shadow-xl"
+        className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl"
         style={{ height: '90vh' }}
       >
         {toggle ? (
           <>
-            <div className="w-11/12 mx-auto">
+            <div className="w-full m-0 p-0 px-5  mx-auto">
               <h1 className="text-left text-2xl font-semibold p-2">
                 Kyc Requests
               </h1>
             </div>
             {user.length == 0 && <>No Kyc Requests Found</>}
             {user.length != 0 && (
-              <div>
-                <table className="table-auto mt-3 w-11/12 mx-auto rounded-xl shadow-xl bg-slate-100 border-collapse border border border-slate-400">
+              <div className= 'px-5'>
+                <table className="table-auto mt-3 w-full mx-auto rounded-xl shadow-xl bg-slate-100 border-collapse border border border-slate-400">
                   <thead>
                     <tr>
                       <th>Id</th>

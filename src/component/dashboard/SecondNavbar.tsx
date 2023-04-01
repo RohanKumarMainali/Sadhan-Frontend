@@ -6,7 +6,7 @@ function SecondNavbar() {
   return (
     <>
       <div
-        className="h-2/5 varient-gradient "
+        className="h-80 varient-gradient z-999"
         style={{
           background:
             'linear-gradient(0deg, rgba(89,60,240,1) 3%, rgba(255,255,255,0) 100%)'

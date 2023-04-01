@@ -90,9 +90,9 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
   }
 
   return (
-    <>
+    <div className= 'h-auto bg-white'>
       <div className="main flex justify-between ">
-        <div className="sub-details p-4 mt-5 flex float-left bg-blue-50 w-2/6 space-x-24 justify-center ">
+        <div className="sub-details p-4 mt-5 flex float-left w-2/6 space-x-24 justify-center ">
           <div className="left-info w-full">
             <div className="basic-info  flex">
               <div className="verify-left w-1/2">
@@ -117,7 +117,7 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
           </div>
         </div>
 
-        <div className="p-4 mt-5  bg-blue-50 w-2/6 space-x-24 justify-center ">
+        <div className="p-4 mt-5  w-2/6 space-x-24 justify-center ">
           <div className="citizenship-details ">
             <div className="left-info w-full">
               <div className="basic-info  flex">
@@ -144,7 +144,7 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
           </div>
         </div>
 
-        <div className="p-4 mt-5  bg-blue-50 w-2/6 space-x-24 justify-center ">
+        <div className="p-4 mt-5  w-2/6 space-x-24 justify-center ">
           <div className="citizenship-details ">
             <div className="left-info w-full">
               <div className="basic-info  flex">
@@ -190,7 +190,7 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
       >
         Approve
       </button>
-    </>
+    </div>
   )
 }
 

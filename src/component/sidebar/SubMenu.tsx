@@ -13,7 +13,7 @@ const SubMenu = ({ data }:any) => {
         onClick={() => setSubMenuOpen(!subMenuOpen)}
       >
         <data.icon size={23} className="min-w-max" />
-        <p className="flex-1 capitalize">{data.name}</p>
+        <p className="flex-1 capitalize m-0">{data.name}</p>
         <IoIosArrowDown
           className={` ${subMenuOpen && 'rotate-180'} duration-200 `}
         />

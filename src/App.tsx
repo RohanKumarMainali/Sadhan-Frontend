@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext, useReducer } from 'react'
 import './App.css'
+import './index.css'
 import {
   Navigate,
   BrowserRouter as Router,
@@ -61,6 +62,7 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [googleUser, setGoogleUser] = useState()
   const userData = useAuth().user
+  const theme = useState('light') 
   const { user, isAuthenticated } = useAuth()
 
   // redux
@@ -89,9 +91,16 @@ const App = () => {
         console.log('Loggin is not using social links')
       })
   }
+
+// set theme
+  const setLightMode = () =>{
+        document.querySelector("body")?.setAttribute('data-theme','light');
+      }
+
   useEffect(() => {
     getUsers()
     dispatchRedux(getUserThunk())
+    setLightMode();
   }, [])
 
   return (

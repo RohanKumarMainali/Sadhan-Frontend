@@ -66,6 +66,17 @@ function Bookings() {
                     Vehicle Name
                   </th>
                   <th scope="col" className="px-6 py-3">
+                    Model
+                  </th>
+
+                  <th scope="col" className="px-6 py-3">
+                    Vehicle Number
+                  </th>
+
+                  <th scope="col" className="px-6 py-3">
+                    Price/Day
+                  </th>
+                  <th scope="col" className="px-6 py-3">
                     Start Date
                   </th>
                   <th scope="col" className="px-6 py-3">
@@ -75,7 +86,7 @@ function Bookings() {
                     Status
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Amount
+                    Total Amount
                   </th>
                 </tr>
               </thead>
@@ -87,8 +98,17 @@ function Bookings() {
                       key={index}
                     >
                       <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Apple Macbook
+                        {booking.vehicleName}
                       </th>
+                      <td className="px-6 py-4">
+                        {booking.vehicleModel}
+                      </td>
+                      <td className="px-6 py-4">
+                        {booking.vehicleNumber}
+                      </td>
+                      <td className="px-6 py-4">
+                        {'Rs '+ booking.vehiclePrice}
+                      </td>
                       <td className="px-6 py-4">
                         {moment(booking.startdate).format('MMMM DD, YYYY')}
                       </td>

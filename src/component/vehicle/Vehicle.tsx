@@ -12,10 +12,18 @@ const Vehicle = () => {
   const parser = require('html-react-parser')
   const [id, setId] = useState(useParams().id)
   const [userId, setUserId] = useState('')
+  const [userName, setUserName] = useState('')
   const [vehicle, setVehicle] = useState([])
   const [vehicleId, setVehicleId] = useState('')
+  const [vehicleName, setVehicleName] = useState('')
+  const [vehicleNumber, setVehicleNumber] = useState('')
+  const [vehicleModel, setVehicleModel] = useState('')
+  const [vehiclePrice, setVehiclePrice] = useState(0)
+
   const [loading, setLoading] = useState(true)
   const [amount, setAmount] = useState(0)
+
+
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [bookedDates, setBookedDates] = useState([])
@@ -28,6 +36,10 @@ const Vehicle = () => {
       setVehicle(response.data.data)
       console.log(response.data.data)
       setVehicleId(response.data.data[0]._id)
+      setVehicleName(response.data.data[0].name)
+      setVehicleNumber(response.data.data[0].name)
+      setVehicleModel(response.data.data[0].model)
+      setVehiclePrice(response.data.data[0].price)
       setLoading(false)
       getBookings(response.data.data[0]._id)
     } catch (error: any) {
@@ -48,6 +60,7 @@ const Vehicle = () => {
       let details = response.data.payload
       console.log(details)
       setUserId(details.id)
+      setUserName(`${details.firstName} ${details.lastName}`)
     } catch (error: any) {
       console.log(error)
     }
@@ -76,9 +89,12 @@ const Vehicle = () => {
 
   const bookVehicle = async (amount: number) => {
     try {
-      console.log(userId)
-      console.log(vehicleId)
       const response = await axios.post(`${url}/bookVehicle`, {
+        vehicleName,
+        userName,
+        vehicleModel,
+        vehiclePrice,
+        vehicleNumber,
         startDate,
         endDate,
         userId,
@@ -264,7 +280,7 @@ const Vehicle = () => {
                         </label>
                       )}
                       {bookedDates.map((booking: any, index: number) => (
-                        <div key={index} className='p-4 flex justify-between'>
+                        <div key={index} className='p-0 px-2 flex justify-between'>
                           <div className= ''>
                           {moment(booking.startDate).format('MMMM Do YYYY')}
                           </div>

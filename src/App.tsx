@@ -12,6 +12,7 @@ import Navbar from './component/navbar/Navbar'
 import Dashboard from './component/Dashboard'
 import SignInSide from './component/admin/SignInSide'
 import KycRequest from './component/admin/KycRequest'
+import AllKycRequest from './component/admin/AllKycRequest'
 import Sidebar from './component/dashboard/Sidebar'
 import Profile from './component/dashboard/Profile'
 import Vehicles from './component/dashboard/Vehicles'
@@ -226,6 +227,17 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/KYC/KYC-List"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <AllKycRequest />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/dashboard/verifyKyc"
               element={

@@ -204,7 +204,7 @@ export const LoginModal = ({ show, close }: Props) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader><label className='App-login-text'>Login</label></ModalHeader>
+          <ModalHeader><label className=''>Login</label></ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={10} className="login-body">
             <Formik
@@ -219,10 +219,10 @@ export const LoginModal = ({ show, close }: Props) => {
               {({ errors, touched, isValidating }) => (
                 <Form>
                   <FormControl>
-                    <FormLabel className='App-login-text'>Email</FormLabel>
+                    <FormLabel >Email</FormLabel>
                     <Field
                       name="email"
-                      className=" App-login-text w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                      className=" w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
                       placeholder="email"
                       validate={validateEmail}
                     />
@@ -233,10 +233,10 @@ export const LoginModal = ({ show, close }: Props) => {
                     )}
                   </FormControl>
                   <FormControl mt={4}>
-                    <FormLabel className= 'App-login-text'>Password</FormLabel>
+                    <FormLabel className= ''>Password</FormLabel>
                     <Field
                       type="password"
-                      className="w-full border App-login-text border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                      className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
                       placeholder="password"
                       name="password"
                       validate={validatePassword}
@@ -252,7 +252,7 @@ export const LoginModal = ({ show, close }: Props) => {
                     Login
                   </button>
                   <FormControl mt={1}>
-                    <label className="flex flex-row text-sm App-login-text">
+                    <label className="flex flex-row text-sm ">
                       Forgot Password ?{' '}
                       <Link
                         to="/forgot-password-email"

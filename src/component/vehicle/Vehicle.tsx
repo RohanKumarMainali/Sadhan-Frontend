@@ -304,7 +304,7 @@ const Vehicle = () => {
                   </div>
                 </div>
                 <div className="description mb-5">
-                  <h2 className="text-xl py-4 text-left">Description</h2>
+                  <h2 className="text-xl text-left">Description</h2>
                   <p className="text-left">{parser(item.description)}</p>
                 </div>
               </div>

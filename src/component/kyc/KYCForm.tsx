@@ -81,7 +81,7 @@ const KYCForm = () => {
   return (
     <div>
       <div className="w-full mx-auto mt-3 flex flex-col justify-center items-center">
-        <div className="content w-full ">
+        <div className="content w-full h-auto">
           <Formik
             initialValues={{
               firstName: '',
@@ -120,7 +120,7 @@ const KYCForm = () => {
               values,
               setFieldValue
             }) => (
-              <Form className=" flex flex-col gap-4 w-5/6 h-5/6 mx-auto mt-3 py-5">
+              <Form className=" flex flex-col gap-4 w-5/6 h-auto mx-auto mt-3 py-5">
                 <div className="flex justify-between">
                   <div className="flex flex-col w-1/5">
                     <label className="text-left">First Name</label>

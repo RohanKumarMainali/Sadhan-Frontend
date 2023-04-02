@@ -59,6 +59,12 @@
   color: var(--dashboard_link);
 }
 
+/* completed button color */
+
+.App-completed{
+    color: var(--dominant_color)
+}
+
 /*
   Dashboard theme
   --dashboard_background: rgb(241 245 249 );

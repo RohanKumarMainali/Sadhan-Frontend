@@ -63,6 +63,8 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
   const url = 'http://localhost:5000/api'
   const navigate = useNavigate()
 
+// approve KYC ----------------------------------
+//
   const approveKyc = async () => {
     try {
       const response = await axios.post(
@@ -84,13 +86,37 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
     }
   }
 
+// rejcet KYC ----------------------------------
+  const rejectKyc = async () => {
+    try {
+      const response = await axios.post(
+        `${url}/rejectKyc`,
+        { id: id },
+        {
+          withCredentials: true,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      toast.success('User rejected successfully')
+
+      // navigate to dashboard
+    } catch (error: any) {
+      showMessage(error.message, 400)
+    }
+  }
+
+
+  // toastify 
   const showMessage = async (message: string, statusCode: number) => {
     if (statusCode == 201 || statusCode == 200) await toast.success(message)
     else await toast.error(message)
   }
 
   return (
-    <div className= 'h-auto bg-white'>
+    <div className="h-auto bg-white">
       <div className="main flex justify-between ">
         <div className="sub-details p-4 mt-5 flex float-left w-2/6 space-x-24 justify-center ">
           <div className="left-info w-full">
@@ -176,20 +202,22 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
           </div>
         </div>
       </div>
-
-      <button
-        className="mr-5 bg-danger float-left confirmKycButton mt-4"
-        style={{ width: '15%' }}
-      >
-        Reject
-      </button>
-      <button
-        className="mr-5 float-left confirmKycButton mt-4"
-        style={{ width: '15%' }}
-        onClick={approveKyc}
-      >
-        Approve
-      </button>
+      <div className="mb-20 important">
+        <button
+          className="mr-5 bg-danger float-left confirmKycButton mt-4"
+          style={{ width: '15%' }}
+          onClick={rejectKyc}
+        >
+          Reject
+        </button>
+        <button
+          className="mr-5 float-left confirmKycButton mt-4"
+          style={{ width: '15%' }}
+          onClick={approveKyc}
+        >
+          Approve
+        </button>
+      </div>
     </div>
   )
 }

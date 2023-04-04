@@ -61,7 +61,6 @@ export const LoginModal = ({ show, close }: Props) => {
 
   const login = async (formik: loginType) => {
     try {
-      console.log('button clicked')
       const payload = { email: formik.email, password: formik.password }
       const response = await axios.post(`${url}/user/login`, payload, {
         withCredentials: true,
@@ -104,8 +103,8 @@ export const LoginModal = ({ show, close }: Props) => {
 
   const url = 'http://localhost:5000/api'
 
-  const storeAuthentication = (user: any) => {
-    localStorage.setItem('user', JSON.stringify(user))
+  const storeAuthentication =async (user: any) => {
+    await localStorage.setItem('user', JSON.stringify(user))
   }
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
     // name-> e.target.name

@@ -61,7 +61,6 @@ export const UserContext = createContext<{
 })
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [googleUser, setGoogleUser] = useState()
   const userData = useAuth().user
   const theme = useState('light')
   const { user, isAuthenticated } = useAuth()
@@ -85,7 +84,6 @@ const App = () => {
         throw new Error('authentication has been failed!')
       })
       .then(resObject => {
-        setGoogleUser(resObject.user)
         localStorage.setItem('user', JSON.stringify(resObject.user))
       })
       .catch(err => {
@@ -123,7 +121,7 @@ const App = () => {
               path="/"
               element={
                 <>
-                  <Navbar user={googleUser} />
+                  <Navbar />
                   <Home />
                   <Footer />
                 </>
@@ -133,7 +131,7 @@ const App = () => {
               path="/vehicle/:id"
               element={
                 <>
-                  <Navbar user={googleUser} /> <Vehicle />
+                  <Navbar  /> <Vehicle />
                   <Footer />
                 </>
               }

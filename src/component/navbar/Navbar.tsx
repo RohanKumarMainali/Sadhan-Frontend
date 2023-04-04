@@ -8,15 +8,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import LoginModal from '../modal/LoginModal'
 import { CgProfile } from 'react-icons/cg'
 import { UserContext } from '../../App'
-import { ChakraProvider, extendTheme, VStack, Box } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme, VStack, Box } from '@chakra-ui/react'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { logoutAuth, getUserThunk } from '../../features/login/loginSlice'
 
 let logo = require('../../images/newLogo.png')
 
-function Navbar({ user }: any) {
-  const { state, dispatch } = useContext(UserContext)
+function Navbar() {
   const search = useRef<HTMLInputElement>(null)
   const [showLogin, setShowLogin] = useState(false)
 
@@ -27,15 +26,6 @@ function Navbar({ user }: any) {
     dispatchRedux(logoutAuth())
   }
 
-const theme = extendTheme({
-  styles: {
-    global: () => ({
-      body: {
-        bg: ""
-      }
-    })
-  }
-});
   const url = 'http://localhost:5000/api'
   const getUser = async () => {
     try {
@@ -68,7 +58,6 @@ const theme = extendTheme({
       withCredentials: true
     })
     localStorage.clear()
-    dispatch({ type: 'USER', payload: false })
     changeLoginState()
   }
   useEffect(() => {
@@ -105,14 +94,18 @@ const theme = extendTheme({
               <div className="col-md-6 nav-container">
                 <nav>
                   <ul>
-                    <button className="btn App-navbar-text">Rent Vehicle</button>
+                    <button className="btn App-navbar-text">
+                      Rent Vehicle
+                    </button>
 
                     <button className="btn App-navbar-text">Become Host</button>
 
-                    {state && !user?.email_verfied ? (
+                    {loginDetail ? (
                       <>
                         <Link to="/dashboard">
-                          <button className="btn App-navbar-text">Dashboard</button>
+                          <button className="btn App-navbar-text">
+                            Dashboard
+                          </button>
                         </Link>
                         <li className="login-list">
                           <button className="btn btn-primary" onClick={logout}>
@@ -120,15 +113,6 @@ const theme = extendTheme({
                           </button>
                         </li>
                       </>
-                    ) : user ? (
-                      <li className="login-list">
-                        <button
-                          className="btn btn-primary"
-                          onClick={logoutGoogle}
-                        >
-                          Logout
-                        </button>
-                      </li>
                     ) : (
                       <button
                         className="btn btn-primary"

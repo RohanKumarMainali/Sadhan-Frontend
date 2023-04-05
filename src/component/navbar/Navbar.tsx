@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useMemo, useEffect, useState, useContext } from 'react'
 import './Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -9,14 +9,17 @@ import LoginModal from '../modal/LoginModal'
 import { CgProfile } from 'react-icons/cg'
 import { UserContext } from '../../App'
 import { ChakraProvider, extendTheme, VStack, Box } from '@chakra-ui/react'
-
+import { debounce } from 'lodash'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { logoutAuth, getUserThunk } from '../../features/login/loginSlice'
+import SearchResults from './SearchResults'
 
 let logo = require('../../images/newLogo.png')
 
 function Navbar() {
   const search = useRef<HTMLInputElement>(null)
+  const [searchInput, setSearchInput] = useState('')
+  const [vehicles, setVehicles] = useState([])
   const [showLogin, setShowLogin] = useState(false)
 
   const loginDetail = useAppSelector(state => state.login.loggedIn)
@@ -60,10 +63,41 @@ function Navbar() {
     localStorage.clear()
     changeLoginState()
   }
+
+  // handle Click for search bar
+  // get search result and store in vehicles array
+
+  const searchVehicle = async (name: string) => {
+    if (name) {
+      const { data } = await axios.get(`${url}/search/?name=${name}`)
+      setVehicles(data.data)
+    }
+    else setVehicles([])
+  }
+
+  // handleSearchInput
+
+  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value
+    searchVehicle(query)
+  }
+
+  // useMemo to memoize return value from debounce function
+
+  const debouncedResults = useMemo(() => {
+    return debounce(handleSearchInput, 1000)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      debouncedResults.cancel()
+    }
+  })
+
   useEffect(() => {
     getUser()
     dispatchRedux(getUserThunk())
-  })
+  }, [])
 
   return (
     <ChakraProvider resetCSS={false}>
@@ -77,19 +111,25 @@ function Navbar() {
                 </Link>
               </div>
               <div className="col-md-3">
-                <form action="" className="navbar-form">
+                <form action="" className="navbar-form relative">
                   <input
                     type="text"
                     ref={search}
                     onClick={focusSearch}
                     className="navbar-search-input"
                     placeholder="Search Vehicle ..."
+                    onChange={debouncedResults}
                     required
                   />
                   <i className="fa">
                     <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
                   </i>
+
+
                 </form>
+
+
+                  <SearchResults  results={vehicles}/>
               </div>
               <div className="col-md-6 nav-container">
                 <nav>

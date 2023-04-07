@@ -28,6 +28,7 @@ import Bookings from './component/dashboard/Bookings'
 import AnimatedSidebar from './component/sidebar/AnimatedSidebar'
 import RootLayout from './component/sidebar/RootLayout'
 import PhoneNumber from './component/kyc/PhoneNumber'
+import SearchVehicle from './component/search/SearchVehicle'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -131,7 +132,18 @@ const App = () => {
               path="/vehicle/:id"
               element={
                 <>
-                  <Navbar  /> <Vehicle />
+                  <Navbar />
+                  <Vehicle />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <>
+                  <Navbar /> 
+                  <SearchVehicle />
                   <Footer />
                 </>
               }

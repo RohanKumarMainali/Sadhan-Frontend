@@ -21,9 +21,12 @@ function Navbar() {
   const [searchInput, setSearchInput] = useState('')
   const [vehicles, setVehicles] = useState([])
   const [showLogin, setShowLogin] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
 
   const loginDetail = useAppSelector(state => state.login.loggedIn)
   const dispatchRedux = useAppDispatch()
+
+  const navigate = useNavigate();
 
   function changeLoginState() {
     dispatchRedux(logoutAuth())
@@ -71,8 +74,7 @@ function Navbar() {
     if (name) {
       const { data } = await axios.get(`${url}/search/?name=${name}`)
       setVehicles(data.data)
-    }
-    else setVehicles([])
+    } else setVehicles([])
   }
 
   // handleSearchInput
@@ -87,6 +89,15 @@ function Navbar() {
   const debouncedResults = useMemo(() => {
     return debounce(handleSearchInput, 1000)
   }, [])
+
+  // on enter click in search bar
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if(event.key === 'Enter'){
+          event.preventDefault();
+          navigate(`/search?name=${event.currentTarget.value}`)}
+        
+      }
 
   useEffect(() => {
     return () => {
@@ -119,17 +130,15 @@ function Navbar() {
                     className="navbar-search-input"
                     placeholder="Search Vehicle ..."
                     onChange={debouncedResults}
+                    onKeyPress = {handleKeyPress}
                     required
                   />
                   <i className="fa">
                     <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
                   </i>
-
-
                 </form>
 
-
-                  <SearchResults  results={vehicles}/>
+                <SearchResults results={vehicles} />
               </div>
               <div className="col-md-6 nav-container">
                 <nav>

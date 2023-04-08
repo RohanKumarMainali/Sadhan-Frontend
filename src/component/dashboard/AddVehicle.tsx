@@ -209,6 +209,7 @@ const AddVehicle = () => {
                   <label className="text-left">Vehicle Image</label>
                   <input
                     type="file"
+                    multiple
                     className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
                     name="images"
                     onChange={(e: any) => {

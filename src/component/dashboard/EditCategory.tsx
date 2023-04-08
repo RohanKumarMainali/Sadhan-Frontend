@@ -14,7 +14,7 @@ interface categoryType {
   image: any
 }
 
-const AddCategory = () => {
+const EditCategory = () => {
   const [image, setImage] = useState('')
   const [userId, setUserId] = useState('')
   const [categories, setCategories] = useState([])
@@ -185,4 +185,4 @@ const AddCategory = () => {
   )
 }
 
-export default AddCategory
+export default EditCategory

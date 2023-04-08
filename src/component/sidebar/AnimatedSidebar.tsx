@@ -16,6 +16,7 @@ import { GiSteeringWheel } from 'react-icons/gi'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { FaUsers, FaFileSignature } from 'react-icons/fa'
 import { RiMotorbikeFill } from 'react-icons/ri'
+import { MdOutlineCategory } from 'react-icons/md'
 
 import { useMediaQuery } from 'react-responsive'
 import { MdMenu } from 'react-icons/md'
@@ -176,7 +177,7 @@ const AnimatedSidebar = () => {
                     Users
                   </NavLink>
                   <NavLink to={'/categories'} className="link App-sidebar-link">
-                    <FaUsers size={23} className="min-w-max" />
+                    <MdOutlineCategory  size={23} className="min-w-max" />
                     Categories
                   </NavLink>
                 </>

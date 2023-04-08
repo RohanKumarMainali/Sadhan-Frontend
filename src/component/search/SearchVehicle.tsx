@@ -40,11 +40,11 @@ function SearchVehicle() {
   return (
     <>
       <div className="container flex  gap-3 mt-5">
-        <div className="w-1/4 rounded border-gray-200 shadow-sm h-auto">
+        <div className="w-1/5 p-3 rounded border-gray-200 shadow-sm h-fit !important">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
-                className="block text-gray-700 font-bold mb-2"
+                className=" text-left block text-gray-700 font-bold mb-2"
                 htmlFor="category"
               >
                 Category
@@ -63,7 +63,7 @@ function SearchVehicle() {
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 font-bold mb-2"
+                className="block text-left text-gray-700 font-bold mb-2"
                 htmlFor="priceRange"
               >
                 Price Range
@@ -73,7 +73,6 @@ function SearchVehicle() {
                 <span>₹{priceRange.max}</span>
               </div>
             </div>
-            <MultiSelect />
             {/* repeat the above for the other filters */}
             <div className="mt-8">
               <button
@@ -108,7 +107,7 @@ function SearchVehicle() {
                         .replace(/&nbsp;/g, '')
                         .slice(0, 150) + '...........'}
                     </p>
-                    <VehicleCardFooter milege={vehicle.milage} price={vehicle.price}/>
+                    <VehicleCardFooter location={vehicle.location} price={vehicle.price}/>
                   </div>
                 </Link>
               </div>

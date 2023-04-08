@@ -18,7 +18,7 @@ function MultiSelectInput() {
 
   return (
     <div className="w-full max-w-md">
-      <label className="block text-gray-700 font-bold mb-2">Select Fruits:</label>
+      <label className="block text-gray-700 text-left font-bold mb-2">Select Fruits:</label>
       <Select
         options={options}
         isMulti

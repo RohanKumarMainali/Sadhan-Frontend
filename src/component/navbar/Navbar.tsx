@@ -98,6 +98,7 @@ function Navbar() {
     if (event.key === 'Enter') {
       event.preventDefault()
       navigate(`/search?name=${event.currentTarget.value}`)
+      setSearchVisible(false)
     }
   }
 
@@ -187,14 +188,14 @@ function Navbar() {
                           </button>
                         </Link>
                         <li className="login-list">
-                          <button className="btn btn-primary" onClick={logout}>
+                          <button className="btn App-btn" onClick={logout}>
                             Logout
                           </button>
                         </li>
                       </>
                     ) : (
                       <button
-                        className="btn btn-primary"
+                        className="btn App-btn"
                         onClick={() => setShowLogin(true)}
                       >
                         Login

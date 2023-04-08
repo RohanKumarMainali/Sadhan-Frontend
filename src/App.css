@@ -34,6 +34,10 @@
 .App-login {
   background-color: var(--body_color);
 }
+
+.Footer-link {
+  color: var(--footer_link_color);
+}
 /* for login modal*/
 
 .chakra-modal__close-btn {
@@ -61,10 +65,18 @@
 
 /* completed button color */
 
-.App-completed{
-    color: var(--dominant_color)
+.App-completed {
+  color: var(--dominant_color);
 }
 
+.App-btn {
+  background-color: var(--dominant_color) !important;
+  color: white !important;
+}
+
+.App-icons {
+  color: var(--thirty_percent_color) !important;
+}
 /*
   Dashboard theme
   --dashboard_background: rgb(241 245 249 );
@@ -73,8 +85,8 @@
   --thirty_percent_color: #dcf2f8; 
   --ten_percent_color: ##2d8ca2; 
 */
-.App-dashboard{
-  background-color: var(--dashboard_background)
+.App-dashboard {
+  background-color: var(--dashboard_background);
 }
 
 a {

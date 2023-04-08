@@ -118,15 +118,17 @@ a:hover {
 
   /* sidebar */
 
-  --dashboard_background: rgb(241 245 249 );
-  --dashboard_sidebar: white; 
-  --dashboard_link: #1e1926; 
-  --thirty_percent_color: #dcf2f8; 
-  --ten_percent_color: ##2d8ca2; 
+  --dashboard_background: rgb(241 245 249);
+  --dashboard_sidebar: white;
+  --dashboard_link: #1e1926;
+  --thirty_percent_color: #9dd1f1;
+  --ten_percent_color: #2d8ca2;
 }
 
-a:hover{
-    color: var(--link_color_hover)
+/*#dcf2f8; */
+
+a:hover {
+  color: var(--link_color_hover);
 }
 
 [data-theme='dark'] {
@@ -137,9 +139,8 @@ a:hover{
 
   /* sidebar */
 
-  --dashboard_sidebar: #0b0033; 
-  --dashboard_link: white; 
-  --thirty_percent_color: #dcf2f8; 
-  --ten_percent_color: ##2d8ca2; 
-
+  --dashboard_sidebar: #0b0033;
+  --dashboard_link: white;
+  --thirty_percent_color: #dcf2f8;
+  --ten_percent_color: ##2d8ca2;
 }

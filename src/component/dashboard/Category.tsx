@@ -4,12 +4,9 @@ import { useEffect, useState, useRef ,useMemo} from 'react'
 import { useTable } from "react-table";
 import { ToastContainer, toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 import { Formik, Form, Field } from 'formik'
-import { useParams } from 'react-router-dom'
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
+import moment from 'moment'
 
 interface passwordType {
   oldPassword: string
@@ -19,7 +16,7 @@ interface passwordType {
 interface userType {
   id: string
 }
-function Vehicles() {
+function Categories() {
   const url = 'http://localhost:5000/api'
   const [vehicles, setVehicles] = useState([])
   const [showModal, setShowModal] = useState(false)
@@ -141,9 +138,9 @@ function Vehicles() {
           </tbody>
         </table>
         <div className=" mt-3 w-11/12 mx-auto">
-          <Link to="/dashboard-vehicles/addVehicle">
+          <Link to="/categories/addCategory">
             <button className="border float-left py-2 px-1 text-white rounded App-btn btn text-xs font-medium">
-              Add vehicle
+              Add Category
             </button>
           </Link>
         </div>
@@ -237,4 +234,4 @@ function Vehicles() {
   )
 }
 
-export default Vehicles
+export default Categories

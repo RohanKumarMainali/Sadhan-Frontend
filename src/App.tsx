@@ -29,6 +29,8 @@ import AnimatedSidebar from './component/sidebar/AnimatedSidebar'
 import RootLayout from './component/sidebar/RootLayout'
 import PhoneNumber from './component/kyc/PhoneNumber'
 import SearchVehicle from './component/search/SearchVehicle'
+import Categories from './component/dashboard/Category'
+import AddCategory from './component/dashboard/AddCategory'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -197,6 +199,17 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/categories"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <Categories />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/change-password"
               element={
@@ -268,6 +281,17 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+             <Route
+              path="/categories/addCategory"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <AddCategory />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/dashboard-vehicles/editVehicle/:id"
               element={

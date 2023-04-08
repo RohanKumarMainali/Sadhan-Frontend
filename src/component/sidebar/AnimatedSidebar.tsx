@@ -170,10 +170,16 @@ const AnimatedSidebar = () => {
             </li>
             <li>
               {role == 'admin' && (
-                <NavLink to={'/users'} className="link App-sidebar-link">
-                  <FaUsers size={23} className="min-w-max" />
-                  Users
-                </NavLink>
+                <>
+                  <NavLink to={'/users'} className="link App-sidebar-link">
+                    <FaUsers size={23} className="min-w-max" />
+                    Users
+                  </NavLink>
+                  <NavLink to={'/categories'} className="link App-sidebar-link">
+                    <FaUsers size={23} className="min-w-max" />
+                    Categories
+                  </NavLink>
+                </>
               )}
               <NavLink
                 to={'/dashboard-vehicles'}
@@ -188,7 +194,7 @@ const AnimatedSidebar = () => {
               </NavLink>
             </li>
 
-            {(open || isTabletMid) && (role == 'admin') && (
+            {(open || isTabletMid) && role == 'admin' && (
               <div className="border-y py-5 border-slate-300 ">
                 <small className="pl-3 text-slate-500 inline-block mb-2">
                   Product categories
@@ -210,7 +216,7 @@ const AnimatedSidebar = () => {
           {open && (
             <div className="flex-1 text-sm z-50  max-h-48 my-auto  whitespace-pre   w-full  font-medium  ">
               <div className="flex border-y border-slate-300 p-4 items-center justify-between">
-                <div className=''>
+                <div className="">
                   <p>Spark</p>
                   <small>No-cost $0/month</small>
                 </div>

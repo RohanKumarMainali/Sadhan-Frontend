@@ -18,15 +18,16 @@ let logo = require('../../images/newLogo.png')
 
 function Navbar() {
   const search = useRef<HTMLInputElement>(null)
+  const searchResultDiv = useRef<HTMLDivElement>(null)
   const [searchInput, setSearchInput] = useState('')
   const [vehicles, setVehicles] = useState([])
   const [showLogin, setShowLogin] = useState(false)
-  const [showSearch, setShowSearch] = useState(false)
+  const [searchVisible, setSearchVisible] = useState(true)
 
   const loginDetail = useAppSelector(state => state.login.loggedIn)
   const dispatchRedux = useAppDispatch()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   function changeLoginState() {
     dispatchRedux(logoutAuth())
@@ -49,6 +50,7 @@ function Navbar() {
 
   const focusSearch = () => {
     search.current?.focus()
+    setSearchVisible(true)
   }
 
   const google = () => {
@@ -93,11 +95,32 @@ function Navbar() {
   // on enter click in search bar
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if(event.key === 'Enter'){
-          event.preventDefault();
-          navigate(`/search?name=${event.currentTarget.value}`)}
-        
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      navigate(`/search?name=${event.currentTarget.value}`)
+    }
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // if user clicks outside the search div
+      if (
+        searchResultDiv.current &&
+        (!searchResultDiv.current.contains(event.target as Node))
+      ) {
+          console.log('clicked')
+        setSearchVisible(false)
       }
+    }
+
+    // bind this event
+    document.addEventListener('mousedown', handleClickOutside)
+
+    // remove event listener when component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [searchResultDiv])
 
   useEffect(() => {
     return () => {
@@ -130,7 +153,7 @@ function Navbar() {
                     className="navbar-search-input"
                     placeholder="Search Vehicle ..."
                     onChange={debouncedResults}
-                    onKeyPress = {handleKeyPress}
+                    onKeyPress={handleKeyPress}
                     required
                   />
                   <i className="fa">
@@ -138,7 +161,14 @@ function Navbar() {
                   </i>
                 </form>
 
-                <SearchResults results={vehicles} />
+                {searchVisible && (
+                <div ref={searchResultDiv}>
+                  <SearchResults results={vehicles}
+                  // when a user clicks on any search list, make the search result invisible
+                
+                  onListItemClick={()=>setSearchVisible(false)} />
+                </div>
+                )}
               </div>
               <div className="col-md-6 nav-container">
                 <nav>

@@ -7,7 +7,15 @@ import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import KhaltiCheckout from 'khalti-checkout-web'
 import VehicleSkeleton from '../skeleton/VehicleSkeleton'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/navigation'
+
+// import required modules
+import { Navigation } from 'swiper'
+import 'swiper/css'
 const Vehicle = () => {
   const parser = require('html-react-parser')
   const [id, setId] = useState(useParams().id)
@@ -22,7 +30,6 @@ const Vehicle = () => {
 
   const [loading, setLoading] = useState(true)
   const [amount, setAmount] = useState(0)
-
 
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
@@ -102,7 +109,7 @@ const Vehicle = () => {
         amount
       })
       console.log(response)
-      showMessage("Vehicle Booked Successfully!",200)
+      showMessage('Vehicle Booked Successfully!', 200)
       return response.data.bookingDetail._id
     } catch (error: any) {
       showMessage(error.response.data.message, 400)
@@ -120,7 +127,6 @@ const Vehicle = () => {
 
   // khalti configuration
   let config = {
-
     // replace this key with yours
     publicKey: 'test_public_key_707fd3948d384680ac905e50372648f5',
     productIdentity: '1234567890',
@@ -169,7 +175,6 @@ const Vehicle = () => {
   let khalti = new KhaltiCheckout(config)
   const showCheckout = (amount: number) => {
     // converting paisa into rupees
-    
 
     khalti.show({ amount: amount })
   }
@@ -193,17 +198,40 @@ const Vehicle = () => {
               </div>
 
               <div className="body h-4/5 flex justify-between">
-                <div
-                  className="image w-8/12 h-3/4 bg-green-200 rounded-sm drop-shadow-sm bg-rounded"
-                  style={{
-                    backgroundImage: `url(${item.carImages[0].url})`,
-                    maxWidth: '100%',
-                    height: '60vh',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'top'
-                  }}
-                ></div>
+              <div className="w-8/12 h-3/4 ">
+                <Swiper
+                  navigation={true}
+                  loop={true}
+                  modules={[Navigation]}
+                  className="mySwiper"
+                >
+
+                  {item.carImages.map((image: any, index: number) => {
+                    return (
+                      <>
+                        <SwiperSlide>
+                          <div className="cursor-pointer transition duration-1000 ease-linear h-3/4 position-relative">
+                            <div
+                              className="image w-full h-3/4 bg-green-200 rounded-sm drop-shadow-sm bg-rounded "
+                              style={{
+                                backgroundImage: `url(${image.url})`,
+                                maxWidth: '100%',
+                                height: '60vh',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'top'
+                              }}
+                            >
+                            </div>
+                            <span className="gridlove-hidden-overlay" />
+                          </div>
+                        </SwiperSlide>
+                      </>
+                    )
+                  })}
+                </Swiper>
+                </div>
+
                 <div className="booking w-3/12 h-3/4 rounded-xl bg-white drop-shadow-lg py-4">
                   <div className="content date ">
                     <h1 className="text-xl font-semibold py-2">Duration</h1>
@@ -280,16 +308,18 @@ const Vehicle = () => {
                         </label>
                       )}
                       {bookedDates.map((booking: any, index: number) => (
-                        <div key={index} className='p-0 px-2 flex justify-between'>
-                          <div className= ''>
-                          {moment(booking.startDate).format('MMMM Do YYYY')}
+                        <div
+                          key={index}
+                          className="p-0 px-2 flex justify-between"
+                        >
+                          <div className="">
+                            {moment(booking.startDate).format('MMMM Do YYYY')}
                           </div>
-                          <div className= ''>
-                          <span>To</span>
+                          <div className="">
+                            <span>To</span>
                           </div>
-                          <div className= ''>
-
-                          {moment(booking.endDate).format('MMMM Do YYYY')}
+                          <div className="">
+                            {moment(booking.endDate).format('MMMM Do YYYY')}
                           </div>
                         </div>
                       ))}

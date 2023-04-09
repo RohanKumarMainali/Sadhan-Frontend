@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
+import { GiCancel } from 'react-icons/gi'
 import '../../index.css'
 
 interface vehicleType {
@@ -27,6 +28,7 @@ const AddVehicle = () => {
   const [image, setImage] = useState('')
   const [userId, setUserId] = useState('')
   const url = 'http://localhost:5000/api'
+  const [selectedImages, setSelectedImages] = useState([])
 
   // to get userId who is posting vehicle
   const getUser = async () => {
@@ -50,6 +52,30 @@ const AddVehicle = () => {
     if (statusCode == 201 || statusCode == 200) toast.success(message)
     else toast.error(message)
   }
+
+  const onSelectFile = (event: any) => {
+    const selectedFiles = event.target.files
+    const selectedFilesArray = Array.from(selectedFiles)
+
+    const imagesArray = selectedFilesArray.map((file: any) => {
+      return file
+    })
+
+    setSelectedImages((previousImages: any) =>
+      previousImages.concat(imagesArray)
+    )
+    console.log(selectedFilesArray)
+
+    // FOR BUG IN CHROME
+    event.target.value = ''
+  }
+
+  // delete image
+  function deleteHandler(image: any) {
+    setSelectedImages(selectedImages.filter(e => e !== image))
+    URL.revokeObjectURL(image)
+  }
+
   const addVehicle = async (values: vehicleType) => {
     var form: any = new FormData()
     form.append('userId', userId)
@@ -61,9 +87,15 @@ const AddVehicle = () => {
     form.append('location', values.location)
     form.append('description', values.description)
     form.append('vehicleNumber', values.vehicleNumber)
-    form.append('image', values.images)
+
+    {
+      selectedImages.map((image: any, index: number) => {
+        form.append('image', selectedImages[index])
+      })
+    }
     form.append('bluebookImage', values.bluebookImage)
     form.append('insuranceImage', values.insuranceImage)
+    console.log('images ' + values.images)
     console.log(form)
     try {
       const response = await axios.post(`${url}/postVehicle`, form)
@@ -78,7 +110,7 @@ const AddVehicle = () => {
   }, [])
   return (
     <div className=" w-full p-0 px-5 float-right h-screen ">
-      <div className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl">
+      <div className="dashboard-home bg-white main-profile w-full  mx-auto  rounded shadow-xl">
         <div className="w-11/12 mx-auto">
           <h1 className="text-left text-2xl font-semibold p-2">Add Vehicle</h1>
         </div>
@@ -209,14 +241,25 @@ const AddVehicle = () => {
                   <label className="text-left">Vehicle Image</label>
                   <input
                     type="file"
-                    multiple
                     className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
                     name="images"
-                    onChange={(e: any) => {
-                      setFieldValue('images', e.target.files[0])
-                    }}
+                    onChange={onSelectFile}
+                    multiple
+                    accept="image/png , image/jpeg, image/webp"
                   />
-                  {values.images && <PreviewImage file={values.images} />}
+                  <div className="images flex">
+                    {selectedImages &&
+                      selectedImages.map((image: any, index: number) => {
+                        return (
+                          <div key={index} className="image relative">
+                           <PreviewImage file= {image}/>
+                            <button className="absolute top-0 right-0 color-gray-200 " onClick={() => deleteHandler(image)}>
+                            <GiCancel/>
+                            </button>
+                          </div>
+                        )
+                      })}
+                  </div>
                 </div>
               </div>
 
@@ -273,7 +316,11 @@ const AddVehicle = () => {
                   }}
                 />
               </div>
-              <button className="w-1/4 float-left login-btn" type="submit" style={{width: '20%'}}>
+              <button
+                className="w-1/4 float-left login-btn"
+                type="submit"
+                style={{ width: '20%' }}
+              >
                 Submit
               </button>
             </Form>

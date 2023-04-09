@@ -144,7 +144,7 @@ function Banner() {
                                                 <div
                                                     className="h-4/5"
                                                     style={{
-                                                        backgroundImage: `url(${item.carImages[0].url})`,
+                                                        backgroundImage: `url(${item?.carImages[0]?.url})`,
                                                         maxWidth: '100%',
                                                         backgroundRepeat: 'no-repeat',
                                                         backgroundSize: 'cover',

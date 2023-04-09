@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
+import { GiCancel } from 'react-icons/gi'
 import '../../index.css'
 
 interface image {
@@ -32,6 +33,7 @@ const EditVehicle = () => {
   const [id, setId] = useState(useParams().id)
   const [image, setImage] = useState('')
   const [vehicle, setVehicle] = useState([])
+  const [selectedImages, setSelectedImages] = useState([])
   const url = 'http://localhost:5000/api'
 
   const showMessage = (message: string, statusCode: number) => {
@@ -43,10 +45,36 @@ const EditVehicle = () => {
     try {
       const response = await axios.get(`${url}/getVehicle/${id}`)
       setVehicle(response.data.data)
+      console.log(response.data.data[0].carImages)
+      let carImages = response.data.data[0].carImages
+      setSelectedImages(carImages)
       console.log(response.data.data)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const onSelectFile = (event: any) => {
+    const selectedFiles = event.target.files
+    const selectedFilesArray = Array.from(selectedFiles)
+
+    const imagesArray = selectedFilesArray.map((file: any) => {
+      return file
+    })
+
+    setSelectedImages((previousImages: any) =>
+      previousImages.concat(imagesArray)
+    )
+    console.log(selectedFilesArray)
+
+    // FOR BUG IN CHROME
+    event.target.value = ''
+  }
+
+  // delete image
+  function deleteHandler(image: any) {
+    setSelectedImages(selectedImages.filter(e => e !== image))
+    URL.revokeObjectURL(image)
   }
 
   const editVehicle = async (values: vehicleType) => {
@@ -59,7 +87,7 @@ const EditVehicle = () => {
     form.append('location', values.location)
     form.append('description', values.description)
     form.append('vehicleNumber', values.vehicleNumber)
-    if (values.carImages) form.append('carImages', values.carImages)
+  
     if (values.bluebookImage) form.append('bluebookImage', values.bluebookImage)
     if (values.insuranceImage)
       form.append('insuranceImage', values.insuranceImage)
@@ -74,7 +102,7 @@ const EditVehicle = () => {
 
   useEffect(() => {
     getVehicle()
-  }, [])
+  }, [setSelectedImages])
 
   return (
     <div className="w-full float-right h-screen p-0 px-5">
@@ -203,16 +231,26 @@ const EditVehicle = () => {
                             setFieldValue('carImages', e.target.files[0])
                           }}
                         />
-                        {values.carImages == null && item.carImages[0].url && (
-                          <img
-                            src={item?.carImages[0]?.url}
-                            width="200px"
-                            height="200px"
-                          ></img>
-                        )}
-                        {values.carImages && (
-                          <PreviewImage file={values.carImages} />
-                        )}
+                        <div className="images flex">
+                          {selectedImages &&
+                            selectedImages.map((image: any, index: number) => {
+                              return (
+                                <div key={index} className="image relative">
+                                      <img
+                                        src={image?.url}
+                                        width="200px"
+                                        height="200px"
+                                      ></img>
+                                  <button
+                                    className="absolute top-0 right-0 color-gray-200 "
+                                    onClick={() => deleteHandler(image)}
+                                  >
+                                    <GiCancel />
+                                  </button>
+                                </div>
+                              )
+                            })}
+                        </div>
                       </div>
                     </div>
 

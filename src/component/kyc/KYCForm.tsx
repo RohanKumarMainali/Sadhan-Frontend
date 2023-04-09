@@ -44,6 +44,7 @@ const KYCForm = () => {
     ? localStorage.getItem('user')
     : null
   const id = JSON.parse(user).id
+  const [loading, setLoading] = useState(false)
 
   const url = 'http://localhost:5000/api'
   const dispatchRedux = useAppDispatch()
@@ -54,6 +55,7 @@ const KYCForm = () => {
   }
 
   const postKyc = async (values: any) => {
+    setLoading(true)
     var form: any = new FormData()
 
     for (const keys in values) {
@@ -74,6 +76,7 @@ const KYCForm = () => {
       const response = await axios.put(`${url}/postKyc`, form)
       showMessage('KYC Posted Successfully! ', 200)
       dispatchRedux(proceedKycForm())
+      setLoading(false)
     } catch (error: any) {
       showMessage(error.message, 400)
     }

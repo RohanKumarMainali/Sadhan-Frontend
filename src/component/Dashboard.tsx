@@ -5,6 +5,8 @@ import Table from '../component/table/Table'
 import data from './data.json'
 import makeData from '../component/table/makeData'
 import {useEffect, useMemo , useState} from 'react'
+import {StatusPill} from '../component/table/Status'
+import {ActionButtons} from '../component/table/Button'
 
 function Dashboard() {
   const url = 'http://localhost:5000/api'
@@ -76,45 +78,45 @@ function Dashboard() {
 
   const columns = useMemo(
     () => [
+      
       {
-        Header: 'Id',
-        Footer: 'Id',
-        accessor: 'id',
-        disableFilters: true,
-        sticky: 'left'
-      },
-      {
-        Header: 'First Name',
-        Footer: 'First Name',
-        accessor: 'first_name',
+        Header: 'Name',
+        Footer: 'Name',
+        accessor: 'name',
         sticky: 'left',
       },
+
       {
-        Header: 'Last Name',
-        Footer: 'Last Name',
-        accessor: 'last_name',
+        Header: 'Model ',
+        Footer: 'Model',
+        accessor: 'model',
+      },
+      {
+        Header: 'Price ',
+        Footer: 'Price',
+        accessor: 'price',
         sticky: 'left'
       },
+
       {
-        Header: 'Date of Birth',
-        Footer: 'Date of Birth',
-        accessor: 'date_of_birth'
+        Header: 'Mileage',
+        Footer: 'Mileage',
+        accessor: 'milage'
       },
+      
       {
-        Header: 'Country',
-        Footer: 'Country',
-        accessor: 'country'
+        Header: 'Status',
+        Footer: 'Status',
+        accessor: 'status',
+        Cell: StatusPill,
       },
+
       {
-        Header: 'Phone',
-        Footer: 'Phone',
-        accessor: 'phone'
+        Header: 'Action',
+        Footer: 'Action',
+        accessor: '_id',
+        Cell: ActionButtons,
       },
-      {
-        Header: 'Email',
-        Footer: 'Email',
-        accessor: 'email'
-      }
     ],
 
     []
@@ -124,8 +126,8 @@ function Dashboard() {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const response: any = await axios("https://giftea.github.io/proj-data/mock.json").catch((err) => console.log(err));
-    setData(response.data);
+    const response: any = await axios(`${url}/getVehicle`).catch((err) => console.log(err));
+    setData(response.data.vehicles);
   };
 
   useEffect(() => {

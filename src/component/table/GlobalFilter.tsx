@@ -18,7 +18,7 @@ export const GlobalFilter = ({
           setValue(e.target.value)
           onChange(e.target.value)
         }}
-        className="w-8/12 rounded-xl border p-4 text-gray-500 cursor-pointer"
+        className="w-1/4 rounded-xl border p-2 ml-4 text-gray-500 cursor-pointer"
         type="search"
         placeholder="Search..."
       />

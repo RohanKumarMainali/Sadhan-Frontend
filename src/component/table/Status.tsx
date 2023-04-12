@@ -1,0 +1,27 @@
+import { classNames } from './utils'
+const moment = require('moment')
+
+export function StatusPill({ value }: any) {
+  const status = value ? 'verified' : 'pending'
+
+  return (
+    <span
+      className={classNames(
+        'px-3 py-1 uppercase leading-wide font-bold text-xs rounded-full shadow-sm',
+        status.startsWith('pending') ? 'bg-green-100 text-green-700' : null,
+        status.startsWith('verified') ? 'bg-yellow-100 text-yellow-700' : null,
+        status.startsWith('Failed') ? 'bg-red-100 text-red-700' : null
+      )}
+    >
+      {status}
+    </span>
+  )
+}
+
+export function CreatedDate({ value }: any) {
+  return (
+    <span className="px-3 py-1 uppercase leading-wide font-bold text-xs rounded-full shadow-sm">
+      {moment(value).format('MMMM DD, YYYY')}
+    </span>
+  )
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState, useRef ,useMemo} from 'react'
-import { useTable } from "react-table";
+import { useEffect, useState, useRef, useMemo } from 'react'
+import { useTable } from 'react-table'
 import { ToastContainer, toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
@@ -10,6 +10,9 @@ import { useParams } from 'react-router-dom'
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
+import Table from '../table/Table'
+import { StatusPill , CreatedDate} from '../table/Status'
+import { ActionButtons } from '../table/Button'
 
 interface passwordType {
   oldPassword: string
@@ -43,6 +46,8 @@ function Vehicles() {
     setVehicleId(id)
   }
 
+  const hello = () => console.log('hello')
+
   const confirmDelete = async () => {
     setShowModal(false)
     try {
@@ -71,10 +76,79 @@ function Vehicles() {
     const url = 'http://localhost:5000/api'
   }
 
-  const data = useMemo(() => getUsers(), [vehicles])
   useEffect(() => {
     getUsers()
   }, [request])
+
+  //new method
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Name',
+        Footer: 'Name',
+        accessor: 'name',
+        sticky: 'left'
+      },
+
+      {
+        Header: 'Model ',
+        Footer: 'Model',
+        accessor: 'model'
+      },
+      {
+        Header: 'Price ',
+        Footer: 'Price',
+        accessor: 'price',
+        sticky: 'left'
+      },
+
+      {
+        Header: 'Mileage',
+        Footer: 'Mileage',
+        accessor: 'milage'
+      },
+
+      {
+        Header: 'Created On',
+        Footer: 'Created on',
+        accessor: 'createdOn',
+        Cell: CreatedDate,
+      },
+
+
+      {
+        Header: 'Status',
+        Footer: 'Status',
+        accessor: 'status',
+        Cell: StatusPill
+      },
+
+      {
+        Header: 'Action',
+        Footer: 'Action',
+        accessor: '_id',
+        Cell: ({ value, row, column }) => {
+          return <ActionButtons value={value} deleteVehicle={deleteVehicle} />
+        }
+      }
+    ],
+
+    []
+  )
+
+  const [data, setData] = useState([])
+
+  const fetchData = async () => {
+    const response: any = await axios(`${url}/getVehicle`).catch(err =>
+      console.log(err)
+    )
+    setData(response.data.vehicles)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <div className="float-right h-screen w-full p-0 px-5">
@@ -82,65 +156,16 @@ function Vehicles() {
         className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl"
         style={{ height: '90vh' }}
       >
-        <div className="w-11/12 mx-auto">
-          <h1 className="text-left text-2xl font-semibold p-2">
+        <div className="w-full px-5 py-3 mx-auto">
+          <h1 className="text-left text-2xl font-semibold ">
             Manage Vehicles
           </h1>
         </div>
-        <table className="table-auto mt-3 w-11/12 mx-auto rounded-xl shadow-xl bg-slate-100 border-collapse border border border-slate-400">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Joined</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vehicles.map((vehicle: any, index: number) => {
-              return (
-                <>
-                  <tr
-                    key={index}
-                    className={index % 2 == 0 ? 'bg-slate-50' : 'bg-slate-100'}
-                  >
-                    <td className="border border-slate-300 " width="5%">
-                      {index + 1}
-                    </td>
-                    <td className="border border-slate-300 px-3 text-left">
-                      {vehicle.name}
-                    </td>
-                    <td className="border border-slate-300  text-left px-3">
-                      {'Rs ' + vehicle.price + '/day'}
-                    </td>
-                    <td className="border border-slate-300  ">
-                      {moment.utc(vehicle.createdOn).format('MM/DD/YYYY')}
-                    </td>
-                    <td className="border border-slate-300">unverified</td>
-                    <td className="border border-slate-300 align-left ">
-                      <Link
-                        to={`/dashboard-vehicles/editVehicle/${vehicle._id}`}
-                      >
-                        <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
-                          Edit
-                        </button>
-                      </Link>
-                      <button
-                        className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
-                        onClick={() => deleteVehicle(vehicle._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </>
-              )
-            })}
-          </tbody>
-        </table>
-        <div className=" mt-3 w-11/12 mx-auto">
+        <div className="user-table w-full px-5 mx-auto">
+          <Table column={columns} mockData={data} />
+        </div>
+
+        <div className=" mt-3 w-full px-5 float-left ">
           <Link to="/dashboard-vehicles/addVehicle">
             <button className="border float-left py-2 px-1 text-white rounded App-btn btn text-xs font-medium">
               Add vehicle
@@ -193,7 +218,7 @@ function Vehicles() {
                     />
                   </svg>
                   <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                    Are you sure you want to delete this user?
+                    Are you sure you want to delete this Vehicle?
                   </h3>
                   <button
                     data-modal-hide="popup-modal"

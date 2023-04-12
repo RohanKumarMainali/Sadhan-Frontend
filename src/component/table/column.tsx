@@ -28,17 +28,7 @@ export const COLUMNS = [
       return format(new Date(value), "dd/MM/yyyy");
     }
   },
-  {
-    Header: "Country",
-    Footer: "Country",
-    accessor: "country"
-  },
-  {
-    Header: "Phone",
-    Footer: "Phone",
-    accessor: "phone"
-  },
-  {
+ {
     Header: "Email",
     Footer: "Email",
     accessor: "email"

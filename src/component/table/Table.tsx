@@ -1,12 +1,21 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  useFilters,
+  usePagination
+} from 'react-table'
 import { DOTS, useCustomPagination } from './useCustomPagination'
+import {classNames} from './utils'
 import { Button, PageButton } from './Button'
 import { GrFormSearch } from 'react-icons/gr'
 import { ColumnFilter } from './ColumnFilter'
 import { GlobalFilter } from './GlobalFilter'
 
 // Define a UI for filtering
+
+
 
 function Table({ column, mockData }: any) {
   // useTable hook creates a instance of react-table
@@ -40,17 +49,16 @@ function Table({ column, mockData }: any) {
     previousPage,
     setPageSize,
 
-    state: { pageIndex, pageSize, globalFilter },
+    state: { pageIndex, pageSize, globalFilter }
     // Get the state from the instance
   } = useTable(
     {
       columns,
-      data,
+      data
     },
     useGlobalFilter,
     usePagination
   )
-
 
   const paginationRange = useCustomPagination({
     totalPageCount: pageCount,
@@ -58,10 +66,8 @@ function Table({ column, mockData }: any) {
     defaultColumn
   })
 
-
   useEffect(() => {
-      setPageSize(5)
-
+    setPageSize(5)
   }, [setPageSize])
 
   // Render the UI for your table and the styles
@@ -69,7 +75,7 @@ function Table({ column, mockData }: any) {
     <div className="mt-2 flex flex-col">
       <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <div className=" relative overflow-x-auto shadow-md sm:rounded-lg ">
             <GlobalFilter
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
@@ -77,16 +83,13 @@ function Table({ column, mockData }: any) {
 
             <table
               {...getTableProps()}
-              className="min-w-full divide-y divide-gray-200"
+              className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
             >
-              <thead className="bg-gray-10">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 {headerGroups.map((headerGroup: any) => (
-                  <tr {...headerGroup.getHeaderGroupProps()}>
+                  <tr {...headerGroup.getHeaderGroupProps()} className="">
                     {headerGroup.headers.map((column: any) => (
-                      <th
-                        {...column.getHeaderProps()}
-                        className="px-6 py-5 text-left text-20 font-medium text-gray-400 uppercase rounded-sm tracking-wider"
-                      >
+                      <th {...column.getHeaderProps()} className="px-6 py-3 ">
                         {column.render('Header')}
                       </th>
                     ))}
@@ -94,20 +97,17 @@ function Table({ column, mockData }: any) {
                 ))}
               </thead>
 
-              <tbody
-                {...getTableBodyProps()}
-                className="bg-white divide-y divide-gray-200"
-              >
+              <tbody {...getTableBodyProps()}>
                 {page.map((row: any, i: number) => {
                   prepareRow(row)
                   return (
-                    <tr {...row.getRowProps()}>
+                    <tr
+                      {...row.getRowProps()}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    >
                       {row.cells.map((cell: any) => {
                         return (
-                          <td
-                            {...cell.getCellProps()}
-                            className="px-6 py-10 whitespace-nowrap"
-                          >
+                          <td {...cell.getCellProps()} className="px-6 py-4">
                             {cell.render('Cell')}
                           </td>
                         )

@@ -1,6 +1,9 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
 import axios from 'axios'
+import NewTable from '../component/table/NewTable'
+import data from './data.json'
+import makeData from '../component/table/makeData'
+import {useEffect, useMemo , useState} from 'react'
 
 function Dashboard() {
   const url = 'http://localhost:5000/api'
@@ -70,6 +73,64 @@ function Dashboard() {
     }
   }
 
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Id',
+        Footer: 'Id',
+        accessor: 'id',
+        disableFilters: true,
+        sticky: 'left'
+      },
+      {
+        Header: 'First Name',
+        Footer: 'First Name',
+        accessor: 'first_name',
+        sticky: 'left',
+      },
+      {
+        Header: 'Last Name',
+        Footer: 'Last Name',
+        accessor: 'last_name',
+        sticky: 'left'
+      },
+      {
+        Header: 'Date of Birth',
+        Footer: 'Date of Birth',
+        accessor: 'date_of_birth'
+      },
+      {
+        Header: 'Country',
+        Footer: 'Country',
+        accessor: 'country'
+      },
+      {
+        Header: 'Phone',
+        Footer: 'Phone',
+        accessor: 'phone'
+      },
+      {
+        Header: 'Email',
+        Footer: 'Email',
+        accessor: 'email'
+      }
+    ],
+
+    []
+  )
+
+
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    const response: any = await axios("https://giftea.github.io/proj-data/mock.json").catch((err) => console.log(err));
+    setData(response.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   useEffect(() => {
     getUser()
   }, [])
@@ -107,6 +168,8 @@ function Dashboard() {
                 </div>
               </div>
             </div>
+
+            <NewTable column={columns} mockData={data} />
           </div>
         </>
       ) : null}

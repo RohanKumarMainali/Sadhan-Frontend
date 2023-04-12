@@ -26,6 +26,7 @@
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
+    "crypto-browserify": "^3.12.0",
     "firebase": "^9.17.1",
     "flowbite": "^1.6.4",
     "fontawesome": "^5.6.3",
@@ -37,7 +38,9 @@
     "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^5.1.0",
     "moment": "^2.29.4",
+    "namor": "^3.0.1",
     "otp-input-react": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
@@ -72,6 +75,9 @@
       "react-app/jest"
     ]
   },
+  "files": [
+    "data.json"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",

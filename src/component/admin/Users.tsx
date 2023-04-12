@@ -1,8 +1,12 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import moment from 'moment'
+
+import Table from '../table/Table'
+import { StatusPill, CreatedDate } from '../table/Status'
+import { ActionButtons } from '../table/Button'
 
 const Users = () => {
   const url = 'http://localhost:5000/api'
@@ -49,9 +53,70 @@ const Users = () => {
     else toast.error(message)
   }
 
+  //new method
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'First Name',
+        Footer: 'Name',
+        accessor: 'firstName',
+        sticky: 'left'
+      },
+      {
+        Header: 'Last Name',
+        Footer: 'Name',
+        accessor: 'lastName',
+        sticky: 'left'
+      },
+
+      {
+        Header: 'Email',
+        Footer: 'Email',
+        accessor: 'email'
+      },
+
+      {
+        Header: 'Joined',
+        Footer: 'joined',
+        accessor: 'createdOn',
+        Cell: CreatedDate
+      },
+
+      {
+        Header: 'Status',
+        Footer: 'staus',
+        accessor: 'status',
+        Cell: StatusPill
+      },
+
+      {
+        Header: 'Action',
+        Footer: 'Action',
+        accessor: '_id',
+        Cell: ({ value, row, column }) => {
+          return <ActionButtons value={value} deleteVehicle={deleteUser} />
+        }
+      }
+    ],
+
+    []
+  )
+
+  const [data, setData] = useState([])
+
+  const fetchData = async () => {
+    const response: any = await axios(`${url}/getUser`).catch((err: any) =>
+      console.log(err)
+    )
+
+    setData(response.data.data)
+    console.log(response.data.data)
+  }
+
   useEffect(() => {
-    getUsers()
-  }, [request])
+    fetchData()
+  }, [])
 
   return (
     <div className=" w-full p-0 px-5 float-right h-screen">
@@ -60,61 +125,15 @@ const Users = () => {
         style={{ height: '90vh' }}
       >
         {/* Table*/}
-        <div className="w-11/12 mx-auto">
-          <h1 className="text-left text-2xl font-semibold p-2">Manage Users</h1>
-        </div>
-        <table className="table-auto mt-3 w-11/12 mx-auto rounded-xl shadow-xl bg-slate-100 border-collapse border border border-slate-400">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Joined</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {user.map((singleUser: any, index: number) => {
-              return (
-                <>
-                  <tr
-                    key={index}
-                    className={index % 2 == 0 ? 'bg-slate-50' : 'bg-slate-100'}
-                  >
-                    <td className="border border-slate-300 " width="5%">
-                      {index + 1}
-                    </td>
-                    <td className="border border-slate-300 px-3 text-left">
-                      {singleUser.firstName + ' ' + singleUser.lastName}
-                    </td>
-                    <td className="border border-slate-300  text-left px-3">
-                      {singleUser.email}
-                    </td>
-                    <td className="border border-slate-300  ">
-                      {moment.utc(singleUser.createdOn).format('MM/DD/YYYY')}
-                    </td>
-                    <td className="border border-slate-300">
-                      {singleUser.status}
-                    </td>
-                    <td className="border border-slate-300 align-left ">
-                      <button className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700">
-                        View
-                      </button>
+        <div className="mx-auto w-full px-5">
+          <h1 className="text-left text-2xl font-semibold py-3">
+            Vehicle Bookings
+          </h1>
 
-                      <button
-                        className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
-                        onClick={() => deleteUser(singleUser._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </>
-              )
-            })}
-          </tbody>
-        </table>
+          <div className="user-table w-full mx-auto">
+            <Table column={columns} mockData={data} />
+          </div>
+        </div>
         {showModal ? (
           <div
             id="popup-modal"

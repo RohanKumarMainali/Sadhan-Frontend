@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { AiOutlineStar } from 'react-icons/ai'
+import { BiEditAlt } from 'react-icons/bi'
 import axios from 'axios'
+
 const Profile = () => {
   const url = 'http://localhost:5000/api'
   const [user, setUser] = useState({})
@@ -89,11 +91,15 @@ const Profile = () => {
             <div className="h-3/5 main ">
               <div className="profile flex w-2/5 space-x-4 items-center">
                 <div
-                  className="h-40 float-left  w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full"
+                  className="h-40 float-left  relative w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full"
                   style={{
                     backgroundImage: `url('https://media.istockphoto.com/id/1040308104/photo/mature-handsome-business-man.jpg?s=612x612&w=0&k=20&c=QbyH3XFmLOoy8NESjLQC8PYsm6g3UBL6COFaF-Qnnbk=')`
                   }}
-                ></div>
+                >
+
+                 <button className= "absolute bottom-0 App-btn rounded-sm right-0"><BiEditAlt/> 
+                 </button>
+                </div>
                 <div>
                   <h1 className=" text-sm   text-left text-gray-700 text-2xl font-bold ">
                     {userName}
@@ -147,7 +153,7 @@ const Profile = () => {
                     </div>
 
                     <Link to="/change-password">
-                      <button className="w-3/4 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
+                      <button className="w-3/4 mt-2 App-btn text-white font-bold py-2 px-4 rounded ">
                         Change Password
                       </button>
                     </Link>

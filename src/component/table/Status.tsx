@@ -2,21 +2,24 @@ import { classNames } from './utils'
 const moment = require('moment')
 
 export function StatusPill({ value }: any) {
-  const status = value ? 'verified' : 'pending'
+  const status = value ? 'verified' : value === "completed" ? 'verified' : value == "rejected" ? 'Failed' : value === "verified" ? "verified"  : "rejected"
 
   return (
     <span
       className={classNames(
         'px-3 py-1 uppercase leading-wide font-bold text-xs rounded-full shadow-sm',
         status.startsWith('pending') ? 'bg-green-100 text-green-700' : null,
-        status.startsWith('verified') ? 'bg-yellow-100 text-yellow-700' : null,
-        status.startsWith('Failed') ? 'bg-red-100 text-red-700' : null
+        status.startsWith('verified') ? 'bg-green-100 text-green-700' : null,
+        status.startsWith('Failed') ? 'bg-red-100 text-red-700' : null,
+        status.startsWith('rejected') ? 'bg-red-100 text-red-700' : null
       )}
     >
       {status}
     </span>
   )
 }
+
+
 
 export function CreatedDate({ value }: any) {
   return (

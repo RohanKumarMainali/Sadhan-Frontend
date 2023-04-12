@@ -44,7 +44,7 @@ const Vehicle = () => {
       console.log(response.data.data)
       setVehicleId(response.data.data[0]._id)
       setVehicleName(response.data.data[0].name)
-      setVehicleNumber(response.data.data[0].name)
+      setVehicleNumber(response.data.data[0].number)
       setVehicleModel(response.data.data[0].model)
       setVehiclePrice(response.data.data[0].price)
       setLoading(false)
@@ -165,10 +165,6 @@ const Vehicle = () => {
     },
     paymentPreference: [
       'KHALTI',
-      'EBANKING',
-      'MOBILE_BANKING',
-      'CONNECT_IPS',
-      'SCT'
     ]
   }
 

@@ -46,7 +46,6 @@ function Vehicles() {
     setVehicleId(id)
   }
 
-  const hello = () => console.log('hello')
 
   const confirmDelete = async () => {
     setShowModal(false)

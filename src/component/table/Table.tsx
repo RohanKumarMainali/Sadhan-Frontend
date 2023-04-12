@@ -1,20 +1,30 @@
-import { useTable } from 'react-table'
 import { useState, useEffect, useMemo } from 'react'
-import { useGlobalFilter, useAsyncDebounce, usePagination } from 'react-table' // new
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from "react-table";
 import { DOTS, useCustomPagination } from './useCustomPagination'
 import { Button, PageButton } from './Button'
 import { GrFormSearch } from 'react-icons/gr'
+import { ColumnFilter } from './ColumnFilter'
+import { GlobalFilter } from './GlobalFilter'
 
 // Define a UI for filtering
 
-function Table({ columns, data }: any) {
+function Table({ column, mockData }: any) {
   // useTable hook creates a instance of react-table
   // Use the state and functions returned from useTable to build your UI
+  const columns = useMemo(() => [...column], []) // memoize before adding to useTable hook
+  const data = useMemo(() => [...mockData], [mockData])
+
+  // default column component
+  const defaultColumn = useMemo(() => {
+    return {
+      Filter: ColumnFilter
+    }
+  }, [])
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    state,
     prepareRow,
     preGlobalFilteredRows,
     setGlobalFilter,
@@ -28,31 +38,31 @@ function Table({ columns, data }: any) {
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize
+    setPageSize,
 
+    state: { pageIndex, pageSize, globalFilter },
     // Get the state from the instance
   } = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 2 }
     },
     useGlobalFilter,
     usePagination
   )
 
-  const { pageIndex, pageSize, globalFilter } = state
-  useEffect(() => {
-    // props.dispatch({ type: actions.resetPage })
-    console.log('Updating ' +globalFilter)
-  }, [globalFilter])
 
   const paginationRange = useCustomPagination({
     totalPageCount: pageCount,
-    currentPage: pageIndex
+    currentPage: pageIndex,
+    defaultColumn
   })
-  console.log(paginationRange)
 
+
+  useEffect(() => {
+      setPageSize(5)
+
+  }, [setPageSize])
 
   // Render the UI for your table and the styles
   return (
@@ -60,10 +70,9 @@ function Table({ columns, data }: any) {
       <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <input
-              type="text"
-              value={globalFilter || ''}
-              onChange={e => setGlobalFilter(e.target.value)}
+            <GlobalFilter
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
             />
 
             <table

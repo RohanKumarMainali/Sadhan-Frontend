@@ -1,27 +1,27 @@
-import { useState } from "react";
-import { useAsyncDebounce } from "react-table";
-
-export const GlobalFilter = ({ globalFilter, setGlobalFilter } : any) => {
-  const [value, setValue] = useState(globalFilter);
-  const onChange = useAsyncDebounce((value : any) => {
-    setGlobalFilter(value || undefined);
-  }, 200);
+import { useState } from 'react'
+import { useAsyncDebounce } from 'react-table'
+export const GlobalFilter = ({
+  globalFilter,
+  setGlobalFilter,
+  placeholder
+}: any) => {
+  const [value, setValue] = useState(globalFilter)
+  const onChange = useAsyncDebounce((value: any) => {
+    setGlobalFilter(value || undefined)
+  }, 200)
 
   return (
-    <span>
-      Search:{" "}
+    <span className="flex justify-between  pt-10 pb-10 ">
       <input
-        value={value || ""}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
+        value={value || ''}
+        onChange={e => {
+          setValue(e.target.value)
+          onChange(e.target.value)
         }}
-        placeholder={`Search records...`}
-        style={{
-          fontSize: "1.1rem",
-          margin: "1rem 0",
-        }}
+        className="w-8/12 rounded-xl border p-4 text-gray-500 cursor-pointer"
+        type="search"
+        placeholder="Search..."
       />
     </span>
-  );
-};
+  )
+}

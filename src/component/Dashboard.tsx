@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import NewTable from '../component/table/NewTable'
+import Table from '../component/table/Table'
 import data from './data.json'
 import makeData from '../component/table/makeData'
 import {useEffect, useMemo , useState} from 'react'
@@ -169,7 +170,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <NewTable column={columns} mockData={data} />
+            <div className='user-table '><Table column={columns} mockData={data} /></div>
           </div>
         </>
       ) : null}

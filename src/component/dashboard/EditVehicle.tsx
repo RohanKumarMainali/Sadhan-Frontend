@@ -107,8 +107,8 @@ const EditVehicle = () => {
   return (
     <div className="w-full float-right h-screen p-0 px-5">
       <div className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl">
-        <div className="w-11/12 mx-auto">
-          <h1 className="text-left text-2xl font-semibold p-2">Edit Vehicle</h1>
+        <div className="w-full px-5 mx-auto">
+          <h1 className="text-left text-2xl font-semibold py-3">Edit Vehicle</h1>
         </div>
         {vehicle.map((item: any) => {
           return (
@@ -140,7 +140,7 @@ const EditVehicle = () => {
                   values,
                   setFieldValue
                 }) => (
-                  <Form className=" flex flex-col gap-4 w-5/6 h-5/6 mx-auto mt-3 py-5">
+                  <Form className=" flex flex-col gap-4 w-full px-5 h-5/6 mx-auto mt-3 ">
                     <div className="flex justify-between">
                       <div className="flex flex-col w-2/5">
                         <label className="text-left">Name</label>

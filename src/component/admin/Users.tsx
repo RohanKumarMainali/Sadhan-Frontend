@@ -92,10 +92,10 @@ const Users = () => {
 
       {
         Header: 'Action',
-        Footer: 'Action',
+        Footer: 'users',
         accessor: '_id',
         Cell: ({ value, row, column }) => {
-          return <ActionButtons value={value} deleteVehicle={deleteUser} />
+          return <ActionButtons value={value} column={column} deleteVehicle={deleteUser} />
         }
       }
     ],

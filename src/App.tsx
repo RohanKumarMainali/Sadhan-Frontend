@@ -293,7 +293,7 @@ const App = () => {
             />
 
             <Route
-              path="/dashboard-vehicles/editVehicle/:id"
+              path="/dashboard-vehicles/edit/:id"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <RootLayout>

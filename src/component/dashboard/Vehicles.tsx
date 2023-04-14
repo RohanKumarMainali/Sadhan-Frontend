@@ -125,10 +125,10 @@ function Vehicles() {
 
       {
         Header: 'Action',
-        Footer: 'Action',
+        Footer: 'vehicles',
         accessor: '_id',
         Cell: ({ value, row, column }) => {
-          return <ActionButtons value={value} deleteVehicle={deleteVehicle} />
+          return <ActionButtons value={value} column={column} deleteVehicle={deleteVehicle} />
         }
       }
     ],

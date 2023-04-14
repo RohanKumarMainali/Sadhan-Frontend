@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { useTable } from 'react-table'
 import { ToastContainer, toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
@@ -27,52 +27,10 @@ function Categories() {
   const [addVehicleModal, setAddVehicleModal] = useState(false)
   const [vehicleId, setVehicleId] = useState(0)
   const [request, setRequest] = useState(false)
+  const [data, setData] = useState([])
   const fileRef = useRef(null)
 
-  const getUsers = async () => {
-    try {
-      const response = await axios.get(`${url}/getCategory`)
-      setCategories(response.data.response)
-      console.log(response)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const deleteVehicle = (id: number) => {
-    setShowModal(true)
-    setVehicleId(id)
-  }
-
-  const confirmDelete = async () => {
-    setShowModal(false)
-    try {
-      const response = await axios.delete(`${url}/deleteCategory/${vehicleId}`)
-      console.log(response)
-      showMessage(response.data.message, 200)
-      if (request) {
-        setRequest(false)
-      } else {
-        setRequest(true)
-      }
-    } catch (error) {
-      showMessage("Couldn't Delete Vehicle", 400)
-    }
-  }
-
-  const showMessage = (message: string, statusCode: number) => {
-    if (statusCode == 201 || statusCode == 200) toast.success(message)
-    else toast.error(message)
-  }
-
-  {
-    /* add vehicle */
-  }
-  const addVehicle = async (formik: passwordType) => {
-    const url = 'http://localhost:5000/api'
-  }
-
-  //new method
+  //new method for table
 
   const columns = useMemo(
     () => [
@@ -106,10 +64,16 @@ function Categories() {
 
       {
         Header: 'Action',
-        Footer: 'Action',
+        Footer: 'categories',
         accessor: '_id',
         Cell: ({ value, row, column }) => {
-          return <ActionButtons value={value} deleteVehicle={deleteVehicle} />
+          return (
+            <ActionButtons
+              value={value}
+              column={column}
+              deleteVehicle={deleteVehicle}
+            />
+          )
         }
       }
     ],
@@ -117,18 +81,49 @@ function Categories() {
     []
   )
 
-  const [data, setData] = useState([])
 
   const fetchData = async () => {
-    const response: any = await axios(`${url}/getCategory`).catch(err =>
-      console.log(err)
-    )
-    setData(response.data.response)
+    try {
+      const response: any = await axios(`${url}/getCategory`).catch(err =>
+        console.log(err)
+      )
+      console.log(response.data.response)
+      setData(response.data.response)
+    } catch (error) {
+      console.log('error in fetchData category ' + fetchData)
+    }
   }
 
   useEffect(() => {
     fetchData()
   }, [])
+
+
+  const deleteVehicle = (id: number) => {
+    setShowModal(true)
+    setVehicleId(id)
+  }
+
+  // useCallback hook used to memoize the function
+
+  const confirmDelete = useCallback(async () => {
+    setShowModal(false)
+    try {
+
+      console.log(vehicleId)
+      const response = await axios.delete(`${url}/deleteCategory/${vehicleId}`)
+      setData(data.filter((item: any)=> item._id != vehicleId))
+      showMessage(response.data.message, 200)
+      
+    } catch (error) {
+      showMessage("Couldn't Delete Vehicle", 400)
+    }
+  }, [fetchData])
+
+  const showMessage = (message: string, statusCode: number) => {
+    if (statusCode == 201 || statusCode == 200) toast.success(message)
+    else toast.error(message)
+  }
 
   return (
     <div className="float-right h-screen w-full p-0 px-5">

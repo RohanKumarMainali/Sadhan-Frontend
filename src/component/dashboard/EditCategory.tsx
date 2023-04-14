@@ -9,10 +9,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
 import '../../index.css'
 
-interface categoryType {
-  name: string;
-  image: any
-}
 
 const EditCategory = () => {
   const [image, setImage] = useState('')
@@ -26,15 +22,20 @@ const EditCategory = () => {
     if (statusCode == 201 || statusCode == 200) toast.success(message)
     else toast.error(message)
   }
-  const updateCategory = async (values: categoryType) => {
+  const updateCategory = async (values: any) => {
     var form: any = new FormData()
     form.append('name', values.name)
-    form.append('image', values.image)
+    form.append('slug', values.name)
     if (selectedOption) {
       form.append('parentId', selectedOption)
     }
+    
+    // if image is changed
+
+    if(values.image)form.append('image', values.image)
+
     try {
-      const response = await axios.post(`${url}/updateCategory/${id}`, form)
+      const response = await axios.put(`${url}/updateCategory/${id}`, form)
       showMessage('Category Posted Successfully! ', 200)
     } catch (error: any) {
       showMessage(error.message, 400)
@@ -56,13 +57,13 @@ const EditCategory = () => {
   const getSingleCategory = async () => {
     try {
       const response = await axios.get(`${url}/getCategory/${id}`)
-      console.log(response)
       setSingleCategory(response.data.response)
+      setSelectedOption(response.data.response[0].parentId)
+      console.log(response.data.response[0].parentId)
     } catch (error) {
       console.log(error)
     }
   }
-
 
   const handleSelectChange = (event: any) => {
     setSelectedOption(event.target.value)
@@ -86,17 +87,11 @@ const EditCategory = () => {
               <Formik
                 initialValues={{
                   name: item.name,
-                  image: null
+                  image: null,
                 }}
                 onSubmit={(values, { resetForm }) => {
                   //addVehicle(values)
                   updateCategory(values)
-                  resetForm({
-                    values: {
-                      name: '',
-                      image: null
-                    }
-                  })
                 }}
               >
                 {({
@@ -120,7 +115,6 @@ const EditCategory = () => {
                       </div>
                       <div className="flex flex-col w-2/5">
                         <label className="text-left">Parent Category</label>
-
                         <select
                           value={selectedOption}
                           onChange={handleSelectChange}
@@ -128,9 +122,10 @@ const EditCategory = () => {
                           <option value="" disabled selected>
                             Select
                           </option>
-                          {categories.map((item: any) => {
+
+                          {categories.map((item: any, index: number) => {
                             return (
-                              <option key={item.id} value={item._id}>
+                              <option key={index} value={item._id}>
                                 {item.name}
                               </option>
                             )
@@ -151,6 +146,14 @@ const EditCategory = () => {
                             setFieldValue('image', e.target.files[0])
                           }}
                         />
+
+                          {values.image == null && item.image.url && (
+                          <img
+                            src={item?.image?.url}
+                            width="200px"
+                            height="200px"
+                          ></img>
+                        )}
 
                         {values.image && <PreviewImage file={values.image} />}
                       </div>

@@ -19,6 +19,7 @@ const AddCategory = () => {
   const [userId, setUserId] = useState('')
   const [categories, setCategories] = useState([])
   const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOptionName, setSelctedOptionName] = useState('')
   const url = 'http://localhost:5000/api'
 
   // to get userId who is posting vehicle
@@ -39,16 +40,22 @@ const AddCategory = () => {
     }
   }
 
+  // toastify
+
   const showMessage = (message: string, statusCode: number) => {
     if (statusCode == 201 || statusCode == 200) toast.success(message)
     else toast.error(message)
   }
+
+  // add category logic
+
   const addCategory = async (values: categoryType) => {
     var form: any = new FormData()
     form.append('name', values.name)
     form.append('image', values.image)
-    if (selectedOption ){
+    if (selectedOption) {
       form.append('parentId', selectedOption)
+      form.append('parentName', selectedOptionName)
     }
     try {
       const response = await axios.post(`${url}/createCategory`, form)
@@ -57,6 +64,8 @@ const AddCategory = () => {
       showMessage(error.message, 400)
     }
   }
+
+  //get category to show in parent categories
 
   const getCategories = async () => {
     try {
@@ -67,14 +76,21 @@ const AddCategory = () => {
     }
   }
 
+  // change option in category logic
+
   const handleSelectChange = (event: any) => {
     setSelectedOption(event.target.value)
+    // to get the name of option
+    const selectedOption = event.target.options[event.target.selectedIndex]
+    const selectedOptionName = selectedOption.getAttribute('data-name')
+    setSelctedOptionName(selectedOption.getAttribute('data-name'))
   }
 
   useEffect(() => {
     getUser()
     getCategories()
   }, [])
+
   return (
     <div className=" w-full p-0 px-5 float-right h-screen ">
       <div className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl">
@@ -87,7 +103,7 @@ const AddCategory = () => {
             image: null
           }}
           onSubmit={(values, { resetForm }) => {
-            //addVehicle(values)
+
             addCategory(values)
             resetForm({
               values: {
@@ -132,7 +148,11 @@ const AddCategory = () => {
                     </option>
                     {categories.map((item: any) => {
                       return (
-                        <option key={item.id} value={item._id}>
+                        <option
+                          key={item.id}
+                          data-name={item.name}
+                          value={item._id}
+                        >
                           {item.name}
                         </option>
                       )

@@ -31,6 +31,7 @@ import PhoneNumber from './component/kyc/PhoneNumber'
 import SearchVehicle from './component/search/SearchVehicle'
 import Categories from './component/dashboard/Category'
 import AddCategory from './component/dashboard/AddCategory'
+import EditCategory from './component/dashboard/EditCategory'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -302,6 +303,18 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/dashboard-categories/edit/:id"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <RootLayout>
+                    <EditCategory />
+                  </RootLayout>
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/dashboard/verifyKyc"
               element={

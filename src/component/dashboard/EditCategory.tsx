@@ -147,7 +147,7 @@ const EditCategory = () => {
                           }}
                         />
 
-                          {values.image == null && item.image.url && (
+                          {values.image === null && item.image.url && (
                           <img
                             src={item?.image?.url}
                             width="200px"

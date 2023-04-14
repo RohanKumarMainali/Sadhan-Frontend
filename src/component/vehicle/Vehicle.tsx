@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom'
 import KhaltiCheckout from 'khalti-checkout-web'
 import VehicleSkeleton from '../skeleton/VehicleSkeleton'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import axiosConfig from '../../api/axiosConfig'
+import commonAxios from '../../api/commonAxios'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -39,7 +41,7 @@ const Vehicle = () => {
 
   const getVehicle = async () => {
     try {
-      const response = await axios.get(`${url}/getVehicle/${id}`)
+      const response = await axiosConfig.get(`${url}/getVehicle/${id}`)
       setVehicle(response.data.data)
       console.log(response.data.data)
       setVehicleId(response.data.data[0]._id)

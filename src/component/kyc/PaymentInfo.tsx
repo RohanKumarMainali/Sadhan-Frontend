@@ -1,5 +1,4 @@
 import React from 'react'
-
 import axios from 'axios'
 import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
@@ -17,19 +16,47 @@ const khaltiImg = require('../../images/logo1.png')
 function PaymentInfo() {
   const dispatchRedux = useAppDispatch()
 
-  const sendOTP = (formik: any) => {
+  const user: any = localStorage?.getItem('user')
+    ? localStorage.getItem('user')
+    : null
+  const userId = JSON.parse(user).id
+
+  const showMessage = (message: string, statusCode: number) => {
+    if (statusCode == 201 || statusCode == 200) toast.success(message)
+    else toast.error(message)
+  }
+
+  const addPaymentInfo = async(formik: any) => {
     const phoneNumber = formik.phoneNumber
-    dispatchRedux(proceedKycForm())
+    const userName = formik.userName
+    const email = formik.email
+    
+    const form : any = new FormData();
+    form.append('phoneNumber',phoneNumber)
+    form.append('userName',userName)
+    form.append('email',email)
+    form.append('id',userId)
+
+    try {
+      const response = await axios.post(`http://localhost:5000/api/postPaymentInfo`, form)
+      showMessage(response.data.message,201)
+      dispatchRedux(proceedKycForm())
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   return (
-    <div>
+  <div>
       <Formik
         initialValues={{
-          phoneNumber: ''
+          phoneNumber: '',
+          email:'',
+          userName: '',
         }}
         onSubmit={values => {
-          sendOTP(values)
+            console.log(values)
+          addPaymentInfo(values)
         }}
       >
         {({ errors, touched, isValidating }) => (
@@ -52,7 +79,7 @@ function PaymentInfo() {
               type="text "
               className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
               placeholder="Email"
-              name="Email"
+              name="email"
             />
             <Field
               type="text "

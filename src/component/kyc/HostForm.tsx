@@ -67,6 +67,7 @@ const HostForm = () => {
     if (count == 2) setKycStage(1)
     if (count == 4) setKycStage(2)
     if (count == 5) setKycStage(3)
+    if (count == 6) setKycStage(4)
   }
 
   useEffect(() => {
@@ -88,17 +89,20 @@ const HostForm = () => {
                 <Steps.Item title="KYC Form" />
                 <Steps.Item title="Confirm Details" />
               </Steps>
-              {count===0 ? (
-                <PaymentInfo/>
-              ) : count == 1 ? (
+              {
+               count == 1 ? (
                 <EnterOTP />
               ) : count == 2 ? (
                 <EmailVerify />
               ) : count == 3 ? (
                 <EmailOTP />
               ) : count == 4 ? (
-                <KYCForm />
+              <PaymentInfo/>
               ) : count == 5 ? (
+
+                <KYCForm />
+              ) : count ===6 ? (
+
                 <ViewKyc />
               ) : (
                 <Formik

@@ -35,58 +35,65 @@ export function PageButton({ children, className, ...rest }: any) {
   )
 }
 
-
 interface ButtonProps {
-  value: any;
-  deleteVehicle :(id : number) => void;
+  value: any
+  deleteVehicle: (id: number) => void
   column: any
 
   // 👇️ turn off type checking
 }
 
-
-export function ActionButtons({ value ,column, deleteVehicle }: ButtonProps) {
-    console.log(column)
+export function ActionButtons({ value, column, deleteVehicle }: ButtonProps) {
+  console.log(column)
   return (
     <>
-     <div >
-      <Link to={`/${column.User}/dashboard-${column.Footer}/edit/${value}`}>
+      <div>
+        {column.User === 'admin' ? (
+          <Link to={`/${column.User}/dashboard-${column.Footer}/edit/${value}`}>
+            <button
+              type="button"
+              className="relative inline-flex  active:bg-green-100 active:border-gray-300 justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-green-100 hover:bg-green-300"
+            >
+              <span>
+                <BiEditAlt />
+              </span>
+            </button>
+          </Link>
+        ) : (
+          <Link to={`/dashboard-${column.Footer}/edit/${value}`}>
+            <button
+              type="button"
+              className="relative inline-flex  active:bg-green-100 active:border-gray-300 justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-green-100 hover:bg-green-300"
+            >
+              <span>
+                <BiEditAlt />
+              </span>
+            </button>
+          </Link>
+        )}
         <button
           type="button"
-          className="relative inline-flex  active:bg-green-100 active:border-gray-300 justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-green-100 hover:bg-green-300"
+          className="relative inline-flex  ml-2 active:bg-gray-500 active:border-gray-300 justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-red-400 hover:bg-red-600 "
+          onClick={() => {
+            deleteVehicle(value)
+          }}
         >
           <span>
-            <BiEditAlt />
+            <RiDeleteBin6Line />
           </span>
         </button>
-      </Link>
-
-      <button
-        type="button"
-        className="relative inline-flex  ml-2 active:bg-gray-500 active:border-gray-300 justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-red-400 hover:bg-red-600 "
-        onClick={()=>{deleteVehicle(value)}}
-      >
-        <span>
-          <RiDeleteBin6Line />
-        </span>
-      </button>
       </div>
     </>
   )
 }
 
-
-// Avatar 
+// Avatar
 export function AvatarCell({ value, column, row }: any) {
   return (
     <div className="flex items-center">
       <div className="flex-shrink-0 h-10 w-10">
-        <img
-          className="h-10 w-10 rounded-full"
-          src={value}
-          alt=""
-        />
+        <img className="h-10 w-10 rounded-full" src={value} alt="" />
       </div>
     </div>
-  );
+  )
 }

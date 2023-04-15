@@ -46,10 +46,11 @@ interface ButtonProps {
 
 
 export function ActionButtons({ value ,column, deleteVehicle }: ButtonProps) {
+    console.log(column)
   return (
     <>
      <div >
-      <Link to={`/dashboard-${column.Footer}/edit/${value}`}>
+      <Link to={`/${column.User}/dashboard-${column.Footer}/edit/${value}`}>
         <button
           type="button"
           className="relative inline-flex  active:bg-green-100 active:border-gray-300 justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-green-100 hover:bg-green-300"

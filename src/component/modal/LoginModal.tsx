@@ -27,7 +27,7 @@ import { UserContext } from '../../App'
 // 'react-redux'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { loginAuth } from '../../features/login/loginSlice'
+import { getUserThunk } from '../../features/login/loginSlice'
 
 let logo = require('../../images/newLogo.png')
 
@@ -54,7 +54,7 @@ export const LoginModal = ({ show, close }: Props) => {
   const dispatchRedux = useAppDispatch()
 
   function changeLoginState() {
-    dispatchRedux(loginAuth())
+    dispatchRedux(getUserThunk())
   }
 
   // formik
@@ -73,7 +73,6 @@ export const LoginModal = ({ show, close }: Props) => {
         storeAuthentication(response.data)
         setStatusCode(200)
         close()
-        dispatch({ type: 'USER', payload: true })
         changeLoginState()
 
         //              0 window.location.replace(`http://localhost:3000`)

@@ -29,6 +29,7 @@ import AnimatedSidebar from './component/sidebar/AnimatedSidebar'
 import UserLayout from './component/sidebar/UserLayout'
 import AdminLayout from './component/sidebar/AdminLayout'
 import PhoneNumber from './component/kyc/PhoneNumber'
+import HostForm from './component/kyc/HostForm'
 import SearchVehicle from './component/search/SearchVehicle'
 import Categories from './component/dashboard/Category'
 import AddCategory from './component/dashboard/AddCategory'
@@ -268,6 +269,17 @@ const App = () => {
                 </AdminRoute>
               }
             />
+            <Route
+              path="admin/categories/addCategory"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <AddCategory />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+
 
 
 
@@ -355,6 +367,17 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/dashboard/become-a-host"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <UserLayout>
+                    <HostForm />
+                  </UserLayout>
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/dashboard-vehicles/addVehicle"
               element={
@@ -366,17 +389,6 @@ const App = () => {
               }
             />
             <Route
-              path="/categories/addCategory"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <UserLayout>
-                    <AddCategory />
-                  </UserLayout>
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
               path="/dashboard-vehicles/edit/:id"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
@@ -387,16 +399,6 @@ const App = () => {
               }
             />
 
-            <Route
-              path="/dashboard-categories/edit/:id"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <UserLayout>
-                    <EditCategory />
-                  </UserLayout>
-                </ProtectedRoute>
-              }
-            />
 
             <Route
               path="/dashboard/verifyKyc"

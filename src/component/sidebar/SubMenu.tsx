@@ -34,7 +34,7 @@ const SubMenu = ({ data }:any) => {
           <li key={menu} className='App-sidebar-link'>
             {/* className="hover:text-blue-600 hover:font-medium" */}
             <NavLink
-              to={`/${data.name}/${menu}`}
+              to={`/${data.user}/${data.name}/${menu}`}
               className="link !bg-transparent capitalize App-sidebar-link"
             >
               {menu}

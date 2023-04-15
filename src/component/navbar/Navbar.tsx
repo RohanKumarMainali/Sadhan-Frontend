@@ -172,13 +172,17 @@ function Navbar() {
                   <ul>
                     {userRole !== 'admin' && (
                       <>
+                      <Link to = "/search?">
                         <button className="btn App-navbar-text">
                           Rent Vehicle
                         </button>
+                        </Link>
 
+                      <Link to = "/dashboard/become-a-host">
                         <button className="btn App-navbar-text">
-                          Become Host
+                          Become A Host
                         </button>
+                        </Link>
                       </>
                     )}
                     {(userRole === 'admin' && isLoggedIn )? (
@@ -194,7 +198,7 @@ function Navbar() {
                           </button>
                         </li>
                       </>
-                    ) : (userRole === 'user' ) ? (
+                    ) : (userRole === 'user' || userRole === 'owner' ) ? (
                       <>
                         <Link to="/dashboard">
                           <button className="btn App-navbar-text">

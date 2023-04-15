@@ -126,8 +126,9 @@ function Vehicles() {
       {
         Header: 'Action',
         Footer: 'vehicles',
+        User : 'rentee',
         accessor: '_id',
-        Cell: ({ value, row, column }) => {
+        Cell: ({ value, row, column } : any) => {
           return <ActionButtons value={value} column={column} deleteVehicle={deleteVehicle} />
         }
       }

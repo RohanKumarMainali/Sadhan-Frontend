@@ -140,7 +140,7 @@ function Categories() {
           <Table column={columns} mockData={data} />
         </div>
         <div className=" mt-3 w-11/12 mx-auto">
-          <Link to="/categories/addCategory">
+          <Link to="/admin/categories/addCategory">
             <button className="border float-left py-2 px-1 text-white rounded App-btn btn text-xs font-medium">
               Add Category
             </button>

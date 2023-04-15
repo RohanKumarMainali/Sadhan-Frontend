@@ -5,7 +5,6 @@ import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import FAQ from './FAQ'
 import GradientSection from './GradientSection'
-import axiosConfig from '../../api/axiosConfig'
 
 //test the ssh
 let bikes = require('../../images/bikes.jpg')
@@ -16,7 +15,7 @@ function Banner() {
 
     const getVehicle = async () => {
         try {
-            const response = await axiosConfig.get(`${url}/getVehicle`)
+            const response = await axios.get(`${url}/getVehicle`)
             setVehicles(response.data.vehicles)
             console.log(response.data.data)
         } catch (error) {

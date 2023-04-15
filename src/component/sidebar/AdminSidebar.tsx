@@ -115,14 +115,11 @@ const AnimatedSidebar = () => {
   const subMenusList = [
     {
       name: 'KYC',
+      user: 'admin',
       icon: RiBuilding3Line,
       menus: ['Requests', 'KYC-List']
     },
-    {
-      name: 'analytics',
-      icon: TbReportAnalytics,
-      menus: ['dashboard', 'realtime', 'events']
-    }
+    
   ]
 
   return (

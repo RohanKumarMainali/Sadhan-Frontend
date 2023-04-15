@@ -114,7 +114,7 @@ const loginSlice = createSlice({
       console.log(payload)
       state.role = payload.role
       state.method = payload.method
-      if (payload.role == 'user' || payload.role == 'admin') state.loggedIn = true
+      if (payload.role == 'user' || payload.role ==='owner' || payload.role == 'admin') state.loggedIn = true
     })
   }
 })

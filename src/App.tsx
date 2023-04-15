@@ -26,7 +26,8 @@ import Vehicle from './component/vehicle/Vehicle'
 import Footer from './component/footer/Footer'
 import Bookings from './component/dashboard/Bookings'
 import AnimatedSidebar from './component/sidebar/AnimatedSidebar'
-import RootLayout from './component/sidebar/RootLayout'
+import UserLayout from './component/sidebar/UserLayout'
+import AdminLayout from './component/sidebar/AdminLayout'
 import PhoneNumber from './component/kyc/PhoneNumber'
 import SearchVehicle from './component/search/SearchVehicle'
 import Categories from './component/dashboard/Category'
@@ -47,8 +48,13 @@ interface userInfo {
   isLoggedIn: boolean
 }
 
-const ProtectedRoute = ({ redirect, children }: any) => {
-  if (redirect) return <Navigate to="/" replace />
+const ProtectedRoute = ({role, redirect, children }: any) => {
+  if (redirect && role !== 'user') return <Navigate to="/" replace />
+  return children
+}
+
+const AdminRoute = ({role, redirect, children }: any) => {
+  if (redirect && role!== 'admin') return <Navigate to="/" replace />
   return children
 }
 
@@ -63,6 +69,22 @@ export const UserContext = createContext<{
   state: initialState,
   dispatch: () => false
 })
+
+// for seperate routing for different user type
+
+const userRoutes = [{ path: '/user/dashboard', component: Dashboard }]
+
+const renteeRoutes = [
+  { path: '/rentee/dashboard', component: Dashboard },
+  { path: '/rentee/login', component: Bookings }
+]
+
+type RouteType = {
+  path: string
+  component: React.FC
+}
+let routes: Array<RouteType> = []
+
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const userData = useAuth().user
@@ -101,7 +123,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    getUsers()
     dispatchRedux(getUserThunk())
     setLightMode()
   }, [])
@@ -111,15 +132,9 @@ const App = () => {
       <div className="App">
         <Router>
           <Routes>
-            <Route
-              path="/authentication"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <AnimatedSidebar />
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+            {
+              // routes mapping
+            }
 
             <Route
               path="/"
@@ -145,7 +160,7 @@ const App = () => {
               path="/search"
               element={
                 <>
-                  <Navbar /> 
+                  <Navbar />
                   <SearchVehicle />
                   <Footer />
                 </>
@@ -167,26 +182,114 @@ const App = () => {
                 </>
               }
             />
+            {// Admin protected Routes
+            }
             <Route path="/admin/login" element={<SignInSide />} />
 
+
             <Route
-              path="/dashboard"
+              path="/admin/dashboard"
               element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
                     <Dashboard />
-                  </RootLayout>
-                </ProtectedRoute>
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/profile"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <Profile />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/dashboard-vehicles"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <Vehicles />
+                  </AdminLayout>
+                </AdminRoute>
               }
             />
 
             <Route
+              path="admin/categories"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <Categories />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/users"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <Users />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/KYC/requests"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <KycRequest />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/KYC/KYC-List"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <AllKycRequest />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="admin/dashboard-categories/edit/:id"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <EditCategory />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+
+
+
+            {// User Protected Route
+            }
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute role = {user} redirect={!isAuthenticated}>
+                  <UserLayout>
+                    <Dashboard />
+                  </UserLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/profile"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <Profile />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -194,9 +297,9 @@ const App = () => {
               path="/dashboard-vehicles"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <Vehicles />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -205,9 +308,9 @@ const App = () => {
               path="/categories"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <Categories />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -215,9 +318,9 @@ const App = () => {
               path="/change-password"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <ChangePassword user={userData} />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -225,9 +328,9 @@ const App = () => {
               path="/bookings"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <Bookings />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -235,29 +338,9 @@ const App = () => {
               path="/users"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <Users />
-                  </RootLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/KYC/requests"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
-                    <KycRequest />
-                  </RootLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/KYC/KYC-List"
-              element={
-                <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
-                    <AllKycRequest />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -266,9 +349,9 @@ const App = () => {
               path="/dashboard/verifyKyc"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <PhoneNumber />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -276,19 +359,19 @@ const App = () => {
               path="/dashboard-vehicles/addVehicle"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <AddVehicle />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
-             <Route
+            <Route
               path="/categories/addCategory"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <AddCategory />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -297,9 +380,9 @@ const App = () => {
               path="/dashboard-vehicles/edit/:id"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <EditVehicle />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />
@@ -308,9 +391,9 @@ const App = () => {
               path="/dashboard-categories/edit/:id"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
-                  <RootLayout>
+                  <UserLayout>
                     <EditCategory />
-                  </RootLayout>
+                  </UserLayout>
                 </ProtectedRoute>
               }
             />

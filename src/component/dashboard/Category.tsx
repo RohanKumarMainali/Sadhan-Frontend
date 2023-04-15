@@ -65,8 +65,9 @@ function Categories() {
       {
         Header: 'Action',
         Footer: 'categories',
+        User: 'admin',
         accessor: '_id',
-        Cell: ({ value, row, column }) => {
+        Cell: ({ value, row, column }: any) => {
           return (
             <ActionButtons
               value={value}

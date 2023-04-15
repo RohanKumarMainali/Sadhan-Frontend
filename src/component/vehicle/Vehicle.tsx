@@ -43,7 +43,6 @@ const Vehicle = () => {
     try {
       const response = await axiosConfig.get(`${url}/getVehicle/${id}`)
       setVehicle(response.data.data)
-      console.log(response.data.data)
       setVehicleId(response.data.data[0]._id)
       setVehicleName(response.data.data[0].name)
       setVehicleNumber(response.data.data[0].vehicleNumber)
@@ -59,15 +58,8 @@ const Vehicle = () => {
   // to get userId who is posting vehicle
   const getUser = async () => {
     try {
-      const response = await axios.get(`${url}/session`, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json'
-        },
-        withCredentials: true
-      })
+      const response = await commonAxios.get(`${url}/session`)
       let details = response.data.payload
-      console.log(details)
       setUserId(details.id)
       setUserName(`${details.firstName} ${details.lastName}`)
     } catch (error: any) {
@@ -123,7 +115,6 @@ const Vehicle = () => {
 
   const getBookings = async (vehicleId: string) => {
     const response = await axios.get(`${url}/booking?vehicleId=${vehicleId}`)
-    console.log(response.data.bookings)
     setBookedDates(response.data.bookings)
   }
 
@@ -137,7 +128,6 @@ const Vehicle = () => {
     eventHandler: {
       onSuccess(payload: any) {
         // hit merchant api for initiating verfication
-        console.log(payload)
         let data = {
           token: payload.token,
           amount: payload.amount
@@ -187,7 +177,7 @@ const Vehicle = () => {
       {loading && <VehicleSkeleton />}
       {vehicle.map((item: any, index: number) => {
         return (
-          <>
+          <div key = {index}>
             <div className=" bg-white w-9/12 mx-auto mt-4 flex flex-col h-auto">
               <div className="header float-left">
                 <h1 className="text-2xl text-left p-2 font-semibold">
@@ -202,12 +192,13 @@ const Vehicle = () => {
                   loop={true}
                   modules={[Navigation]}
                   className="mySwiper"
+                  key={index}
                 >
 
                   {item.carImages.map((image: any, index: number) => {
                     return (
-                      <>
-                        <SwiperSlide>
+                      <div key = {index}>
+                        <SwiperSlide key={index}>
                           <div className="cursor-pointer transition duration-1000 ease-linear h-3/4 position-relative">
                             <div
                               className="image w-full h-3/4 bg-green-200 rounded-sm drop-shadow-sm bg-rounded "
@@ -224,7 +215,7 @@ const Vehicle = () => {
                             <span className="gridlove-hidden-overlay" />
                           </div>
                         </SwiperSlide>
-                      </>
+                      </div>
                     )
                   })}
                 </Swiper>
@@ -353,7 +344,7 @@ const Vehicle = () => {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         )
       })}
     </div>

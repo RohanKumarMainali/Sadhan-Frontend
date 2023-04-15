@@ -2,7 +2,7 @@
 import Sidebar from "./AnimatedSidebar";
 import SecondNavbar from "../dashboard/SecondNavbar";
 
-function RootLayout({ children }: any) {
+function UserLayout({ children }: any) {
   return (
     <div className="flex ">
       <Sidebar />
@@ -13,4 +13,4 @@ function RootLayout({ children }: any) {
   );
 }
 
-export default RootLayout;
+export default UserLayout;

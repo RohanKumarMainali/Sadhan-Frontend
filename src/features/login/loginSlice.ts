@@ -92,7 +92,7 @@ const loginSlice = createSlice({
     //increment
     loginAuth(state) {
       // this works because it uses immer under the hood
-      state.role = ''
+      state.role = 'user'
       state.loggedIn = true
     },
     loginAuthAdmin(state) {

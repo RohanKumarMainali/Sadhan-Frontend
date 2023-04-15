@@ -24,7 +24,9 @@ function Navbar() {
   const [showLogin, setShowLogin] = useState(false)
   const [searchVisible, setSearchVisible] = useState(true)
 
-  const loginDetail = useAppSelector(state => state.login.loggedIn)
+  // islogged in and role from redux
+  const isLoggedIn = useAppSelector(state => state.login.loggedIn)
+  const userRole = useAppSelector(state => state.login.role)
   const dispatchRedux = useAppDispatch()
 
   const navigate = useNavigate()
@@ -51,14 +53,6 @@ function Navbar() {
   const focusSearch = () => {
     search.current?.focus()
     setSearchVisible(true)
-  }
-
-  const google = () => {
-    window.open('http://localhost:5000/api/google', '_self')
-  }
-  const logoutGoogle = () => {
-    window.open('http://localhost:5000/api/logout', '_self')
-    localStorage.clear()
   }
 
   const logout = async () => {
@@ -89,7 +83,7 @@ function Navbar() {
   // useMemo to memoize return value from debounce function
 
   const debouncedResults = useMemo(() => {
-    return debounce(handleSearchInput, 1000)
+    return debounce(handleSearchInput, 500)
   }, [])
 
   // on enter click in search bar
@@ -107,9 +101,9 @@ function Navbar() {
       // if user clicks outside the search div
       if (
         searchResultDiv.current &&
-        (!searchResultDiv.current.contains(event.target as Node))
+        !searchResultDiv.current.contains(event.target as Node)
       ) {
-          console.log('clicked')
+        console.log('clicked')
         setSearchVisible(false)
       }
     }
@@ -163,24 +157,44 @@ function Navbar() {
                 </form>
 
                 {searchVisible && (
-                <div ref={searchResultDiv}>
-                  <SearchResults results={vehicles}
-                  // when a user clicks on any search list, make the search result invisible
-                
-                  onListItemClick={()=>setSearchVisible(false)} />
-                </div>
+                  <div ref={searchResultDiv}>
+                    <SearchResults
+                      results={vehicles}
+                      // when a user clicks on any search list, make the search result invisible
+
+                      onListItemClick={() => setSearchVisible(false)}
+                    />
+                  </div>
                 )}
               </div>
               <div className="col-md-6 nav-container">
                 <nav>
                   <ul>
-                    <button className="btn App-navbar-text">
-                      Rent Vehicle
-                    </button>
+                    {userRole !== 'admin' && (
+                      <>
+                        <button className="btn App-navbar-text">
+                          Rent Vehicle
+                        </button>
 
-                    <button className="btn App-navbar-text">Become Host</button>
-
-                    {loginDetail ? (
+                        <button className="btn App-navbar-text">
+                          Become Host
+                        </button>
+                      </>
+                    )}
+                    {(userRole === 'admin' && isLoggedIn )? (
+                      <>
+                        <Link to="/admin/dashboard">
+                          <button className="btn App-navbar-text">
+                            Admin Dashboard
+                          </button>
+                        </Link>
+                        <li className="login-list">
+                          <button className="btn App-btn" onClick={logout}>
+                            Logout
+                          </button>
+                        </li>
+                      </>
+                    ) : (userRole === 'user' ) ? (
                       <>
                         <Link to="/dashboard">
                           <button className="btn App-navbar-text">
@@ -194,13 +208,17 @@ function Navbar() {
                         </li>
                       </>
                     ) : (
-                      <button
-                        className="btn App-btn"
-                        onClick={() => setShowLogin(true)}
-                      >
-                        Login
-                      </button>
+                      <>
+                        <button
+                          className="btn App-btn"
+                          onClick={() => setShowLogin(true)}
+                        >
+                          Login
+                        </button>
+                      </>
                     )}
+
+                    
                   </ul>
                 </nav>
                 <LoginModal

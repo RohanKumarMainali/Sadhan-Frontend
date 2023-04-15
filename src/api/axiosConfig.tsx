@@ -27,9 +27,6 @@ axiosConfig.interceptors.request.use(
     const accessToken = tokenResponse.data.accessToken
     refreshToken = tokenResponse.data.refreshToken
 
-    console.log('got access token ' + accessToken)
-    console.log('got refresh token ' + refreshToken)
-
     // setting the JWT token in axios headers
 
     axiosConfig.defaults.headers.common[
@@ -56,6 +53,7 @@ axiosConfig.interceptors.response.use(
       originalRequest._retry = true
 
       try {
+        console.log('handling renew token')
         const refreshTokenResponse: any = await axiosConfig.post('/renewToken', {
           refreshToken: refreshToken
         })

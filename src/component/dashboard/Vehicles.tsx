@@ -11,7 +11,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
 import Table from '../table/Table'
-import { StatusPill , CreatedDate} from '../table/Status'
+import { StatusPill, CreatedDate } from '../table/Status'
 import { ActionButtons } from '../table/Button'
 
 interface passwordType {
@@ -26,26 +26,37 @@ function Vehicles() {
   const url = 'http://localhost:5000/api'
   const [vehicles, setVehicles] = useState([])
   const [showModal, setShowModal] = useState(false)
+  const [userId, setUserId] = useState('')
   const [addVehicleModal, setAddVehicleModal] = useState(false)
   const [vehicleId, setVehicleId] = useState(0)
   const [request, setRequest] = useState(false)
+  const [loading, setLoading] = useState(true)
   const fileRef = useRef(null)
-
-  const getUsers = async () => {
-    try {
-      const response = await axios.get(`${url}/getVehicle`)
-      setVehicles(response.data.vehicles)
-      console.log(response)
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const deleteVehicle = (id: number) => {
     setShowModal(true)
     setVehicleId(id)
   }
 
+  // to get userId who is posting vehicle
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`${url}/session`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      })
+      let details = response.data.payload
+      console.log('id ' + details.id)
+      console.log(details)
+      setUserId(details.id)
+      fetchData(details.id)
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
 
   const confirmDelete = async () => {
     setShowModal(false)
@@ -76,7 +87,7 @@ function Vehicles() {
   }
 
   useEffect(() => {
-    getUsers()
+    getUser()
   }, [request])
 
   //new method
@@ -112,9 +123,8 @@ function Vehicles() {
         Header: 'Created On',
         Footer: 'Created on',
         accessor: 'createdOn',
-        Cell: CreatedDate,
+        Cell: CreatedDate
       },
-
 
       {
         Header: 'Status',
@@ -127,8 +137,14 @@ function Vehicles() {
         Header: 'Action',
         Footer: 'vehicles',
         accessor: '_id',
-        Cell: ({ value, row, column } : any) => {
-          return <ActionButtons value={value} column={column} deleteVehicle={deleteVehicle} />
+        Cell: ({ value, row, column }: any) => {
+          return (
+            <ActionButtons
+              value={value}
+              column={column}
+              deleteVehicle={deleteVehicle}
+            />
+          )
         }
       }
     ],
@@ -138,16 +154,18 @@ function Vehicles() {
 
   const [data, setData] = useState([])
 
-  const fetchData = async () => {
-    const response: any = await axios(`${url}/getVehicle`).catch(err =>
-      console.log(err)
-    )
-    setData(response.data.vehicles)
+  const fetchData = async (userId: string) => {
+    try {
+      const response: any = await axios(`${url}/getVehicleByUser/${userId}`)
+      console.log(response.data)
+      setData(response.data.vehicle)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
 
   return (
     <div className="float-right h-screen w-full p-0 px-5">
@@ -157,11 +175,11 @@ function Vehicles() {
       >
         <div className="w-full px-5 py-3 mx-auto">
           <h1 className="text-left text-2xl font-semibold ">
-            Manage Vehicles
+            Manage Your Vehicles
           </h1>
         </div>
         <div className="user-table w-full px-5 mx-auto">
-          <Table column={columns} mockData={data} />
+          {loading === false && <Table column={columns} mockData={data} />}
         </div>
 
         <div className=" mt-3 w-full px-5 float-left ">

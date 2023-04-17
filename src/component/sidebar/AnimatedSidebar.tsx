@@ -114,14 +114,11 @@ const AnimatedSidebar = () => {
 
   const subMenusList = [
     {
-      name: 'KYC',
+
+      name: 'Bookings',
+      user: 'user',
       icon: RiBuilding3Line,
-      menus: ['Requests', 'KYC-List']
-    },
-    {
-      name: 'analytics',
-      icon: TbReportAnalytics,
-      menus: ['dashboard', 'realtime', 'events']
+      menus: ['My-Bookings', 'My-Rentals']
     }
   ]
 
@@ -189,6 +186,19 @@ const AnimatedSidebar = () => {
                 Settings
               </NavLink>
             </li>
+
+            {(open || isTabletMid) && (
+              <div className="border-y py-5 border-slate-300 ">
+                <small className="pl-3 text-slate-500 inline-block mb-2">
+                  Product categories
+                </small>
+                {subMenusList?.map(menu => (
+                  <div key={menu.name} className="flex flex-col gap-1">
+                    <SubMenu data={menu} />
+                  </div>
+                ))}
+              </div>
+            )}
           </ul>
           {open && (
             <div className="flex-1 text-sm z-50  max-h-48 my-auto  whitespace-pre   w-full  font-medium  ">

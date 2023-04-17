@@ -4,9 +4,9 @@ import NewTable from '../component/table/NewTable'
 import Table from '../component/table/Table'
 import data from './data.json'
 import makeData from '../component/table/makeData'
-import {useEffect, useMemo , useState} from 'react'
-import {StatusPill} from '../component/table/Status'
-import {ActionButtons} from '../component/table/Button'
+import { useEffect, useMemo, useState } from 'react'
+import { StatusPill } from '../component/table/Status'
+import { ActionButtons } from '../component/table/Button'
 
 function Dashboard() {
   const url = 'http://localhost:5000/api'
@@ -78,18 +78,17 @@ function Dashboard() {
 
   const columns = useMemo(
     () => [
-      
       {
         Header: 'Name',
         Footer: 'Name',
         accessor: 'name',
-        sticky: 'left',
+        sticky: 'left'
       },
 
       {
         Header: 'Model ',
         Footer: 'Model',
-        accessor: 'model',
+        accessor: 'model'
       },
       {
         Header: 'Price ',
@@ -103,36 +102,32 @@ function Dashboard() {
         Footer: 'Mileage',
         accessor: 'milage'
       },
-      
+
       {
         Header: 'Status',
         Footer: 'Status',
         accessor: 'status',
-        Cell: StatusPill,
+        Cell: StatusPill
       },
 
-      {
-        Header: 'Action',
-        Footer: 'Action',
-        accessor: '_id',
-        Cell: ActionButtons,
-      },
+      
     ],
 
     []
   )
 
-
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
 
   const fetchData = async () => {
-    const response: any = await axios(`${url}/getVehicle`).catch((err) => console.log(err));
-    setData(response.data.vehicles);
-  };
+    const response: any = await axios(`${url}/getVehicle`).catch(err =>
+      console.log(err)
+    )
+    setData(response.data.vehicles)
+  }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   useEffect(() => {
     getUser()
@@ -172,7 +167,9 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className='user-table '><Table column={columns} mockData={data} /></div>
+            <div className="user-table ">
+              <Table column={columns} mockData={data} />
+            </div>
           </div>
         </>
       ) : null}

@@ -16,6 +16,7 @@ import AllKycRequest from './component/admin/AllKycRequest'
 import Sidebar from './component/dashboard/Sidebar'
 import Profile from './component/dashboard/Profile'
 import Vehicles from './component/dashboard/Vehicles'
+import VehicleList from './component/admin/VehicleList'
 import ForgotPasswordEmail from './component/user/ForgotPasswordEmail'
 import ForgotPassword from './component/user/ForgotPassword'
 import ChangePassword from './component/user/ChangePassword'
@@ -213,7 +214,7 @@ const App = () => {
               element={
                 <AdminRoute redirect={!isAuthenticated}>
                   <AdminLayout>
-                    <Vehicles />
+                    <VehicleList />
                   </AdminLayout>
                 </AdminRoute>
               }
@@ -280,6 +281,16 @@ const App = () => {
               }
             />
 
+            <Route
+              path="admin/bookings"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <Bookings />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
 
 
 
@@ -337,7 +348,18 @@ const App = () => {
               }
             />
             <Route
-              path="/bookings"
+              path="/user/Bookings/My-Bookings"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <UserLayout>
+                    <Bookings />
+                  </UserLayout>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/user/Bookings/My-Rentals"
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <UserLayout>

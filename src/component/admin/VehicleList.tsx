@@ -1,39 +1,56 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
+import { useTable } from 'react-table'
 import { ToastContainer, toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
-
+import { Formik, Form, Field } from 'formik'
+import { useParams } from 'react-router-dom'
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import PreviewImage from '../dashboard/PreviewImage'
 import Table from '../table/Table'
-import { StatusPill, CreatedDate } from '../table/Status'
+import { StatusPill , CreatedDate} from '../table/Status'
 import { ActionButtons } from '../table/Button'
 
-const Users = () => {
+interface passwordType {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}
+interface userType {
+  id: string
+}
+function VehicleList() {
   const url = 'http://localhost:5000/api'
-  const [user, setUser] = useState([])
+  const [vehicles, setVehicles] = useState([])
   const [showModal, setShowModal] = useState(false)
-  const [userId, setUserId] = useState(0)
+  const [addVehicleModal, setAddVehicleModal] = useState(false)
+  const [vehicleId, setVehicleId] = useState(0)
   const [request, setRequest] = useState(false)
+  const fileRef = useRef(null)
 
   const getUsers = async () => {
     try {
-      const response = await axios.get(`${url}/getUser`)
-      setUser(response.data.data)
+      const response = await axios.get(`${url}/getVehicle`)
+      setVehicles(response.data.vehicles)
       console.log(response)
     } catch (err) {
       console.log(err)
     }
   }
 
-  const deleteUser = (id: number) => {
+  const deleteVehicle = (id: number) => {
     setShowModal(true)
-    setUserId(id)
+    setVehicleId(id)
   }
+
 
   const confirmDelete = async () => {
     setShowModal(false)
     try {
-      const response = await axios.delete(`${url}/deleteUser/${userId}`)
+      const response = await axios.delete(`${url}/deleteVehicle/${vehicleId}`)
       console.log(response)
       showMessage(response.data.message, 200)
       if (request) {
@@ -42,60 +59,76 @@ const Users = () => {
         setRequest(true)
       }
     } catch (error) {
-      showMessage("Couldn't Delete User", 400)
+      showMessage("Couldn't Delete Vehicle", 400)
     }
   }
-
-  // verify user
 
   const showMessage = (message: string, statusCode: number) => {
     if (statusCode == 201 || statusCode == 200) toast.success(message)
     else toast.error(message)
   }
 
+  {
+    /* add vehicle */
+  }
+  const addVehicle = async (formik: passwordType) => {
+    const url = 'http://localhost:5000/api'
+  }
+
+  useEffect(() => {
+    getUsers()
+  }, [request])
+
   //new method
 
   const columns = useMemo(
     () => [
       {
-        Header: 'First Name',
+        Header: 'Name',
         Footer: 'Name',
-        accessor: 'firstName',
-        sticky: 'left'
-      },
-      {
-        Header: 'Last Name',
-        Footer: 'Name',
-        accessor: 'lastName',
+        accessor: 'name',
         sticky: 'left'
       },
 
       {
-        Header: 'Email',
-        Footer: 'Email',
-        accessor: 'email'
+        Header: 'Model ',
+        Footer: 'Model',
+        accessor: 'model'
+      },
+      {
+        Header: 'Price ',
+        Footer: 'Price',
+        accessor: 'price',
+        sticky: 'left'
       },
 
       {
-        Header: 'Joined',
-        Footer: 'joined',
+        Header: 'Mileage',
+        Footer: 'Mileage',
+        accessor: 'milage'
+      },
+
+      {
+        Header: 'Created On',
+        Footer: 'Created on',
         accessor: 'createdOn',
-        Cell: CreatedDate
+        Cell: CreatedDate,
       },
+
 
       {
         Header: 'Status',
-        Footer: 'staus',
+        Footer: 'Status',
         accessor: 'status',
         Cell: StatusPill
       },
 
       {
         Header: 'Action',
-        Footer: 'users',
+        Footer: 'vehicles',
         accessor: '_id',
-        Cell: ({ value, row, column }) => {
-          return <ActionButtons value={value} column={column} deleteVehicle={deleteUser} />
+        Cell: ({ value, row, column } : any) => {
+          return <ActionButtons value={value} column={column} deleteVehicle={deleteVehicle} />
         }
       }
     ],
@@ -106,12 +139,10 @@ const Users = () => {
   const [data, setData] = useState([])
 
   const fetchData = async () => {
-    const response: any = await axios(`${url}/getUser`).catch((err: any) =>
+    const response: any = await axios(`${url}/getVehicle`).catch(err =>
       console.log(err)
     )
-
-    setData(response.data.data)
-    console.log(response.data.data)
+    setData(response.data.vehicles)
   }
 
   useEffect(() => {
@@ -119,20 +150,26 @@ const Users = () => {
   }, [])
 
   return (
-    <div className=" w-full p-0 px-5 float-right h-screen">
+    <div className="float-right h-screen w-full p-0 px-5">
       <div
-        className="dashboard-home bg-white main-profile mx-auto  rounded shadow-xl"
+        className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl"
         style={{ height: '90vh' }}
       >
-        {/* Table*/}
-        <div className="mx-auto w-full px-5">
-          <h1 className="text-left text-2xl font-semibold py-3">
-            Manage Users
+        <div className="w-full px-5 py-3 mx-auto">
+          <h1 className="text-left text-2xl font-semibold ">
+            Manage Vehicles
           </h1>
+        </div>
+        <div className="user-table w-full px-5 mx-auto">
+          <Table column={columns} mockData={data} />
+        </div>
 
-          <div className="user-table w-full mx-auto">
-            <Table column={columns} mockData={data} />
-          </div>
+        <div className=" mt-3 w-full px-5 float-left ">
+          <Link to="/dashboard-vehicles/addVehicle">
+            <button className="border float-left py-2 px-1 text-white rounded App-btn btn text-xs font-medium">
+              Add vehicle
+            </button>
+          </Link>
         </div>
         {showModal ? (
           <div
@@ -180,7 +217,7 @@ const Users = () => {
                     />
                   </svg>
                   <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                    Are you sure you want to delete this user?
+                    Are you sure you want to delete this Vehicle?
                   </h3>
                   <button
                     data-modal-hide="popup-modal"
@@ -192,7 +229,10 @@ const Users = () => {
                   </button>
                   <button
                     data-modal-hide="popup-modal"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      confirmDelete()
+                      setShowModal(false)
+                    }}
                     className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                   >
                     No, cancel
@@ -204,7 +244,6 @@ const Users = () => {
         ) : (
           <></>
         )}
-        <div></div>
       </div>
       <ToastContainer
         position="top-right"
@@ -221,4 +260,5 @@ const Users = () => {
     </div>
   )
 }
-export default Users
+
+export default VehicleList

@@ -28,6 +28,7 @@ const Vehicle = () => {
   const [vehicleName, setVehicleName] = useState('')
   const [vehicleNumber, setVehicleNumber] = useState('')
   const [vehicleModel, setVehicleModel] = useState('')
+  const [ownerId, setOwnerId] = useState('')
   const [vehiclePrice, setVehiclePrice] = useState(0)
 
   const [loading, setLoading] = useState(true)
@@ -46,10 +47,12 @@ const Vehicle = () => {
       setVehicleId(response.data.data[0]._id)
       setVehicleName(response.data.data[0].name)
       setVehicleNumber(response.data.data[0].vehicleNumber)
+      setOwnerId(response.data.data[0].userId)
       setVehicleModel(response.data.data[0].model)
       setVehiclePrice(response.data.data[0].price)
       setLoading(false)
       getBookings(response.data.data[0]._id)
+      console.log(response)
     } catch (error: any) {
       console.log(error)
     }
@@ -99,6 +102,7 @@ const Vehicle = () => {
         startDate,
         endDate,
         userId,
+        ownerId,
         vehicleId,
         amount
       })

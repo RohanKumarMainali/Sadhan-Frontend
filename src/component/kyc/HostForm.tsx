@@ -89,20 +89,17 @@ const HostForm = () => {
                 <Steps.Item title="KYC Form" />
                 <Steps.Item title="Confirm Details" />
               </Steps>
-              {
-               count == 1 ? (
+              {count == 1 ? (
                 <EnterOTP />
               ) : count == 2 ? (
                 <EmailVerify />
               ) : count == 3 ? (
                 <EmailOTP />
               ) : count == 4 ? (
-              <PaymentInfo/>
+                <PaymentInfo />
               ) : count == 5 ? (
-
                 <KYCForm />
-              ) : count ===6 ? (
-
+              ) : count === 6 ? (
                 <ViewKyc />
               ) : (
                 <Formik

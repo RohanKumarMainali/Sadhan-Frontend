@@ -9,6 +9,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
 import { GiCancel } from 'react-icons/gi'
 import '../../index.css'
+import axiosConfig from '../../api/axiosConfig'
 
 interface vehicleType {
   name: string

@@ -11,9 +11,6 @@ export function useAuth() {
   const login = useAppSelector((state)=>state.login.loggedIn)
   const dispatchRedux = useAppDispatch()
 
-  function finalLogin() {
-    dispatchRedux(loginAuth())
-  }
   useEffect(() => {
     const user = localStorage?.getItem('user')
 

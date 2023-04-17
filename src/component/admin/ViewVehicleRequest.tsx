@@ -37,7 +37,7 @@ export interface UserDataProps {
     category: string
     status: string
     seat: string
-    id: string
+    _id: string
 
     carImages: Array<image>
   }
@@ -56,7 +56,7 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
     category,
     status,
     seat,
-    id
+    _id
   } = userData
 
   const url = 'http://localhost:5000/api'
@@ -64,11 +64,11 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
 
   // approve KYC ----------------------------------
   //
-  const approveKyc = async () => {
+  const approveVehicle = async () => {
     try {
       const response = await axios.post(
-        `${url}/verifyVehicle`,
-        { id: id },
+        `${url}/approveVehicle`,
+        { id: _id },
         {
           withCredentials: true,
           headers: {
@@ -77,7 +77,7 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
           }
         }
       )
-      toast.success('User verified successfully')
+      toast.success('Vehicle verified successfully')
 
       // navigate to dashboard
     } catch (error: any) {
@@ -86,11 +86,11 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
   }
 
   // rejcet KYC ----------------------------------
-  const rejectKyc = async () => {
+  const rejectVehicle = async () => {
     try {
       const response = await axios.post(
-        `${url}/rejectKyc`,
-        { id: id },
+        `${url}/rejectVehicle`,
+        { id: _id },
         {
           withCredentials: true,
           headers: {
@@ -99,7 +99,7 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
           }
         }
       )
-      toast.success('User rejected successfully')
+      toast.success('Vehicle rejected successfully')
 
       // navigate to dashboard
     } catch (error: any) {
@@ -202,14 +202,14 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
         <button
           className="mr-5 bg-danger float-left confirmKycButton mt-4"
           style={{ width: '15%' }}
-          onClick={rejectKyc}
+          onClick={rejectVehicle}
         >
           Reject
         </button>
         <button
           className="mr-5 float-left confirmKycButton mt-4"
           style={{ width: '15%' }}
-          onClick={approveKyc}
+          onClick={approveVehicle}
         >
           Approve
         </button>

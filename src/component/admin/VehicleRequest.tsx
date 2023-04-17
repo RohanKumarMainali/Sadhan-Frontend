@@ -28,7 +28,7 @@ interface User {
   category: string
   status: string
   seat: string
-  id: string  
+  _id: string
   carImages: Array<image>
 }
 
@@ -116,9 +116,10 @@ const VehicleRequest = () => {
                     <tr>
                       <th>Id</th>
                       <th>Name</th>
-                      <th>Email</th>
-                      <th>Joined</th>
-                      <th>Status</th>
+                      <th>Vehicle Number</th>
+                      <th>Price</th>
+                      <th>Mileage</th>
+                      <th>Posted</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -136,11 +137,20 @@ const VehicleRequest = () => {
                               {index + 1}
                             </td>
                             <td className="border border-slate-300 px-3 text-left">
-                              {singleUser.firstName + ' ' + singleUser.lastName}
+                              {singleUser.name + ' ' + singleUser.model}
                             </td>
                             <td className="border border-slate-300  text-left px-3">
-                              {singleUser.email}
+                              {singleUser.vehicleNumber}
                             </td>
+
+                            <td className="border border-slate-300  text-left px-3">
+                              {`${singleUser.price}/day`}
+                            </td>
+
+                            <td className="border border-slate-300  text-left px-3">
+                              {`${singleUser.milage}`}
+                            </td>
+
                             <td className="border border-slate-300  ">
                               {moment
                                 .utc(singleUser.createdOn)

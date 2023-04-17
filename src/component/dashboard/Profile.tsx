@@ -125,7 +125,7 @@ const Profile = () => {
                         <p className="text-right text-lg ">{email}</p>
                         <p className="text-right text-lg "> {role} </p>
                         <p className="text-right text-lg text-red-400">
-                          Pending{' '}
+                          {status}
                         </p>
 
                         <p className="text-right text-lg text-indigo-500">
@@ -137,12 +137,18 @@ const Profile = () => {
                         <p className="text-right text-indigo-500 ">
                           Verify Number
                         </p>
-                        {status == 'verified' && (
+                        {status === 'pending'   && (
                           <p className="text-right text-indigo-500 ">
-                            Verified
+                            Pending
                           </p>
                         )}
-                        {status != 'verified' && (
+
+                        {status === 'unverified'   && (
+                          <p className="text-right text-indigo-500 ">
+                            Not verified
+                          </p>
+                        )}
+                        {(status !== 'verified' && status !== 'pending')&& (
                           <Link to="/dashboard/verifyKyc">
                             <p className="text-right text-indigo-500 ">
                               Verify

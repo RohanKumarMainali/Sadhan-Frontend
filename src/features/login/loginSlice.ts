@@ -7,6 +7,7 @@ interface loginState {
   role: string
   loggedIn: boolean
   method:string
+  status: string
 }
 
 interface userType {
@@ -19,6 +20,7 @@ const initialState: loginState = {
   role: data?.role ? data.role : '',
   loggedIn: false,
   method: data?.method ? data.method: '',
+  status: data?.status ? data.status : '',
 }
 
 const url = 'http://localhost:5000/api'
@@ -70,7 +72,7 @@ export const getUserThunk = createAsyncThunk('getUser/', async thunkAPI => {
     // getting user details 
 
     let details = response.data.payload
-    return {role: details.role, method: details.method}
+    return {role: details.role, method: details.method, status: details.status}
 
   } catch (error: any) {
     localStorage.clear()
@@ -114,7 +116,9 @@ const loginSlice = createSlice({
       console.log(payload)
       state.role = payload.role
       state.method = payload.method
+      state.status = payload.status
       if (payload.role == 'user' || payload.role ==='owner' || payload.role == 'admin') state.loggedIn = true
+          console.log(state.role)
     })
   }
 })

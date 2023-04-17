@@ -91,11 +91,23 @@ const HostForm = () => {
           >
             <div className=" w-full">
               {count === 7 ? (
-                <><WaitingPage/></>
-              ) : count === 8 ? (<><ThankYouPage/></>)
-
-              :(
                 <>
+                  <WaitingPage />
+                </>
+              ) : count === 8 ? (
+                <>
+                  <ThankYouPage />
+                </>
+              ) : (
+                <>
+                  <Steps current={kycStage} className="w-2/3 mx-auto mt-5 p-0">
+                    <Steps.Item title="Verify Number" />
+                    <Steps.Item title="Verify Email" />
+                    <Steps.Item title="KYC Form" />
+                    <Steps.Item title="Confirm Details Form" />
+                    <Steps.Item title="Payment" />
+                  </Steps>
+
                   {count == 1 ? (
                     <EnterOTP />
                   ) : count == 2 ? (
@@ -152,72 +164,7 @@ const HostForm = () => {
                   )}
                 </>
               )}
-              {count !== 7 && count !== 8 && (
-                <>
-                  <Steps current={kycStage} className="w-2/3 mx-auto mt-5 p-0">
-                    <Steps.Item title="Verify Number" />
-                    <Steps.Item title="Verify Email" />
-                    <Steps.Item title="KYC Form" />
-                    <Steps.Item title="Confirm Details Form" />
-                    <Steps.Item title="Payment" />
-                  </Steps>
-                </>
-              )}
-              {count == 1 ? (
-                <EnterOTP />
-              ) : count == 2 ? (
-                <EmailVerify />
-              ) : count == 3 ? (
-                <EmailOTP />
-              ) : count == 4 ? (
-                <KYCForm />
-              ) : count == 5 ? (
-                <ViewKyc />
-              ) : count === 6 ? (
-                <PaymentInfo />
-              ) : count === 0 ? (
-                <Formik
-                  initialValues={{
-                    phoneNumber: ''
-                  }}
-                  onSubmit={values => {
-                    sendOTP(values)
-                  }}
-                >
-                  {({ errors, touched, isValidating }) => (
-                    <Form className="w-1/4 mx-auto mt-3 flex flex-col justify-center items-center">
-                      <img
-                        src="https://cdni.iconscout.com/illustration/premium/thumb/otp-verification-5152137-4309037.png"
-                        height="400px"
-                        width="400px"
-                      />
-                      <h2 className="text-3xl font-semibold ">
-                        Verify Phone Number
-                      </h2>
-                      <Field
-                        type="text "
-                        className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                        placeholder="Phone Number"
-                        name="phoneNumber"
-                      />
-
-                      <button className="login-btn" type="submit">
-                        Submit
-                      </button>
-                    </Form>
-                  )}
-                </Formik>
-              ) : // if user has submitted kyc previously
-              count === 7 ? (
-                <WaitingPage />
-              ) : count === 8 ? (
-                <>
-                  <ThankYouPage />
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
+           </div>
           </div>
         </div>
       </div>

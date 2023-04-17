@@ -77,7 +77,7 @@ const kycFormSlice = createSlice({
     builder.addCase(getUserThunk.fulfilled, (state: any, { payload }: any) => {
 
       if (payload.phoneVerified === 'verified') state.kycFormStage = 2
-      if (payload.method === 'google' || payload.emailVerified === 'verified')
+      if ((payload.phoneVerified) && (payload.method === 'google' || payload.emailVerified === 'verified'))
         state.kycFormStage = 4
       // if user has already posted kyc and waiting
       if (

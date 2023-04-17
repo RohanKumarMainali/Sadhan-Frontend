@@ -37,6 +37,7 @@ const AnimatedSidebar = () => {
 
   // redux
   const userRole = useAppSelector(state => state.login.role)
+  const userStatus = useAppSelector(state => state.login.status)
 
   const getUser = async () => {
     try {
@@ -114,7 +115,6 @@ const AnimatedSidebar = () => {
 
   const subMenusList = [
     {
-
       name: 'Bookings',
       user: 'user',
       icon: RiBuilding3Line,
@@ -167,6 +167,7 @@ const AnimatedSidebar = () => {
               </NavLink>
             </li>
             <li>
+                {userRole === 'owner' && userStatus === 'verified' && (
               <NavLink
                 to={'/dashboard-vehicles'}
                 className="link App-sidebar-link"
@@ -174,45 +175,35 @@ const AnimatedSidebar = () => {
                 <GiSteeringWheel size={23} className="min-w-max" />
                 Vehicles
               </NavLink>
+              )}
+
+                { userRole === 'user' && (
               <NavLink to={'/bookings'} className="link App-sidebar-link">
                 <RiMotorbikeFill size={23} className="min-w-max" />
                 Bookings
               </NavLink>
+              )}
             </li>
 
-            <li>
-              <NavLink to={'/settings'} className="link App-sidebar-link">
-                <SlSettings size={23} className="min-w-max" />
-                Settings
-              </NavLink>
-            </li>
 
             {(open || isTabletMid) && (
               <div className="border-y py-5 border-slate-300 ">
+
+                {userRole === 'owner' && userStatus === 'verified' && (
+                  <>
                 <small className="pl-3 text-slate-500 inline-block mb-2">
-                  Product categories
+                  Moniter Bookings
                 </small>
-                {subMenusList?.map(menu => (
-                  <div key={menu.name} className="flex flex-col gap-1">
-                    <SubMenu data={menu} />
-                  </div>
-                ))}
+                    {subMenusList?.map(menu => (
+                      <div key={menu.name} className="flex flex-col gap-1">
+                        <SubMenu data={menu} />
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             )}
           </ul>
-          {open && (
-            <div className="flex-1 text-sm z-50  max-h-48 my-auto  whitespace-pre   w-full  font-medium  ">
-              <div className="flex border-y border-slate-300 p-4 items-center justify-between">
-                <div className="">
-                  <p>Spark</p>
-                  <small>No-cost $0/month</small>
-                </div>
-                <p className="text-teal-500 py-1.5 px-3 text-xs bg-teal-50 rounded-xl">
-                  Upgrade
-                </p>
-              </div>
-            </div>
-          )}
         </div>
         <motion.div
           onClick={() => {

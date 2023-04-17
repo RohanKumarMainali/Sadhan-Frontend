@@ -128,6 +128,7 @@ const App = () => {
   useEffect(() => {
     dispatchRedux(getUserThunk())
     setLightMode()
+    getUsers();
   }, [])
 
   return (
@@ -344,6 +345,17 @@ const App = () => {
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <UserLayout>
                     <ChangePassword user={userData} />
+                  </UserLayout>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/bookings"
+              element={
+                <ProtectedRoute redirect={!isAuthenticated}>
+                  <UserLayout>
+                    <Bookings />
                   </UserLayout>
                 </ProtectedRoute>
               }

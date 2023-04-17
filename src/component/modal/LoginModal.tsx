@@ -185,7 +185,6 @@ export const LoginModal = ({ show, close }: Props) => {
 
   const google = () => {
     window.open('http://localhost:5000/api/google', '_self')
-    dispatch({ type: 'USER', payload: true })
   }
 
   const logout = () => {

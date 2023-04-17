@@ -157,9 +157,7 @@ const Vehicle = () => {
         console.log('widget is closing')
       }
     },
-    paymentPreference: [
-      'KHALTI',
-    ]
+    paymentPreference: ['KHALTI']
   }
 
   let khalti = new KhaltiCheckout(config)
@@ -179,7 +177,7 @@ const Vehicle = () => {
       {loading && <VehicleSkeleton />}
       {vehicle.map((item: any, index: number) => {
         return (
-          <div key = {index}>
+          <div key={index}>
             <div className=" bg-white w-9/12 mx-auto mt-4 flex flex-col h-auto">
               <div className="header float-left">
                 <h1 className="text-2xl text-left p-2 font-semibold">
@@ -188,39 +186,37 @@ const Vehicle = () => {
               </div>
 
               <div className="body h-4/5 flex justify-between">
-              <div className="w-8/12 h-3/4 ">
-                <Swiper
-                  navigation={true}
-                  loop={true}
-                  modules={[Navigation]}
-                  className="mySwiper"
-                  key={index}
-                >
-
-                  {item.carImages.map((image: any, index: number) => {
-                    return (
-                      <div key = {index}>
-                        <SwiperSlide key={index}>
-                          <div className="cursor-pointer transition duration-1000 ease-linear h-3/4 position-relative">
-                            <div
-                              className="image w-full h-3/4 bg-green-200 rounded-sm drop-shadow-sm bg-rounded "
-                              style={{
-                                backgroundImage: `url(${image.url})`,
-                                maxWidth: '100%',
-                                height: '60vh',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'top'
-                              }}
-                            >
+                <div className="w-8/12 h-3/4 ">
+                  <Swiper
+                    navigation={true}
+                    loop={true}
+                    modules={[Navigation]}
+                    className="mySwiper"
+                    key={index}
+                  >
+                    {item.carImages.map((image: any, index: number) => {
+                      return (
+                        <div key={index}>
+                          <SwiperSlide key={index}>
+                            <div className="cursor-pointer transition duration-1000 ease-linear h-3/4 position-relative">
+                              <div
+                                className="image w-full h-3/4 bg-green-200 rounded-sm drop-shadow-sm bg-rounded "
+                                style={{
+                                  backgroundImage: `url(${image.url})`,
+                                  maxWidth: '100%',
+                                  height: '60vh',
+                                  backgroundRepeat: 'no-repeat',
+                                  backgroundSize: 'cover',
+                                  backgroundPosition: 'top'
+                                }}
+                              ></div>
+                              <span className="gridlove-hidden-overlay" />
                             </div>
-                            <span className="gridlove-hidden-overlay" />
-                          </div>
-                        </SwiperSlide>
-                      </div>
-                    )
-                  })}
-                </Swiper>
+                          </SwiperSlide>
+                        </div>
+                      )
+                    })}
+                  </Swiper>
                 </div>
 
                 <div className="booking w-3/12 h-3/4 rounded-xl bg-white drop-shadow-lg py-4">

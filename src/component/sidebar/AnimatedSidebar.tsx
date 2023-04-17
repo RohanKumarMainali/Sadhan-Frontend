@@ -167,33 +167,31 @@ const AnimatedSidebar = () => {
               </NavLink>
             </li>
             <li>
-                {userRole === 'owner' && userStatus === 'verified' && (
-              <NavLink
-                to={'/dashboard-vehicles'}
-                className="link App-sidebar-link"
-              >
-                <GiSteeringWheel size={23} className="min-w-max" />
-                Vehicles
-              </NavLink>
+              {userRole === 'owner' && userStatus === 'verified' && (
+                <NavLink
+                  to={'/dashboard-vehicles'}
+                  className="link App-sidebar-link"
+                >
+                  <GiSteeringWheel size={23} className="min-w-max" />
+                  Vehicles
+                </NavLink>
               )}
 
-                { userRole === 'user' && (
-              <NavLink to={'/bookings'} className="link App-sidebar-link">
-                <RiMotorbikeFill size={23} className="min-w-max" />
-                Bookings
-              </NavLink>
+              {userRole === 'user' && (
+                <NavLink to={'/bookings'} className="link App-sidebar-link">
+                  <RiMotorbikeFill size={23} className="min-w-max" />
+                  Bookings
+                </NavLink>
               )}
             </li>
 
-
             {(open || isTabletMid) && (
               <div className="border-y py-5 border-slate-300 ">
-
                 {userRole === 'owner' && userStatus === 'verified' && (
                   <>
-                <small className="pl-3 text-slate-500 inline-block mb-2">
-                  Moniter Bookings
-                </small>
+                    <small className="pl-3 text-slate-500 inline-block mb-2">
+                      Moniter Bookings
+                    </small>
                     {subMenusList?.map(menu => (
                       <div key={menu.name} className="flex flex-col gap-1">
                         <SubMenu data={menu} />

@@ -12,10 +12,12 @@ import Navbar from './component/navbar/Navbar'
 import Dashboard from './component/Dashboard'
 import SignInSide from './component/admin/SignInSide'
 import KycRequest from './component/admin/KycRequest'
+import VehicleRequest from './component/admin/VehicleRequest'
 import AllKycRequest from './component/admin/AllKycRequest'
 import Sidebar from './component/dashboard/Sidebar'
 import Profile from './component/dashboard/Profile'
 import Vehicles from './component/dashboard/Vehicles'
+import AdminVehicle from './component/admin/AdminVehicle'
 import VehicleList from './component/admin/VehicleList'
 import ForgotPasswordEmail from './component/user/ForgotPasswordEmail'
 import ForgotPassword from './component/user/ForgotPassword'
@@ -252,12 +254,37 @@ const App = () => {
                 </AdminRoute>
               }
             />
+
             <Route
               path="admin/KYC/KYC-List"
               element={
                 <AdminRoute redirect={!isAuthenticated}>
                   <AdminLayout>
                     <AllKycRequest />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+
+
+
+            <Route
+              path="admin/Vehicle/Requests"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <VehicleRequest />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="admin/Vehicle/List"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <AdminVehicle />
                   </AdminLayout>
                 </AdminRoute>
               }

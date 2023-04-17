@@ -148,3 +148,7 @@ a:hover {
 .opt-container > input {
   width: 45px !important;
 }
+
+.image-array > div {
+  height: 100%;
+}

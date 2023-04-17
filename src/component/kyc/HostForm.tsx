@@ -12,12 +12,14 @@ import EmailVerify from './EmailVerify'
 import KYCForm from './KYCForm'
 import ViewKyc from './ViewKyc'
 import PaymentInfo from './PaymentInfo'
+import ThankYouPage from './ThankYou'
+import WaitingPage from './WaitingPage'
 import { Steps } from 'rsuite'
 import './steps.css'
 
 // redux ------------------
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { proceedKycForm } from '../../features/kyc/kycSlice'
+import { proceedKycForm, getUserThunk } from '../../features/kyc/kycSlice'
 
 interface phoneType {
   phoneNumber: any
@@ -25,6 +27,7 @@ interface phoneType {
 
 const HostForm = () => {
   // redux
+
   const count = useAppSelector(state => state.kyc.kycFormStage)
   const [kycStage, setKycStage] = useState(0)
   const dispatchRedux = useAppDispatch()
@@ -35,6 +38,10 @@ const HostForm = () => {
     ? localStorage.getItem('user')
     : null
   const userId = user.id
+
+  // user role
+
+  const userRole = useAppSelector(state => state.login.role)
 
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -72,6 +79,7 @@ const HostForm = () => {
 
   useEffect(() => {
     checkState()
+    dispatchRedux(getUserThunk())
   }, [count])
   return (
     <div>
@@ -82,13 +90,79 @@ const HostForm = () => {
             style={{ height: '90vh' }}
           >
             <div className=" w-full">
-              <Steps current={kycStage} className="w-2/3 mx-auto mt-5 p-0">
-                <Steps.Item title="Verify Number" />
-                <Steps.Item title="Verify Email" />
-                <Steps.Item title="Payment" />
-                <Steps.Item title="KYC Form" />
-                <Steps.Item title="Confirm Details" />
-              </Steps>
+              {count === 7 ? (
+                <><WaitingPage/></>
+              ) : count === 8 ? (<><ThankYouPage/></>)
+
+              :(
+                <>
+                  {count == 1 ? (
+                    <EnterOTP />
+                  ) : count == 2 ? (
+                    <EmailVerify />
+                  ) : count == 3 ? (
+                    <EmailOTP />
+                  ) : count == 4 ? (
+                    <KYCForm />
+                  ) : count == 5 ? (
+                    <ViewKyc />
+                  ) : count === 6 ? (
+                    <PaymentInfo />
+                  ) : count === 0 ? (
+                    <Formik
+                      initialValues={{
+                        phoneNumber: ''
+                      }}
+                      onSubmit={values => {
+                        sendOTP(values)
+                      }}
+                    >
+                      {({ errors, touched, isValidating }) => (
+                        <Form className="w-1/4 mx-auto mt-3 flex flex-col justify-center items-center">
+                          <img
+                            src="https://cdni.iconscout.com/illustration/premium/thumb/otp-verification-5152137-4309037.png"
+                            height="400px"
+                            width="400px"
+                          />
+                          <h2 className="text-3xl font-semibold ">
+                            Verify Phone Number
+                          </h2>
+                          <Field
+                            type="text "
+                            className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                            placeholder="Phone Number"
+                            name="phoneNumber"
+                          />
+
+                          <button className="login-btn" type="submit">
+                            Submit
+                          </button>
+                        </Form>
+                      )}
+                    </Formik>
+                  ) : // if user has submitted kyc previously
+                  count === 7 ? (
+                    <WaitingPage />
+                  ) : count === 8 ? (
+                    <>
+                      <ThankYouPage />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
+              {count !== 7 && count !== 8 && (
+                <>
+                  <Steps current={kycStage} className="w-2/3 mx-auto mt-5 p-0">
+                    <Steps.Item title="Verify Number" />
+                    <Steps.Item title="Verify Email" />
+                    <Steps.Item title="KYC Form" />
+                    <Steps.Item title="Confirm Details Form" />
+                    <Steps.Item title="Payment" />
+                  </Steps>
+                </>
+              )}
               {count == 1 ? (
                 <EnterOTP />
               ) : count == 2 ? (
@@ -96,12 +170,12 @@ const HostForm = () => {
               ) : count == 3 ? (
                 <EmailOTP />
               ) : count == 4 ? (
-                <PaymentInfo />
-              ) : count == 5 ? (
                 <KYCForm />
-              ) : count === 6 ? (
+              ) : count == 5 ? (
                 <ViewKyc />
-              ) : (
+              ) : count === 6 ? (
+                <PaymentInfo />
+              ) : count === 0 ? (
                 <Formik
                   initialValues={{
                     phoneNumber: ''
@@ -133,6 +207,15 @@ const HostForm = () => {
                     </Form>
                   )}
                 </Formik>
+              ) : // if user has submitted kyc previously
+              count === 7 ? (
+                <WaitingPage />
+              ) : count === 8 ? (
+                <>
+                  <ThankYouPage />
+                </>
+              ) : (
+                <></>
               )}
             </div>
           </div>

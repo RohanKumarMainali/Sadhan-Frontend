@@ -144,3 +144,7 @@ a:hover {
   --thirty_percent_color: #dcf2f8;
   --ten_percent_color: ##2d8ca2;
 }
+
+.opt-container > input {
+  width: 45px !important;
+}

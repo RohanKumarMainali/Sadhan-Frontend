@@ -44,7 +44,6 @@ interface ButtonProps {
 }
 
 export function ActionButtons({ value, column, deleteVehicle }: ButtonProps) {
-  console.log(column)
   return (
     <>
       <div>

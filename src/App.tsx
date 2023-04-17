@@ -26,6 +26,7 @@ import EditVehicle from './component/dashboard/EditVehicle'
 import Vehicle from './component/vehicle/Vehicle'
 import Footer from './component/footer/Footer'
 import Bookings from './component/dashboard/Bookings'
+import Rentals from './component/dashboard/Rentals'
 import AnimatedSidebar from './component/sidebar/AnimatedSidebar'
 import UserLayout from './component/sidebar/UserLayout'
 import AdminLayout from './component/sidebar/AdminLayout'
@@ -51,7 +52,7 @@ interface userInfo {
 }
 
 const ProtectedRoute = ({role, redirect, children }: any) => {
-  if (redirect && role !== 'user') return <Navigate to="/" replace />
+  if (redirect && (role !== 'user' || role!== 'owner')) return <Navigate to="/" replace />
   return children
 }
 
@@ -363,7 +364,7 @@ const App = () => {
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <UserLayout>
-                    <Bookings />
+                    <Rentals />
                   </UserLayout>
                 </ProtectedRoute>
               }

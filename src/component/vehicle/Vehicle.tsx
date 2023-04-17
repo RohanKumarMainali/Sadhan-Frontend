@@ -42,7 +42,7 @@ const Vehicle = () => {
 
   const getVehicle = async () => {
     try {
-      const response = await axiosConfig.get(`${url}/getVehicle/${id}`)
+      const response = await axios.get(`${url}/getVehicle/${id}`)
       setVehicle(response.data.data)
       setVehicleId(response.data.data[0]._id)
       setVehicleName(response.data.data[0].name)
@@ -52,7 +52,6 @@ const Vehicle = () => {
       setVehiclePrice(response.data.data[0].price)
       setLoading(false)
       getBookings(response.data.data[0]._id)
-      console.log(response)
     } catch (error: any) {
       console.log(error)
     }
@@ -106,7 +105,6 @@ const Vehicle = () => {
         vehicleId,
         amount
       })
-      console.log(response)
       showMessage('Vehicle Booked Successfully!', 200)
       return response.data.bookingDetail._id
     } catch (error: any) {

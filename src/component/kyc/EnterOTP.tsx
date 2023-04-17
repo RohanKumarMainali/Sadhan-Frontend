@@ -85,6 +85,7 @@ const EnterOTP = () => {
                 value={otp}
                 onChange={setOtp}
                 autoFocus
+                width={5}
                 OTPLength={6}
                 otpType="text"
                 disabled={false}

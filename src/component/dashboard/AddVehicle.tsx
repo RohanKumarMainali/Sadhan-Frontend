@@ -283,8 +283,7 @@ const AddVehicle = () => {
                   </select>
                 </div>
 
-                <div className="flex flex-col w-1/4">
-               </div>
+                <div className="flex flex-col w-1/4"></div>
               </div>
 
               <div className="flex flex-col w-2/5"></div>

@@ -35,6 +35,7 @@ const EditVehicle = () => {
   const [vehicle, setVehicle] = useState([])
   const [selectedImages, setSelectedImages] = useState([])
   const [categories, setCategories] = useState([])
+  const [newImages, setNewImages] = useState([])
   const [singleCategory, setSingleCategory] = useState([])
   const [selectedOption, setSelectedOption] = useState('')
   const [selectedOptionName, setSelectedOptionName] = useState('')
@@ -52,6 +53,7 @@ const EditVehicle = () => {
       setVehicle(response.data.data)
       const data = response.data.data[0]
       let carImages = response.data.data[0].carImages
+      console.log(carImages)
       setSelectedImages(carImages)
       setSelectedOption(data.categoryId)
       setSelectedOptionName(data.categoryName)
@@ -68,9 +70,8 @@ const EditVehicle = () => {
       return file
     })
 
-    setSelectedImages((previousImages: any) =>
-      previousImages.concat(imagesArray)
-    )
+    setNewImages((previousImages: any) => previousImages.concat(imagesArray))
+    console.log('new file')
     console.log(selectedFilesArray)
     // FOR BUG IN CHROME
     event.target.value = ''
@@ -98,7 +99,11 @@ const EditVehicle = () => {
   // delete image
   function deleteHandler(image: any) {
     setSelectedImages(selectedImages.filter(e => e !== image))
-    URL.revokeObjectURL(image)
+  }
+
+  // delete  new image
+  function deleteNewImage(image: any) {
+    setNewImages(newImages.filter(e => e !== image))
   }
 
   const editVehicle = async (values: vehicleType) => {
@@ -117,7 +122,20 @@ const EditVehicle = () => {
     if (values.bluebookImage) form.append('bluebookImage', values.bluebookImage)
     if (values.insuranceImage)
       form.append('insuranceImage', values.insuranceImage)
-    console.log(form)
+    // for image
+    {
+      selectedImages.map((prevImage: any) => {
+        form.append('prevImage', JSON.stringify(prevImage))
+      })
+    }
+    // for newImageArray
+
+    if (newImages.length !== 0) {
+      newImages.map((image: image) => {
+        form.append('image', image)
+      })
+    }
+
     try {
       const response = await axios.put(`${url}/updateVehicle/${id}`, form)
       showMessage('Vehicle Updated Successfully! ', 200)
@@ -282,20 +300,33 @@ const EditVehicle = () => {
                           type="file"
                           className="w-full border border-gray-300 h-8  focus:outline-indigo-400"
                           name="carImages"
-                          onChange={(e: any) => {
-                            setFieldValue('carImages', e.target.files[0])
-                          }}
+                          onChange={onSelectFile}
                         />
                         <div className="images flex">
+                          {newImages &&
+                            newImages.map((image: any, index: number) => {
+                              return (
+                                <div key={index} className="image relative">
+                                  <PreviewImage file={image} />
+                                  <button
+                                    className="absolute top-0 right-0 color-gray-200 "
+                                    onClick={() => deleteNewImage(image)}
+                                  >
+                                    <GiCancel />
+                                  </button>
+                                </div>
+                              )
+                            })}
+
                           {selectedImages &&
                             selectedImages.map((image: any, index: number) => {
                               return (
                                 <div key={index} className="image relative">
                                   <img
-                                    src={image?.url}
+                                    src={image.url}
                                     width="200px"
                                     height="200px"
-                                  ></img>
+                                  ></img>{' '}
                                   <button
                                     className="absolute top-0 right-0 color-gray-200 "
                                     onClick={() => deleteHandler(image)}

@@ -159,6 +159,7 @@ const AddCategory = () => {
                     })}
                   </select>
                 </div>
+
               </div>
 
               <div className="flex justify-between">

@@ -34,6 +34,11 @@ const EditVehicle = () => {
   const [image, setImage] = useState('')
   const [vehicle, setVehicle] = useState([])
   const [selectedImages, setSelectedImages] = useState([])
+  const [categories, setCategories] = useState([])
+  const [singleCategory, setSingleCategory] = useState([])
+  const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOptionName, setSelectedOptionName] = useState('')
+
   const url = 'http://localhost:5000/api'
 
   const showMessage = (message: string, statusCode: number) => {
@@ -45,10 +50,11 @@ const EditVehicle = () => {
     try {
       const response = await axios.get(`${url}/getVehicle/${id}`)
       setVehicle(response.data.data)
-      console.log(response.data.data[0].carImages)
+      const data = response.data.data[0]
       let carImages = response.data.data[0].carImages
       setSelectedImages(carImages)
-      console.log(response.data.data)
+      setSelectedOption(data.categoryId)
+      setSelectedOptionName(data.categoryName)
     } catch (error) {
       console.log(error)
     }
@@ -66,9 +72,27 @@ const EditVehicle = () => {
       previousImages.concat(imagesArray)
     )
     console.log(selectedFilesArray)
-
     // FOR BUG IN CHROME
     event.target.value = ''
+  }
+
+  // get category
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(`${url}/getCategory`)
+      setCategories(response.data.response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleSelectChange = (event: any) => {
+    setSelectedOption(event.target.value)
+
+    // to get the name of option
+    const selectedOption = event.target.options[event.target.selectedIndex]
+    const selectedOptionName = selectedOption.getAttribute('data-name')
+    setSelectedOptionName(selectedOption.getAttribute('data-name'))
   }
 
   // delete image
@@ -87,7 +111,9 @@ const EditVehicle = () => {
     form.append('location', values.location)
     form.append('description', values.description)
     form.append('vehicleNumber', values.vehicleNumber)
-  
+    form.append('categoryId', selectedOption)
+    form.append('categoryName', selectedOptionName)
+
     if (values.bluebookImage) form.append('bluebookImage', values.bluebookImage)
     if (values.insuranceImage)
       form.append('insuranceImage', values.insuranceImage)
@@ -102,13 +128,16 @@ const EditVehicle = () => {
 
   useEffect(() => {
     getVehicle()
+    getCategories()
   }, [setSelectedImages])
 
   return (
     <div className="w-full float-right h-screen p-0 px-5">
       <div className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl">
         <div className="w-full px-5 mx-auto">
-          <h1 className="text-left text-2xl font-semibold py-3">Edit Vehicle</h1>
+          <h1 className="text-left text-2xl font-semibold py-3">
+            Edit Vehicle
+          </h1>
         </div>
         {vehicle.map((item: any) => {
           return (
@@ -123,6 +152,8 @@ const EditVehicle = () => {
                   location: item.location,
                   description: item.description,
                   vehicleNumber: item.vehicleNumber,
+                  categoryName: item.categoryName,
+                  selectedOption: item.categoryId,
                   carImages: null,
                   bluebookImage: null,
                   insuranceImage: null
@@ -218,6 +249,30 @@ const EditVehicle = () => {
                           name="vehicleNumber"
                         />
                       </div>
+
+                      <div className="flex flex-col w-2/5">
+                        <label className="text-left">Parent Category</label>
+                        <select
+                          value={selectedOption}
+                          onChange={handleSelectChange}
+                        >
+                          <option value="" disabled selected>
+                            Select
+                          </option>
+
+                          {categories.map((item: any, index: number) => {
+                            return (
+                              <option
+                                key={index}
+                                data-name={item.name}
+                                value={item._id}
+                              >
+                                {item.name}
+                              </option>
+                            )
+                          })}
+                        </select>
+                      </div>
                     </div>
 
                     <div className="flex justify-between">
@@ -236,11 +291,11 @@ const EditVehicle = () => {
                             selectedImages.map((image: any, index: number) => {
                               return (
                                 <div key={index} className="image relative">
-                                      <img
-                                        src={image?.url}
-                                        width="200px"
-                                        height="200px"
-                                      ></img>
+                                  <img
+                                    src={image?.url}
+                                    width="200px"
+                                    height="200px"
+                                  ></img>
                                   <button
                                     className="absolute top-0 right-0 color-gray-200 "
                                     onClick={() => deleteHandler(image)}

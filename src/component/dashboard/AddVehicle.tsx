@@ -30,6 +30,9 @@ const AddVehicle = () => {
   const [userId, setUserId] = useState('')
   const url = 'http://localhost:5000/api'
   const [selectedImages, setSelectedImages] = useState([])
+  const [categories, setCategories] = useState([])
+  const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOptionName, setSelctedOptionName] = useState('')
 
   // to get userId who is posting vehicle
   const getUser = async () => {
@@ -77,6 +80,27 @@ const AddVehicle = () => {
     URL.revokeObjectURL(image)
   }
 
+  //get category to show in parent categories
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(`${url}/getCategory`)
+      setCategories(response.data.response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // change option in category logic
+
+  const handleSelectChange = (event: any) => {
+    setSelectedOption(event.target.value)
+    // to get the name of option
+    const selectedOption = event.target.options[event.target.selectedIndex]
+    const selectedOptionName = selectedOption.getAttribute('data-name')
+    setSelctedOptionName(selectedOption.getAttribute('data-name'))
+  }
+
   const addVehicle = async (values: vehicleType) => {
     var form: any = new FormData()
     form.append('userId', userId)
@@ -88,6 +112,8 @@ const AddVehicle = () => {
     form.append('location', values.location)
     form.append('description', values.description)
     form.append('vehicleNumber', values.vehicleNumber)
+    form.append('categoryId', selectedOption)
+    form.append('categoryName', selectedOptionName)
 
     {
       selectedImages.map((image: any, index: number) => {
@@ -108,6 +134,7 @@ const AddVehicle = () => {
 
   useEffect(() => {
     getUser()
+    getCategories()
   }, [])
   return (
     <div className=" w-full p-0 px-5 float-right h-screen ">
@@ -206,7 +233,7 @@ const AddVehicle = () => {
                   />
                 </div>
                 <div className="flex flex-col w-1/4">
-                  <label className="text-left">Milage</label>
+                  <label className="text-left">Mileage</label>
                   <Field
                     type="number"
                     className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
@@ -235,7 +262,32 @@ const AddVehicle = () => {
                     name="vehicleNumber"
                   />
                 </div>
+                <div className="flex flex-col w-1/4">
+                  <label className="text-left">Category</label>
+
+                  <select value={selectedOption} onChange={handleSelectChange}>
+                    <option value="" disabled selected>
+                      Select
+                    </option>
+                    {categories.map((item: any) => {
+                      return (
+                        <option
+                          key={item.id}
+                          data-name={item.name}
+                          value={item._id}
+                        >
+                          {item.name}
+                        </option>
+                      )
+                    })}
+                  </select>
+                </div>
+
+                <div className="flex flex-col w-1/4">
+               </div>
               </div>
+
+              <div className="flex flex-col w-2/5"></div>
 
               <div className="flex justify-between">
                 <div className="flex flex-col w-2/5">
@@ -253,9 +305,12 @@ const AddVehicle = () => {
                       selectedImages.map((image: any, index: number) => {
                         return (
                           <div key={index} className="image relative">
-                           <PreviewImage file= {image}/>
-                            <button className="absolute top-0 right-0 color-gray-200 " onClick={() => deleteHandler(image)}>
-                            <GiCancel/>
+                            <PreviewImage file={image} />
+                            <button
+                              className="absolute top-0 right-0 color-gray-200 "
+                              onClick={() => deleteHandler(image)}
+                            >
+                              <GiCancel />
                             </button>
                           </div>
                         )

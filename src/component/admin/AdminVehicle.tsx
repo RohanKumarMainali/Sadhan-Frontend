@@ -28,6 +28,7 @@ interface User {
   category: string
   status: string
   seat: string
+  categoryName: string
   _id: string  
   carImages: Array<image>
 }

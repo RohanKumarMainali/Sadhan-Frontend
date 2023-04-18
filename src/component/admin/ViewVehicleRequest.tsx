@@ -34,7 +34,7 @@ export interface UserDataProps {
     vehicleNumber: string
     location: string
     description: string
-    category: string
+    categoryName: string
     status: string
     seat: string
     _id: string
@@ -53,8 +53,8 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
     vehicleNumber,
     location,
     description,
-    category,
     status,
+    categoryName,
     seat,
     _id
   } = userData
@@ -171,7 +171,7 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
                 <p className="text-right text-sm ">{vehicleNumber}</p>
                 <p className="text-right text-sm ">{milage}</p>
                 <p className="text-right text-sm ">{seat}</p>
-                <p className="text-right text-sm ">{category}</p>
+                <p className="text-right text-sm ">{categoryName}</p>
                 <p className="text-right text-sm ">{location}</p>
               </div>
             </div>

@@ -148,6 +148,12 @@ const Profile = () => {
                             Not verified
                           </p>
                         )}
+
+                        {status === 'verified'   && (
+                          <p className="text-right text-indigo-500 ">
+                            Verified
+                          </p>
+                        )}
                         {(status !== 'verified' && status !== 'pending')&& (
                           <Link to="/dashboard/verifyKyc">
                             <p className="text-right text-indigo-500 ">

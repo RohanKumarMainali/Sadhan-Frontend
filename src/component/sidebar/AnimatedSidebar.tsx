@@ -25,7 +25,7 @@ import axios from 'axios'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 // logo
-
+let wheel = require('../../images/wheel.png')
 let logo = require('../../images/newLogo.png')
 
 const AnimatedSidebar = () => {
@@ -142,7 +142,7 @@ const AnimatedSidebar = () => {
         <NavLink to="/" className="App-sidebar-link">
           <div className="flex items-center gap-2.5 font-medium border-b py-3 border-slate-300  mx-3">
             <img
-              src="https://img.icons8.com/color/512/firebase.png"
+              src={wheel}
               width={45}
               alt=""
             />

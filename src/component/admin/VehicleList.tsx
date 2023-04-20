@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { useTable } from 'react-table'
 import { ToastContainer, toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
@@ -11,7 +11,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from '../dashboard/PreviewImage'
 import Table from '../table/Table'
-import { StatusPill , CreatedDate} from '../table/Status'
+import { StatusPill, CreatedDate } from '../table/Status'
 import { ActionButtons } from '../table/Button'
 
 interface passwordType {
@@ -46,23 +46,6 @@ function VehicleList() {
     setVehicleId(id)
   }
 
-
-  const confirmDelete = async () => {
-    setShowModal(false)
-    try {
-      const response = await axios.delete(`${url}/deleteVehicle/${vehicleId}`)
-      console.log(response)
-      showMessage(response.data.message, 200)
-      if (request) {
-        setRequest(false)
-      } else {
-        setRequest(true)
-      }
-    } catch (error) {
-      showMessage("Couldn't Delete Vehicle", 400)
-    }
-  }
-
   const showMessage = (message: string, statusCode: number) => {
     if (statusCode == 201 || statusCode == 200) toast.success(message)
     else toast.error(message)
@@ -77,7 +60,7 @@ function VehicleList() {
 
   useEffect(() => {
     getUsers()
-  }, [request])
+  }, [])
 
   //new method
 
@@ -112,9 +95,8 @@ function VehicleList() {
         Header: 'Created On',
         Footer: 'Created on',
         accessor: 'createdOn',
-        Cell: CreatedDate,
+        Cell: CreatedDate
       },
-
 
       {
         Header: 'Status',
@@ -127,8 +109,15 @@ function VehicleList() {
         Header: 'Action',
         Footer: 'vehicles',
         accessor: '_id',
-        Cell: ({ value, row, column } : any) => {
-          return <ActionButtons value={value} column={column} deleteVehicle={deleteVehicle} />
+        User: 'admin',
+        Cell: ({ value, row, column }: any) => {
+          return (
+            <ActionButtons
+              value={value}
+              column={column}
+              deleteVehicle={deleteVehicle}
+            />
+          )
         }
       }
     ],
@@ -145,6 +134,18 @@ function VehicleList() {
     setData(response.data.vehicles)
   }
 
+  const confirmDelete = useCallback(async () => {
+    setShowModal(false)
+    try {
+      const response = await axios.delete(`${url}/deleteVehicle/${vehicleId}`)
+      setData(data.filter((item: any)=> item._id != vehicleId))
+      console.log(response)
+      showMessage(response.data.message, 200)
+    } catch (error) {
+      showMessage("Couldn't Delete Vehicle", 400)
+    }
+  }, [vehicleId, data])
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -156,16 +157,14 @@ function VehicleList() {
         style={{ height: '90vh' }}
       >
         <div className="w-full px-5 py-3 mx-auto">
-          <h1 className="text-left text-2xl font-semibold ">
-            Manage Vehicles
-          </h1>
+          <h1 className="text-left text-2xl font-semibold ">Manage Vehicles</h1>
         </div>
         <div className="user-table w-full px-5 mx-auto">
           <Table column={columns} mockData={data} />
         </div>
 
         <div className=" mt-3 w-full px-5 float-left ">
-          <Link to="/dashboard-vehicles/addVehicle">
+          <Link to="/admin/dashboard-vehicles/addVehicle">
             <button className="border float-left py-2 px-1 text-white rounded App-btn btn text-xs font-medium">
               Add vehicle
             </button>

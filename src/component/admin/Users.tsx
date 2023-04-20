@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import moment from 'moment'
 
@@ -28,22 +28,6 @@ const Users = () => {
   const deleteUser = (id: number) => {
     setShowModal(true)
     setUserId(id)
-  }
-
-  const confirmDelete = async () => {
-    setShowModal(false)
-    try {
-      const response = await axios.delete(`${url}/deleteUser/${userId}`)
-      console.log(response)
-      showMessage(response.data.message, 200)
-      if (request) {
-        setRequest(false)
-      } else {
-        setRequest(true)
-      }
-    } catch (error) {
-      showMessage("Couldn't Delete User", 400)
-    }
   }
 
   // verify user
@@ -93,10 +77,16 @@ const Users = () => {
       {
         Header: 'Action',
         Footer: 'users',
-        user : 'admin',
+        User: 'admin-section',
         accessor: '_id',
-        Cell: ({ value, row, column } : any) => {
-          return <ActionButtons value={value} column={column} deleteVehicle={deleteUser} />
+        Cell: ({ value, row, column }: any) => {
+          return (
+            <ActionButtons
+              value={value}
+              column={column}
+              deleteVehicle={deleteUser}
+            />
+          )
         }
       }
     ],
@@ -112,8 +102,18 @@ const Users = () => {
     )
 
     setData(response.data.data)
-    console.log(response.data.data)
   }
+
+  const confirmDelete = useCallback(async () => {
+    setShowModal(false)
+    try {
+      const response = await axios.delete(`${url}/deleteUser/${userId}`)
+      setData(data.filter((item: any) => item._id != userId))
+      showMessage(response.data.message, 200)
+    } catch (error) {
+      showMessage("Couldn't Delete User", 400)
+    }
+  }, [userId, data])
 
   useEffect(() => {
     fetchData()

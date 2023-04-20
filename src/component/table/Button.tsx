@@ -58,7 +58,7 @@ export function ActionButtons({ value, column, deleteVehicle }: ButtonProps) {
               </span>
             </button>
           </Link>
-        ) : (
+        ) : column.User ==='admin-section' ? (<></>): (
           <Link to={`/dashboard-${column.Footer}/edit/${value}`}>
             <button
               type="button"

@@ -74,16 +74,6 @@ export const UserContext = createContext<{
   state: initialState,
   dispatch: () => false
 })
-
-// for seperate routing for different user type
-
-const userRoutes = [{ path: '/user/dashboard', component: Dashboard }]
-
-const renteeRoutes = [
-  { path: '/rentee/dashboard', component: Dashboard },
-  { path: '/rentee/login', component: Bookings }
-]
-
 type RouteType = {
   path: string
   component: React.FC
@@ -224,6 +214,27 @@ const App = () => {
               }
             />
 
+            <Route
+              path="admin/dashboard-vehicles/addVehicle"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <AddVehicle />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="admin/dashboard-vehicles/edit/:id"
+              element={
+                <AdminRoute redirect={!isAuthenticated}>
+                  <AdminLayout>
+                    <EditVehicle />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
             <Route
               path="admin/categories"
               element={

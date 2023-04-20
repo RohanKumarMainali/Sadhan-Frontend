@@ -48,6 +48,7 @@ function Dashboard() {
         setRole(details.role)
       }
     } catch (error) {
+      
       console.log(error)
     }
   }
@@ -67,7 +68,6 @@ function Dashboard() {
       setEmail(details.email)
       setRole(details.role)
     } catch (error: any) {
-      console.log('status code' + JSON.stringify(error.response))
       localStorage.clear()
       if (error.response.data == 'jwt expired') {
         console.log('jwt expired')
@@ -109,10 +109,7 @@ function Dashboard() {
         accessor: 'status',
         Cell: StatusPill
       },
-
-      
     ],
-
     []
   )
 

@@ -10,6 +10,7 @@ import PreviewImage from './PreviewImage'
 import { GiCancel } from 'react-icons/gi'
 import '../../index.css'
 import axiosConfig from '../../api/axiosConfig'
+import SyncLoader from 'react-spinners/SyncLoader'
 
 interface vehicleType {
   name: string
@@ -33,6 +34,7 @@ const AddVehicle = () => {
   const [categories, setCategories] = useState([])
   const [selectedOption, setSelectedOption] = useState('')
   const [selectedOptionName, setSelctedOptionName] = useState('')
+  const [loading, setLoading] = useState(false)
 
   // to get userId who is posting vehicle
   const getUser = async () => {
@@ -102,6 +104,7 @@ const AddVehicle = () => {
   }
 
   const addVehicle = async (values: vehicleType) => {
+    setLoading(true)
     var form: any = new FormData()
     form.append('userId', userId)
     form.append('name', values.name)
@@ -126,8 +129,10 @@ const AddVehicle = () => {
     console.log(form)
     try {
       const response = await axios.post(`${url}/postVehicle`, form)
+      setLoading(false)
       showMessage('Vehicle Posted Successfully! ', 200)
     } catch (error: any) {
+      setLoading(false)
       showMessage(error.message, 400)
     }
   }
@@ -286,6 +291,19 @@ const AddVehicle = () => {
                 <div className="flex flex-col w-1/4"></div>
               </div>
 
+              {loading && (
+                <div className="">
+                  <SyncLoader
+                    loading={true}
+                    size={15}
+                    color="#593cfb"
+                    speedMultiplier={0.5}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </div>
+              )}
+
               <div className="flex flex-col w-2/5"></div>
 
               <div className="flex justify-between">
@@ -360,7 +378,7 @@ const AddVehicle = () => {
               >
                 <CKEditor
                   editor={ClassicEditor}
-                  data="<p>Hello from CKEditor 5!</p>"
+                  data=""
                   onReady={(editor: any) => {
                     // You can store the "editor" and use when it is needed.
                     console.log('Editor is ready to use!', editor)

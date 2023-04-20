@@ -7,14 +7,16 @@ import { useParams } from 'react-router-dom'
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
-import '../../index.css'
+import SyncLoader from 'react-spinners/SyncLoader'
 
+import '../../index.css'
 
 const EditCategory = () => {
   const [image, setImage] = useState('')
   const [id, setId] = useState(useParams().id)
   const [categories, setCategories] = useState([])
   const [singleCategory, setSingleCategory] = useState([])
+  const [loading, setLoading] = useState(false)
   const [selectedOption, setSelectedOption] = useState('')
   const url = 'http://localhost:5000/api'
 
@@ -23,19 +25,21 @@ const EditCategory = () => {
     else toast.error(message)
   }
   const updateCategory = async (values: any) => {
+    setLoading(true)
     var form: any = new FormData()
     form.append('name', values.name)
     form.append('slug', values.name)
     if (selectedOption) {
       form.append('parentId', selectedOption)
     }
-    
+
     // if image is changed
 
-    if(values.image)form.append('image', values.image)
+    if (values.image) form.append('image', values.image)
 
     try {
       const response = await axios.put(`${url}/updateCategory/${id}`, form)
+      setLoading(false)
       showMessage('Category Posted Successfully! ', 200)
     } catch (error: any) {
       showMessage(error.message, 400)
@@ -74,8 +78,25 @@ const EditCategory = () => {
     getSingleCategory()
   }, [])
   return (
-    <div className=" w-full p-0 px-5 float-right h-screen ">
-      <div className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl">
+    <div
+      className={` w-full p-0 px-5 float-right h-screen ${
+        loading ? 'spinner-fade' : ''
+      } `}
+    >
+    {loading &&
+  <div className="spinner">
+        <SyncLoader
+          loading={true}
+          size={15}
+          color="#593cfb"
+          speedMultiplier={0.5}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+     
+    }
+     <div className="dashboard-home bg-white main-profile w-full mx-auto  rounded shadow-xl">
         <div className="w-11/12 mx-auto">
           <h1 className="text-left text-2xl font-semibold p-2">
             Edit Category
@@ -87,7 +108,7 @@ const EditCategory = () => {
               <Formik
                 initialValues={{
                   name: item.name,
-                  image: null,
+                  image: null
                 }}
                 onSubmit={(values, { resetForm }) => {
                   //addVehicle(values)
@@ -147,7 +168,7 @@ const EditCategory = () => {
                           }}
                         />
 
-                          {values.image === null && item.image.url && (
+                        {values.image === null && item.image.url && (
                           <img
                             src={item?.image?.url}
                             width="200px"

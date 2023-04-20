@@ -93,8 +93,9 @@ const Users = () => {
       {
         Header: 'Action',
         Footer: 'users',
+        user : 'admin',
         accessor: '_id',
-        Cell: ({ value, row, column }) => {
+        Cell: ({ value, row, column } : any) => {
           return <ActionButtons value={value} column={column} deleteVehicle={deleteUser} />
         }
       }

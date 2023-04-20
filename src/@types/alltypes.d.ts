@@ -6,3 +6,4 @@ declare module 'react-responsive';
 declare module 'react-slider';
 declare module 'react-select';
 declare module 'react-table';
+declare module 'react-cssfx-loading';

@@ -175,3 +175,24 @@ img {
   font-weight: normal;
   margin-left: 12px;
 }
+
+/* new styles added */
+.swiper-button {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  cursor: pointer;
+}
+.swiper-button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.image-swiper-button-prev {
+  left: -38px;
+}
+.image-swiper-button-next {
+  right: -38px;
+}
+.swiper-button-disabled {
+  opacity: 0.5;
+}

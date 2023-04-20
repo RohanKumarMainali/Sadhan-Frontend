@@ -1,12 +1,12 @@
 import axios from 'axios'
 import React from 'react'
-import {useState} from 'react'
+import { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import { ToastContainer, toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import { auth } from '../../Firebase'
 import { signInWithPhoneNumber, RecaptchaVerifier } from 'firebase/auth'
-
+import SyncLoader from 'react-spinners/SyncLoader'
 import OtpInput from 'otp-input-react'
 
 // redux ------------------
@@ -19,6 +19,7 @@ interface phoneType {
 
 const EnterOTP = () => {
   const url = 'http://localhost:5000/api'
+  const [loading, setLoading] = useState(false)
   // get user id from local storage
   const user: any = localStorage?.getItem('user')
     ? localStorage.getItem('user')
@@ -31,9 +32,9 @@ const EnterOTP = () => {
       const response = await axios.post(`${url}/verifyPhoneNumber`, {
         id: userId
       })
-      console.log(response)
+      showMessage('Phone number verified', 200)
     } catch (error: any) {
-      console.log(error.message)
+      showMessage('Incorrect OTP ', 400)
     }
   }
 
@@ -43,18 +44,23 @@ const EnterOTP = () => {
 
   const dispatchRedux = useAppDispatch()
 
-  const verifyOTP = (formik: phoneType) => {
+  const showMessage = (message: string, statusCode: number) => {
+    if (statusCode == 201 || statusCode == 200) toast.success(message)
+    else toast.error(message)
+  }
 
+  const verifyOTP = (formik: phoneType) => {
+    setLoading(true)
     let recaptchaVerifier = window.recaptchaVerifier
     window.confirmationResult
       .confirm(otp)
       .then(async (res: any) => {
-        console.log(res)
         verifyPhoneNumber()
         dispatchRedux(proceedKycForm())
       })
       .catch((error: any) => {
-        console.log(error)
+      setLoading(false)
+      showMessage('Incorrect OTP ', 400)
       })
   }
 
@@ -73,6 +79,19 @@ const EnterOTP = () => {
             <Form className="w-1/4 mx-auto mt-3 flex flex-col justify-center items-center">
               <h2 className="text-xl font-semibold ">Verify it's you</h2>
               <img src="https://img.freepik.com/free-vector/enter-otp-concept-illustration_114360-7897.jpg" />
+
+              {loading && (
+                <div className="">
+                  <SyncLoader
+                    loading={true}
+                    size={15}
+                    color="#593cfb"
+                    speedMultiplier={0.5}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </div>
+              )}
 
               <h4 className="text-xl font-semibold ">
                 Enter a verification code

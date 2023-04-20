@@ -278,20 +278,7 @@ export const LoginModal = ({ show, close }: Props) => {
                     </button>
                   </FormControl>
 
-                  <FormControl mt={3}>
-                    <button className="social-login-btn">
-                      <BsFacebook color="3b5998" className=" social-logo" />{' '}
-                      Continue with Facebook
-                    </button>
-                  </FormControl>
-
-                  <FormControl mt={3}>
-                    <button className="social-login-btn">
-                      <BsTwitter color="00acee" className="social-logo" />{' '}
-                      Continue with Twitter
-                    </button>
-                  </FormControl>
-                </Form>
+               </Form>
               )}
             </Formik>
 
@@ -374,20 +361,7 @@ export const LoginModal = ({ show, close }: Props) => {
               </button>
             </FormControl>
 
-            <FormControl mt={3}>
-              <button className="social-login-btn">
-                <BsFacebook color="3b5998" className=" social-logo" /> Continue
-                with Facebook
-              </button>
-            </FormControl>
-
-            <FormControl mt={3}>
-              <button className="social-login-btn">
-                <BsTwitter color="00acee" className="social-logo" /> Continue
-                with Twitter
-              </button>
-            </FormControl>
-
+            
             <div className="login-footer">
               <p>Already have an account?</p>
               <button

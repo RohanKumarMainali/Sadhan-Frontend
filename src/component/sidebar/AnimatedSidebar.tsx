@@ -177,7 +177,7 @@ const AnimatedSidebar = () => {
                 </NavLink>
               )}
 
-              {userRole === 'user' && (
+              {(userRole === 'user' || (userRole==='owner' && userStatus==='pending'))&& (
                 <NavLink to={'/bookings'} className="link App-sidebar-link">
                   <RiMotorbikeFill size={23} className="min-w-max" />
                   Bookings

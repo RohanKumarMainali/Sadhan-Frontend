@@ -9,6 +9,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PreviewImage from './PreviewImage'
 import { GiCancel } from 'react-icons/gi'
 import '../../index.css'
+import SyncLoader from 'react-spinners/SyncLoader'
 
 interface image {
   public_id: string | null
@@ -36,6 +37,7 @@ const EditVehicle = () => {
   const [selectedImages, setSelectedImages] = useState([])
   const [categories, setCategories] = useState([])
   const [newImages, setNewImages] = useState([])
+  const [loading, setLoading] = useState(false)
   const [singleCategory, setSingleCategory] = useState([])
   const [selectedOption, setSelectedOption] = useState('')
   const [selectedOptionName, setSelectedOptionName] = useState('')
@@ -71,8 +73,6 @@ const EditVehicle = () => {
     })
 
     setNewImages((previousImages: any) => previousImages.concat(imagesArray))
-    console.log('new file')
-    console.log(selectedFilesArray)
     // FOR BUG IN CHROME
     event.target.value = ''
   }
@@ -107,6 +107,7 @@ const EditVehicle = () => {
   }
 
   const editVehicle = async (values: vehicleType) => {
+    setLoading(true)
     var form: any = new FormData()
     form.append('name', values.name)
     form.append('model', values.model)
@@ -138,8 +139,10 @@ const EditVehicle = () => {
 
     try {
       const response = await axios.put(`${url}/updateVehicle/${id}`, form)
+      setLoading(false)
       showMessage('Vehicle Updated Successfully! ', 200)
     } catch (error: any) {
+      setLoading(false)
       showMessage(error.message, 400)
     }
   }
@@ -292,6 +295,19 @@ const EditVehicle = () => {
                         </select>
                       </div>
                     </div>
+
+                    {loading && (
+                      <div className="">
+                        <SyncLoader
+                          loading={true}
+                          size={15}
+                          color="#593cfb"
+                          speedMultiplier={0.5}
+                          aria-label="Loading Spinner"
+                          data-testid="loader"
+                        />
+                      </div>
+                    )}
 
                     <div className="flex justify-between">
                       <div className="flex flex-col w-2/5">

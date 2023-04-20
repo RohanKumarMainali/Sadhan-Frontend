@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import axios from 'axios'
 import { Formik, Form, Field } from 'formik'
 import { ToastContainer, toast } from 'react-toastify'
 
+import SyncLoader from 'react-spinners/SyncLoader'
 // redux ------------------
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { proceedKycForm } from '../../features/kyc/kycSlice'
@@ -16,6 +17,7 @@ function EmailVerify() {
   const id = JSON.parse(user).id
   const dispatchRedux = useAppDispatch()
   const url = 'http://localhost:5000/api'
+  const [loading, setLoading] = useState(false)
 
   type loginType = {
     email: string
@@ -24,6 +26,7 @@ function EmailVerify() {
   // verify email button click, send otp in email
   const sendEmail = async () => {
     try {
+        setLoading(true)
       const response = await axios.post(
         `${url}/sendEmailOTP`,
         { email: email, id: id },
@@ -35,11 +38,12 @@ function EmailVerify() {
           }
         }
       )
+      setLoading(false)
       showMessage('OTP is sent on your email', 200)
       dispatchRedux(proceedKycForm())
     } catch (error: any) {
+      setLoading(false)
       showMessage(error.message, 400)
-      console.log(error.message)
     }
   }
 
@@ -56,6 +60,18 @@ function EmailVerify() {
         width="200px"
         alt="otp-image"
       />
+      {loading && (
+        <div className="">
+          <SyncLoader
+            loading={true}
+            size={15}
+            color="#593cfb"
+            speedMultiplier={0.5}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      )}
 
       <div className="content w-full">
         <h2 className="text-xl font-semibold ">Verify Your Email</h2>

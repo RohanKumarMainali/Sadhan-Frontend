@@ -14,6 +14,7 @@ import ViewKyc from './ViewKyc'
 import { Steps } from 'rsuite'
 import './steps.css'
 
+import SyncLoader from 'react-spinners/SyncLoader'
 // redux ------------------
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { proceedKycForm } from '../../features/kyc/kycSlice'
@@ -27,6 +28,7 @@ const PhoneNumber = () => {
   const count = useAppSelector(state => state.kyc.kycFormStage)
   const [kycStage, setKycStage] = useState(0)
   const dispatchRedux = useAppDispatch()
+  const [loading, setLoading] = useState(false)
   const url = 'http://localhost:5000/api'
 
   // get user id from local storage
@@ -75,8 +77,12 @@ const PhoneNumber = () => {
     <div>
       <div>
         <div className="float-right h-screen p-0 px-5 w-full">
+
           <div
             className="dashboard-home flex bg-white main-profile w-full mx-auto  rounded shadow-xl"
+
+
+
             style={{ height: '90vh' }}
           >
             <div className=" w-full">

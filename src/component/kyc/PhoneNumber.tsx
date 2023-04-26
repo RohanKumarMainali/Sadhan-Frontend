@@ -77,12 +77,8 @@ const PhoneNumber = () => {
     <div>
       <div>
         <div className="float-right h-screen p-0 px-5 w-full">
-
           <div
             className="dashboard-home flex bg-white main-profile w-full mx-auto  rounded shadow-xl"
-
-
-
             style={{ height: '90vh' }}
           >
             <div className=" w-full">

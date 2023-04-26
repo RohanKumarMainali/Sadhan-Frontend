@@ -170,7 +170,6 @@ function Banner() {
           </div>
         </div>
       </div>
-      <FAQ />
       <div className="relative h-auto">
         <GradientSection />
       </div>

@@ -7,6 +7,9 @@ import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import KhaltiCheckout from 'khalti-checkout-web'
 import VehicleSkeleton from '../skeleton/VehicleSkeleton'
+import Review from '../Review'
+import ReviewModal from '../ReviewModal'
+import BiDotsVerticalRounded from 'react-icons/bi'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import axiosConfig from '../../api/axiosConfig'
 import commonAxios from '../../api/commonAxios'
@@ -24,12 +27,17 @@ const Vehicle = () => {
   const [userId, setUserId] = useState('')
   const [userName, setUserName] = useState('')
   const [vehicle, setVehicle] = useState([])
+  const [review, setReview] = useState([])
   const [vehicleId, setVehicleId] = useState('')
   const [vehicleName, setVehicleName] = useState('')
   const [vehicleNumber, setVehicleNumber] = useState('')
   const [vehicleModel, setVehicleModel] = useState('')
   const [ownerId, setOwnerId] = useState('')
   const [vehiclePrice, setVehiclePrice] = useState(0)
+
+  // open or onClose
+  const [openReview, setOpenReview] = useState(false)
+  const closeReview = () => setOpenReview(false)
 
   const [loading, setLoading] = useState(true)
   const [amount, setAmount] = useState(0)
@@ -43,17 +51,28 @@ const Vehicle = () => {
   const getVehicle = async () => {
     try {
       const response = await axios.get(`${url}/getVehicle/${id}`)
+      const data = response.data.data[0]
       setVehicle(response.data.data)
-      setVehicleId(response.data.data[0]._id)
-      setVehicleName(response.data.data[0].name)
-      setVehicleNumber(response.data.data[0].vehicleNumber)
-      setOwnerId(response.data.data[0].userId)
-      setVehicleModel(response.data.data[0].model)
-      setVehiclePrice(response.data.data[0].price)
+      setVehicleId(data._id)
+      setVehicleName(data.name)
+      setVehicleNumber(data.vehicleNumber)
+      setOwnerId(data.userId)
+      setVehicleModel(data.model)
+      setVehiclePrice(data.price)
+      getReview(data._id)
       setLoading(false)
-      getBookings(response.data.data[0]._id)
+      getBookings(data._id)
     } catch (error: any) {
       console.log(error)
+    }
+  }
+
+  const getReview = async (vehicleId: string) => {
+    try {
+      const response = await axios.get(`${url}/getReview/vehicle/${vehicleId}`)
+      setReview(response.data.response[0])
+    } catch (error: any) {
+      console.log(error.message)
     }
   }
 
@@ -284,7 +303,7 @@ const Vehicle = () => {
                             dayDifference(startDate, endDate) * item.price
                           )
                         }
-                        className="w-2/3 bg-indigo-500 text-white mx-auto py-2 px-1 shadow-sm rounded-sm text-xl font-semibold"
+                        className="w-2/3 bg-indigo-500 App-btn text-white mx-auto py-2 px-1 shadow-sm rounded-sm text-xl font-semibold"
                       >
                         Book Now!{' '}
                       </button>
@@ -340,6 +359,38 @@ const Vehicle = () => {
                   <h2 className="text-xl text-left">Description</h2>
                   <p className="text-left">{parser(item.description)}</p>
                 </div>
+              </div>
+
+              <button
+                className="post-review App-btn w-1/6 p-2 rounded-sm "
+                onClick={() => setOpenReview(true)}
+              >
+                Post Review
+              </button>
+              {openReview && (
+                <ReviewModal
+                  open={closeReview}
+                  vehicleId={vehicleId}
+                  userName={userName}
+                  userId={userId}
+                />
+              )}
+              <div className="reviews grid grid-cols-3 gap-2 ">
+                {review.map((item: any, index: number) => {
+                  return (
+                    <>
+                      <Review
+                        key={index}
+                        review={item.review}
+                        rating={item.rating}
+                        createdOn={item.createdOn}
+                        userName={item.userName}
+                        currentUserId={userId}
+                        userId={item.userId}
+                      />
+                    </>
+                  )
+                })}
               </div>
             </div>
           </div>

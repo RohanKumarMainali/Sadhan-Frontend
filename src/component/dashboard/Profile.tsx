@@ -149,7 +149,7 @@ const Profile = () => {
                           </p>
                         )}
 
-                        {status === 'verified'   && (
+                        {(status === 'verified')   && (
                           <p className="text-right text-indigo-500 ">
                             Verified
                           </p>
@@ -161,6 +161,11 @@ const Profile = () => {
                             </p>
                           </Link>
                         )}
+                        {role === 'admin' &&
+                         <p className="text-right text-indigo-500 ">
+                              Verified
+                            </p>
+                        }
                       </div>
                     </div>
 

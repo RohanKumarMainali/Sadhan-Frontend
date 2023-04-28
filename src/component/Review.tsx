@@ -1,15 +1,24 @@
 import React, { useState } from 'react'
+import EditReviewModal from './EditReviewModal'
+import { ToastContainer, toast } from 'react-toastify'
+import ReactStars from 'react-rating-stars-component'
+import commonAxios from '../api/commonAxios'
 
 function Review({
   review,
   createdOn,
   rating,
+  reviewId,
   userName,
   userId,
-  currentUserId
+  vehicleId,
+  currentUserId,
+  deleteReview
 }: any) {
   const [edit, setEdit] = useState(false)
   const [editModal, setEditModal] = useState(false)
+  const [editedReview, setEditedReview] = useState(review)
+  const [editedRating, setEditedRating] = useState(rating)
 
   const closeEditModal = () => {
     setEditModal(false)
@@ -18,6 +27,36 @@ function Review({
     setEditModal(true)
     setEdit(false)
   }
+
+  const showMessage = (message: string, statusCode: number) => {
+    if (statusCode === 201 || statusCode === 200) toast.success(message)
+    else toast.error(message)
+  }
+
+  const updateReview = async (
+    e: any,
+    rating: any,
+    review: any,
+    reviewId: any
+  ) => {
+    e.preventDefault()
+    console.log('newRating ' + rating)
+
+    setEditedReview(review)
+    setEditedRating(rating)
+
+    try {
+      const response = await commonAxios.put(`/updateReview/${reviewId}`, {
+        rating: rating,
+        review: review
+      })
+      showMessage('Review Updated Successfully', 200)
+    } catch (error: any) {
+      showMessage(error.message, 200)
+    }
+    setEditModal(false)
+  }
+
   return (
     <div>
       <article className=" shadow p-2 rounded-xl mb-5 relative">
@@ -50,70 +89,48 @@ function Review({
               </div>
               {edit && (
                 <div className=" flex shadow p-2 text-left w-1/3 flex-col absolute right-0 top-9 ">
-                  <button className="text-left " onClick={() => setEdit(false)}>
+                  <button
+                    className="text-left "
+                    onClick={() => openEditModal()}
+                  >
                     Edit
                   </button>
-                  <button className="text-left" onClick={() => setEdit(false)}>
+                  <button
+                    className="text-left"
+                    onClick={() => deleteReview(reviewId)}
+                  >
                     Delete
                   </button>
                 </div>
               )}
+              {editModal && (
+                <EditReviewModal
+                  userName={userName}
+                  rating={editedRating}
+                  vehicleId={vehicleId}
+                  review={editedReview}
+                  open={openEditModal}
+                  close={closeEditModal}
+                  reviewId={reviewId}
+                  updateReview={updateReview}
+                />
+              )}
             </>
           )}
         </div>
-        <div className="flex items-center mb-1">
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-yellow-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>First star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-yellow-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Second star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-yellow-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Third star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-yellow-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Fourth star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-yellow-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Fifth star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        </div>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">{review}</p>
+        {editedRating && (
+          <ReactStars
+          key={editedRating}
+            count={5}
+            value={editedRating}
+            isHalf={true}
+            edit={false}
+            size={24}
+            activeColor="#ffd700"
+          />
+        )}
+        <div className="flex items-center mb-1"></div>
+        <p className="mb-2 text-gray-500 dark:text-gray-400">{editedReview}</p>
       </article>
     </div>
   )

@@ -27,7 +27,7 @@ const Vehicle = () => {
   const [userId, setUserId] = useState('')
   const [userName, setUserName] = useState('')
   const [vehicle, setVehicle] = useState([])
-  const [review, setReview] = useState([])
+  const [review, setReview] = useState<any>([])
   const [vehicleId, setVehicleId] = useState('')
   const [vehicleName, setVehicleName] = useState('')
   const [vehicleNumber, setVehicleNumber] = useState('')
@@ -71,6 +71,19 @@ const Vehicle = () => {
     try {
       const response = await axios.get(`${url}/getReview/vehicle/${vehicleId}`)
       setReview(response.data.response[0])
+    } catch (error: any) {
+      console.log(error.message)
+    }
+  }
+
+  const handleAddReview = (addedReview: any) => {
+    setReview([...review, addedReview])
+  }
+
+  const deleteReview = async (reviewId: string) => {
+    try {
+      const response = await axios.delete(`${url}/deleteReview/${reviewId}`)
+      setReview(review.filter((item: any) => item._id !== reviewId))
     } catch (error: any) {
       console.log(error.message)
     }
@@ -373,6 +386,7 @@ const Vehicle = () => {
                   vehicleId={vehicleId}
                   userName={userName}
                   userId={userId}
+                  handleAddReview={handleAddReview}
                 />
               )}
               <div className="reviews grid grid-cols-3 gap-2 ">
@@ -386,7 +400,10 @@ const Vehicle = () => {
                         createdOn={item.createdOn}
                         userName={item.userName}
                         currentUserId={userId}
+                        vehicleId={vehicleId}
                         userId={item.userId}
+                        reviewId={item._id}
+                        deleteReview={deleteReview}
                       />
                     </>
                   )

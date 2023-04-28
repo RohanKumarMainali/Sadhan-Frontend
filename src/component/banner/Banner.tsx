@@ -8,7 +8,7 @@ import GradientSection from './GradientSection'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
-
+import ReactStars from 'react-rating-stars-component'
 // Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -100,7 +100,7 @@ function Banner() {
             {categories.map((category: any, index: number) => {
               return (
                 <div key={index}>
-                  <SwiperSlide key={index} className='p-3'>
+                  <SwiperSlide key={index} className="p-3">
                     <div
                       className="h-44 w-full shadow-sm rounded-lg drop-shadow-sm"
                       key={index}
@@ -141,9 +141,9 @@ function Banner() {
                 return (
                   <Link to={`vehicle/${item._id}`} key={index + 1}>
                     <div key={index} className="App-link">
-                      <div className="h-60  shadow rounded-lg drop-shadow-sm">
+                      <div className="h-auto  shadow rounded-lg drop-shadow-sm">
                         <div
-                          className="h-4/5"
+                          className="h-64"
                           style={{
                             backgroundImage: `url(${item?.carImages[0]?.url})`,
                             maxWidth: '100%',
@@ -152,14 +152,22 @@ function Banner() {
                             backgroundPosition: 'top'
                           }}
                         ></div>
-
-                        <div className="h-1/5 flex items-center justify-between">
+                        <div className="h-auto flex items-center justify-between">
                           <div className="left-side">
-                            <p className="text-lg font-semibold  px-2 text-left">{`${item.name} ${item.model}`}</p>
+                            <ReactStars
+                              count={5}
+                              value={item.avgRating}
+                              isHalf={true}
+                              edit={false}
+                              size={24}
+                              activeColor="#ffd700"
+                            />
+                            <p className="text-lg font-semibold  px-2 text-left m-0">{`${item.name} ${item.model}`}</p>
                           </div>
 
                           <div className="right-side">
-                            <p className="text-lg font-semibold px-2 text-right">{`Rs ${item.price}/day`}</p>
+                            <p className="text-lg font-semibold px-2 text-right m-0">{`${item.reviewCount} Reviews`}</p>
+                            <p className="text-lg font-semibold px-2 text-right m-0">{`Rs ${item.price}/day`}</p>
                           </div>
                         </div>
                       </div>

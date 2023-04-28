@@ -2,7 +2,14 @@ import React, { useState, useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import ReactStars from 'react-rating-stars-component'
 import commonAxios from '../api/commonAxios'
-function ReviewModal({ open, userId, vehicleId ,userName}: any) {
+
+function ReviewModal({
+  open,
+  userId,
+  vehicleId,
+  userName,
+  handleAddReview
+}: any) {
   const [rating, setRating] = useState(0)
   const ratingChanged = (newRating: any) => {
     console.log(newRating)
@@ -19,6 +26,7 @@ function ReviewModal({ open, userId, vehicleId ,userName}: any) {
   const postReview = async (e: any) => {
     e.preventDefault()
     try {
+      const addedReview = {}
       const response = await commonAxios.post('/postReview', {
         rating: rating,
         review: reviewRef?.current?.value,
@@ -27,6 +35,7 @@ function ReviewModal({ open, userId, vehicleId ,userName}: any) {
         userName: userName
       })
       console.log(response.data.response)
+      handleAddReview(response.data.response)
 
       showMessage('Review Posted Successfully', 200)
     } catch (error: any) {

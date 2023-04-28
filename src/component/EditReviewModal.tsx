@@ -1,37 +1,31 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import ReactStars from 'react-rating-stars-component'
 import commonAxios from '../api/commonAxios'
 
-
-function EditReviewModal({ open, userId, vehicleId, userName, review , rating }: any) {
+function EditReviewModal({
+  open,
+  close,
+  reviewId,
+  userId,
+  vehicleId,
+  userName,
+  review,
+  updateReview,
+  rating
+}: any) {
   const [rate, setRate] = useState(rating)
   const ratingChanged = (newRating: any) => {
     setRate(newRating)
   }
 
   const reviewRef = useRef<any>(null)
+  console.log('rating ' + rating)
 
-  const showMessage = (message: string, statusCode: number) => {
-    if (statusCode == 201 || statusCode == 200) toast.success(message)
-    else toast.error(message)
-  }
+  useEffect(() => {
+    reviewRef.current.value = review
+  }, [review])
 
-  const postReview = async (e: any) => {
-    e.preventDefault()
-    try {
-      const response = await commonAxios.post('/updateReview', {
-        rating: rating,
-        review: reviewRef?.current?.value,
-      })
-      console.log(response.data.response)
-
-      showMessage('Review Posted Successfully', 200)
-    } catch (error: any) {
-      showMessage(error.message, 200)
-    }
-    open()
-  }
   return (
     <div
       id="popup-modal"
@@ -43,14 +37,16 @@ function EditReviewModal({ open, userId, vehicleId, userName, review , rating }:
           <label>Rating and Review</label>
           <ReactStars
             count={5}
+            value={rate}
+            isHalf={true}
             onChange={ratingChanged}
             size={24}
             activeColor="#ffd700"
           />
-          <form onSubmit={postReview} className="flex flex-col">
+          <form onSubmit={(e)=>updateReview(e, rate, reviewRef?.current?.value, reviewId)} className="flex flex-col">
             <button
               type="button"
-              onClick={() => open()}
+              onClick={() => close()}
               className="absolute top-3 right-2.5 text-gray-700 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
               data-modal-hide="popup-modal"
             >
@@ -71,7 +67,6 @@ function EditReviewModal({ open, userId, vehicleId, userName, review , rating }:
             <textarea
               placeholder="write your review"
               ref={reviewRef}
-              value = {review}
               className="p-2 mt-3 mb-3 rounded-sm resize-y rounded-md "
             ></textarea>
 

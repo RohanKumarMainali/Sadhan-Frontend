@@ -8,6 +8,7 @@ function ReviewModal({
   userId,
   vehicleId,
   userName,
+  image,
   handleAddReview
 }: any) {
   const [rating, setRating] = useState(0)
@@ -32,7 +33,8 @@ function ReviewModal({
         review: reviewRef?.current?.value,
         userId: userId,
         vehicleId: vehicleId,
-        userName: userName
+        userName: userName,
+        image: image,
       })
       console.log(response.data.response)
       handleAddReview(response.data.response)

@@ -13,12 +13,14 @@ function Review({
   userId,
   vehicleId,
   currentUserId,
+  image,
   deleteReview
 }: any) {
   const [edit, setEdit] = useState(false)
   const [editModal, setEditModal] = useState(false)
   const [editedReview, setEditedReview] = useState(review)
   const [editedRating, setEditedRating] = useState(rating)
+  console.log(image)
 
   const closeEditModal = () => {
     setEditModal(false)
@@ -63,7 +65,7 @@ function Review({
         <div className="flex  items-center mb-4 space-x-4">
           <img
             className="w-10 h-10 rounded-full"
-            src="/docs/images/people/profile-picture-5.jpg"
+            src= {image.url}
             alt=""
           />
           <div className="space-y-1 font-medium dark:text-white">

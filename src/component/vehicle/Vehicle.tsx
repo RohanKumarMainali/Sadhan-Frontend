@@ -28,6 +28,7 @@ const Vehicle = () => {
   const [userName, setUserName] = useState('')
   const [vehicle, setVehicle] = useState([])
   const [review, setReview] = useState<any>([])
+  const [image, setImage] = useState<any>(null)
   const [vehicleId, setVehicleId] = useState('')
   const [vehicleName, setVehicleName] = useState('')
   const [vehicleNumber, setVehicleNumber] = useState('')
@@ -96,6 +97,7 @@ const Vehicle = () => {
       let details = response.data.payload
       setUserId(details.id)
       setUserName(`${details.firstName} ${details.lastName}`)
+      setImage(details.image)
     } catch (error: any) {
       console.log(error)
     }
@@ -375,7 +377,7 @@ const Vehicle = () => {
               </div>
 
               <button
-                className="post-review App-btn w-1/6 p-2 rounded-sm "
+                className="post-review App-btn w-1/6 p-2 rounded-sm mb-3"
                 onClick={() => setOpenReview(true)}
               >
                 Post Review
@@ -386,6 +388,7 @@ const Vehicle = () => {
                   vehicleId={vehicleId}
                   userName={userName}
                   userId={userId}
+                  image={image}
                   handleAddReview={handleAddReview}
                 />
               )}
@@ -400,6 +403,7 @@ const Vehicle = () => {
                         createdOn={item.createdOn}
                         userName={item.userName}
                         currentUserId={userId}
+                        image = {item.image}
                         vehicleId={vehicleId}
                         userId={item.userId}
                         reviewId={item._id}

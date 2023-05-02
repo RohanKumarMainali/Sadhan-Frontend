@@ -1,16 +1,24 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { AiOutlineStar } from 'react-icons/ai'
 import { BiEditAlt } from 'react-icons/bi'
+import PreviewImage from '../dashboard/PreviewImage'
 import axios from 'axios'
+import commonAxios from '../../api/commonAxios'
 
 const Profile = () => {
   const url = 'http://localhost:5000/api'
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
+  const [userId, setUserId] = useState('')
   const [email, setEmail] = useState()
   const [role, setRole] = useState()
+  const [image, setImage] = useState<any>(null)
+  const [profilePicture, setProfilePicture] = useState<any>(null)
   const [status, setStatus] = useState('')
+  const [imageLoading, setImageLoading] = useState(true)
+  const imageRef = useRef<any>(null)
+  const [preview, setPreview] = useState<any>(null)
 
   const getTokenFromCookies = async () => {
     const response = await axios.get(`${url}/token`, {
@@ -48,6 +56,37 @@ const Profile = () => {
     }
   }
 
+  // handle image upload and handle image file change
+
+  const handleImageButton = () => {
+    imageRef?.current?.click()
+  }
+
+  const handleImageUpload = () => {
+    console.log(imageRef.current)
+    const reader: any = new FileReader()
+    reader.readAsDataURL(imageRef.current.files[0])
+    setProfilePicture(imageRef.current.files[0])
+    reader.onload = () => {
+      setPreview(reader.result)
+      setImageLoading(false)
+    }
+  }
+
+  const updateProfile = async () => {
+    try {
+      const formData = new FormData()
+      console.log(profilePicture)
+      formData.append('image', profilePicture)
+      formData.append('id', userId)
+      console.log(formData)
+      const response = await axios.put(`${url}/user/profile`, formData)
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const getUser = async () => {
     try {
       const response = await axios.get(`${url}/session`, {
@@ -62,9 +101,12 @@ const Profile = () => {
       setUserName(details.firstName + ' ' + details.lastName)
       setEmail(details.email)
       setRole(details.role)
+      setImage(details.image)
+      setUserId(details.id)
       const id = details.id
       const userData = await axios.get(`${url}/getUser/${id}`)
       setStatus(userData.data.data.status)
+      setImage(userData.data.data.image)
     } catch (error: any) {
       console.log('status code' + JSON.stringify(error.response))
       localStorage.clear()
@@ -90,16 +132,55 @@ const Profile = () => {
           <div className=" w-11/12 p-0  h-4/5 mx-auto">
             <div className="h-3/5 main ">
               <div className="profile flex w-2/5 space-x-4 items-center">
-                <div
-                  className="h-40 float-left  relative w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full"
-                  style={{
-                    backgroundImage: `url('https://media.istockphoto.com/id/1040308104/photo/mature-handsome-business-man.jpg?s=612x612&w=0&k=20&c=QbyH3XFmLOoy8NESjLQC8PYsm6g3UBL6COFaF-Qnnbk=')`
-                  }}
-                >
-
-                 <button className= "absolute bottom-0 App-btn rounded-sm right-0"><BiEditAlt/> 
-                 </button>
-                </div>
+                {(imageLoading  && image )? (
+                  <div
+                    className="h-40 float-left  relative w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full"
+                    style={{
+                      backgroundImage: `url(${image.url})`
+                    }}
+                  >
+                    <input
+                      type="file"
+                      className="hidden bottom-0 App-btn w-1/2 rounded-sm "
+                      ref={imageRef}
+                      onChange={handleImageUpload}
+                    ></input>
+                    <button
+                      className="absolute bottom-0 App-btn rounded-sm right-0"
+                      onClick={handleImageButton}
+                    >
+                      <BiEditAlt />
+                    </button>
+                  </div>
+                ) :  (
+                  <div className="flex flex-col profile-left">
+                    <div
+                      className="h-40 float-left  relative w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full"
+                      style={{
+                        backgroundImage: `url(${preview})`
+                      }}
+                    >
+                      <input
+                        type="file"
+                        className="hidden bottom-0 App-btn w-1/2 rounded-sm "
+                        ref={imageRef}
+                        onChange={handleImageUpload}
+                      ></input>
+                      <button
+                        className="absolute bottom-0 App-btn rounded-sm right-0"
+                        onClick={handleImageButton}
+                      >
+                        <BiEditAlt />
+                      </button>
+                    </div>
+                    <button
+                      className="App-btn p-2 rounded-sm mt-2"
+                      onClick={updateProfile}
+                    >
+                      Update
+                    </button>
+                  </div>
+                )}
                 <div>
                   <h1 className=" text-sm   text-left text-gray-700 text-2xl font-bold ">
                     {userName}
@@ -137,35 +218,33 @@ const Profile = () => {
                         <p className="text-right text-indigo-500 ">
                           Verify Number
                         </p>
-                        {status === 'pending'   && (
-                          <p className="text-right text-indigo-500 ">
-                            Pending
-                          </p>
+                        {status === 'pending' && (
+                          <p className="text-right text-indigo-500 ">Pending</p>
                         )}
 
-                        {status === 'unverified'   && (
+                        {status === 'unverified' && (
                           <p className="text-right text-indigo-500 ">
                             Not verified
                           </p>
                         )}
 
-                        {(status === 'verified')   && (
+                        {status === 'verified' && (
                           <p className="text-right text-indigo-500 ">
                             Verified
                           </p>
                         )}
-                        {(status !== 'verified' && status !== 'pending')&& (
+                        {status !== 'verified' && status !== 'pending' && (
                           <Link to="/dashboard/verifyKyc">
                             <p className="text-right text-indigo-500 ">
                               Verify
                             </p>
                           </Link>
                         )}
-                        {role === 'admin' &&
-                         <p className="text-right text-indigo-500 ">
-                              Verified
-                            </p>
-                        }
+                        {role === 'admin' && (
+                          <p className="text-right text-indigo-500 ">
+                            Verified
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -174,39 +253,6 @@ const Profile = () => {
                         Change Password
                       </button>
                     </Link>
-                  </div>
-
-                  <div className="reviews">
-                    <h1 className="text-2xl  text-left font-semibold text-gray-700">
-                      {' '}
-                      Reviews
-                    </h1>
-                    <div className="review section">
-                      <div className="stars flex mt-2">
-                        <li className="list-none">
-                          <AiOutlineStar />
-                        </li>
-                        <li className="list-none">
-                          <AiOutlineStar />
-                        </li>
-                        <li className="list-none">
-                          <AiOutlineStar />
-                        </li>
-                        <li className="list-none">
-                          <AiOutlineStar />
-                        </li>
-                        <li className="list-none">
-                          <AiOutlineStar />
-                        </li>
-                      </div>
-                      <div className="review-details">
-                        <span>
-                          <h2 className="text-sm text-gray-700 font-semibold">
-                            No reviews yet
-                          </h2>
-                        </span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

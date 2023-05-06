@@ -8,3 +8,4 @@ declare module 'react-select';
 declare module 'react-table';
 declare module 'react-cssfx-loading';
 declare module 'react-rating-stars-component';
+declare module '@headlessui/react';

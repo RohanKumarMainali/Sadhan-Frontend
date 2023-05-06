@@ -38,6 +38,9 @@ import SearchVehicle from './component/search/SearchVehicle'
 import Categories from './component/dashboard/Category'
 import AddCategory from './component/dashboard/AddCategory'
 import EditCategory from './component/dashboard/EditCategory'
+import UserDashboard from './component/UserDashboard'
+import OwnerDashboard from './component/OwnerDashboard'
+import UserBookings from './component/dashboard/UserBookings'
 
 import axios from 'axios'
 import { useAuth } from './hooks/auth'
@@ -341,7 +344,17 @@ const App = () => {
               element={
                 <ProtectedRoute role = {user} redirect={!isAuthenticated}>
                   <UserLayout>
-                    <Dashboard />
+                    <UserDashboard />
+                  </UserLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/owner/dashboard"
+              element={
+                <ProtectedRoute role = {user} redirect={!isAuthenticated}>
+                  <UserLayout>
+                    <OwnerDashboard />
                   </UserLayout>
                 </ProtectedRoute>
               }
@@ -403,7 +416,7 @@ const App = () => {
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <UserLayout>
-                    <Bookings />
+                    <UserBookings />
                   </UserLayout>
                 </ProtectedRoute>
               }

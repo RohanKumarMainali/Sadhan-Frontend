@@ -12,7 +12,7 @@ import Table from '../table/Table'
 import { StatusPill, CreatedDate } from '../table/Status'
 import { ActionButtons } from '../table/Button'
 
-function Bookings() {
+function UserBookings() {
   const url = 'http://localhost:5000/api'
   const [userId, setUserId] = useState('')
   const [bookings, setBookings] = useState([])
@@ -105,7 +105,7 @@ function Bookings() {
   const [data, setData] = useState([])
 
   const fetchData = async (userId: number) => {
-    const response: any = await axios(`${url}/booking`).catch(
+    const response: any = await axios(`${url}/booking?userId=${userId}`).catch(
       err => console.log(err)
     )
 
@@ -132,4 +132,4 @@ function Bookings() {
   )
 }
 
-export default Bookings
+export default UserBookings

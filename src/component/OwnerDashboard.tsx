@@ -8,13 +8,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { StatusPill } from '../component/table/Status'
 import { ActionButtons } from '../component/table/Button'
 import LineChart from '../component/dashboard/LineChart'
-import PieCharts from '../component/dashboard/PieCharts'
 
-function Dashboard() {
+function OwnerDashboard() {
   const url = 'http://localhost:5000/api'
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
   const [email, setEmail] = useState()
+  const [userId, setUserId] = useState()
   const [dashboardData, setDashboardData] = useState<any>({})
   const [role, setRole] = useState()
 
@@ -49,6 +49,7 @@ function Dashboard() {
         setUserName(details.firstName + ' ' + details.lastName)
         setEmail(details.email)
         setRole(details.role)
+        setUserId(details.id)
       }
     } catch (error) {
       console.log(error)
@@ -69,6 +70,8 @@ function Dashboard() {
       setUserName(details.firstName + ' ' + details.lastName)
       setEmail(details.email)
       setRole(details.role)
+      setUserId(details.id)
+      fetchDashboardData(details.id)
     } catch (error: any) {
       localStorage.clear()
       if (error.response.data == 'jwt expired') {
@@ -124,9 +127,10 @@ function Dashboard() {
     setData(response.data.vehicles)
   }
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (userId: string) => {
     try {
-      const response: any = await axios(`${url}/admin/getDashboardData`)
+      const response: any = await axios(`${url}/getOwnerDashboardData/${userId}`)
+      console.log('owner')
       console.log(response.data)
       setDashboardData(response.data)
     } catch (error) {
@@ -136,7 +140,6 @@ function Dashboard() {
 
   useEffect(() => {
     fetchData()
-    fetchDashboardData()
   }, [])
 
   useEffect(() => {
@@ -152,11 +155,11 @@ function Dashboard() {
               <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                   <div className="text-sm font-medium text-gray-500 truncate">
-                    Total users
+                    Your Total Rental Count
                   </div>
                   {Object.keys(dashboardData).length > 0 ? (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
-                      {dashboardData.userCount}
+                      {dashboardData.rentalCount}
                     </div>
                   ) : (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
@@ -166,7 +169,7 @@ function Dashboard() {
                 </div>
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                   <div className="text-sm font-medium text-gray-500 truncate">
-                    Total Vehicles
+                    Your Vehicle Count
                   </div>
                   {Object.keys(dashboardData).length > 0 ? (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
@@ -180,7 +183,7 @@ function Dashboard() {
                 </div>
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                   <div className="text-sm font-medium text-gray-500 truncate">
-                    Total Bookings
+                    Your Bookings Count
                   </div>
                   {Object.keys(dashboardData).length > 0 ? (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
@@ -195,10 +198,6 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white w-full h-50 flex ">
-              <LineChart />
-              <PieCharts />
-            </div>
             <div className="user-table ">
               <Table column={columns} mockData={data} />
             </div>
@@ -209,4 +208,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default OwnerDashboard

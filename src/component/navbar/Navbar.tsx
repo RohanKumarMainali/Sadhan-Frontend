@@ -172,20 +172,20 @@ function Navbar() {
                   <ul>
                     {userRole !== 'admin' && (
                       <>
-                      <Link to = "/search?">
-                        <button className="btn App-navbar-text">
-                          Rent Vehicle
-                        </button>
+                        <Link to="/search?">
+                          <button className="btn App-navbar-text">
+                            Rent Vehicle
+                          </button>
                         </Link>
 
-                      <Link to = "/dashboard/become-a-host">
-                        <button className="btn App-navbar-text">
-                          Become A Host
-                        </button>
+                        <Link to="/dashboard/become-a-host">
+                          <button className="btn App-navbar-text">
+                            Become A Host
+                          </button>
                         </Link>
                       </>
                     )}
-                    {(userRole === 'admin' && isLoggedIn )? (
+                    {userRole === 'admin' && isLoggedIn ? (
                       <>
                         <Link to="/admin/dashboard">
                           <button className="btn App-navbar-text">
@@ -198,9 +198,22 @@ function Navbar() {
                           </button>
                         </li>
                       </>
-                    ) : (userRole === 'user' || userRole === 'owner' ) ? (
+                    ) : userRole === 'user' ? (
                       <>
                         <Link to="/dashboard">
+                          <button className="btn App-navbar-text">
+                            Dashboard
+                          </button>
+                        </Link>
+                        <li className="login-list">
+                          <button className="btn App-btn" onClick={logout}>
+                            Logout
+                          </button>
+                        </li>
+                      </>
+                    ) : userRole === 'owner' ? (
+                      <>
+                        <Link to="/owner/dashboard">
                           <button className="btn App-navbar-text">
                             Dashboard
                           </button>
@@ -221,8 +234,6 @@ function Navbar() {
                         </button>
                       </>
                     )}
-
-                    
                   </ul>
                 </nav>
                 <LoginModal

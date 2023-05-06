@@ -10,7 +10,7 @@ import { ActionButtons } from '../component/table/Button'
 import LineChart from '../component/dashboard/LineChart'
 import PieCharts from '../component/dashboard/PieCharts'
 
-function Dashboard() {
+function UserDashboard() {
   const url = 'http://localhost:5000/api'
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
@@ -195,10 +195,6 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white w-full h-50 flex ">
-              <LineChart />
-              <PieCharts />
-            </div>
             <div className="user-table ">
               <Table column={columns} mockData={data} />
             </div>
@@ -209,4 +205,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default UserDashboard

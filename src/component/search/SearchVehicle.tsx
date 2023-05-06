@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import Slider from 'react-slider'
 import MultiSelect from './MultiSelect'
@@ -12,7 +12,10 @@ function SearchVehicle() {
   const url = 'http://localhost:5000/api'
   const searchParams = new URLSearchParams(urlLocation.search)
   const [vehicleName, setVehicleName] = useState<string | null>('')
+  const [categoryName, setCategoryName] = useState<string | null>('')
   const [vehicles, setVehicles] = useState([])
+  const [categoryList, setCategoryList] = useState<any>([])
+  const locationRef = useRef<HTMLInputElement>(null)
 
   // filters
 
@@ -21,10 +24,29 @@ function SearchVehicle() {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 100000 })
   const [location, setLocation] = useState('')
 
-  const searchVehicle = async (name: string) => {
+  const searchVehicle = async (
+    name: string,
+    category: string,
+    location: string
+  ) => {
+    console.log(category)
     if (name) {
       const { data } = await axios.get(`${url}/search?name=${name}`)
       setVehicles(data.data)
+    } else if (category && location) {
+      const response = await axios.get(
+        `${url}/search?category=${category}&location=${location}`
+      )
+      setVehicles(response.data.data)
+      console.log(response)
+    } else if (category) {
+      const response = await axios.get(`${url}/search?category=${category}`)
+      setVehicles(response.data.data)
+      console.log(response)
+    } else if (location) {
+      const response = await axios.get(`${url}/search?location=${location}`)
+      setVehicles(response.data.data)
+      console.log(response)
     } else {
       setVehicles([])
     }
@@ -37,13 +59,27 @@ function SearchVehicle() {
     }
   }
 
+  const getCategory = async () => {
+    try {
+      const response = await axios.get(`${url}/getCategory`)
+      setCategoryList(response.data.response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     setVehicleName(searchParams.get('name' || ''))
-    searchVehicle(searchParams.get('name') || '')
+    searchVehicle(
+      searchParams.get('name') || '',
+      searchParams.get('category') || '',
+      searchParams.get('location') || ''
+    )
   }, [urlLocation.search])
 
   useEffect(() => {
     searchAllVehicle()
+    getCategory()
   }, [])
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -68,9 +104,13 @@ function SearchVehicle() {
                 onChange={e => setCategory(e.target.value)}
               >
                 <option value="">Select category</option>
-                <option value="car">Car</option>
-                <option value="bike">Bike</option>
-                <option value="truck">Truck</option>
+                {categoryList?.map((item: any, index: number) => {
+                  return (
+                    <option value={item.name} key={index}>
+                      {item.name}
+                    </option>
+                  )
+                })}
               </select>
             </div>
             <div className="mb-4">
@@ -78,21 +118,28 @@ function SearchVehicle() {
                 className="block text-left text-gray-700 font-bold mb-2"
                 htmlFor="priceRange"
               >
-                Price Range
+                Location
               </label>
               <div className="flex justify-between">
-                <span>₹{priceRange.min}</span>
-                <span>₹{priceRange.max}</span>
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(event: any) => {
+                    setLocation(event.target.value)
+                  }}
+                  className="w-full"
+                ></input>
               </div>
             </div>
             {/* repeat the above for the other filters */}
             <div className="mt-8">
-              <button
-                type="submit"
-                className="App-btn text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+              <Link
+                to={`/search?category=${category}&location=${location}`}
               >
-                Search
-              </button>
+                <button className="App-btn align-left flex-start text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                  Search
+                </button>
+              </Link>
             </div>
           </form>
         </div>

@@ -27,6 +27,8 @@ function ReviewModal({
   const postReview = async (e: any) => {
     e.preventDefault()
     try {
+
+      const userData = await commonAxios.get(`/getUser/${userId}`)
       const addedReview = {}
       const response = await commonAxios.post('/postReview', {
         rating: rating,
@@ -34,14 +36,14 @@ function ReviewModal({
         userId: userId,
         vehicleId: vehicleId,
         userName: userName,
-        image: image,
+        image: userData.data.data.image,
       })
       console.log(response.data.response)
       handleAddReview(response.data.response)
 
       showMessage('Review Posted Successfully', 200)
     } catch (error: any) {
-      showMessage(error.message, 200)
+      showMessage('Duplicate review is not allowed', 400)
     }
     open()
   }

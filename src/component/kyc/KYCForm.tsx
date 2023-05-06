@@ -133,14 +133,8 @@ const KYCForm = () => {
                                             type="text"
                                             className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
                                             name="firstName"
-                                        // validate={validateOldPassword}
                                         />
-                                        {/*                             {errors.newPassword && touched.newPassword && (
-                              <div className="text-left text-xs text-red-700 mt-1">
-                                {errors.newPassword}
-                              </div>
-                            )}
-                             */}
+                                 
                                     </div>
 
                                     <div className="flex flex-col w-1/4">

@@ -406,7 +406,7 @@ const App = () => {
               element={
                 <ProtectedRoute redirect={!isAuthenticated}>
                   <UserLayout>
-                    <Bookings />
+                    <UserBookings />
                   </UserLayout>
                 </ProtectedRoute>
               }

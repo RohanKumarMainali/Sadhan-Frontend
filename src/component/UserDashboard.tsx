@@ -15,6 +15,7 @@ function UserDashboard() {
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
   const [email, setEmail] = useState()
+  const [userId, setUserId] = useState()
   const [dashboardData, setDashboardData] = useState<any>({})
   const [role, setRole] = useState()
 
@@ -69,6 +70,8 @@ function UserDashboard() {
       setUserName(details.firstName + ' ' + details.lastName)
       setEmail(details.email)
       setRole(details.role)
+      setUserId(details.role)
+      fetchDashboardData(details.id)
     } catch (error: any) {
       localStorage.clear()
       if (error.response.data == 'jwt expired') {
@@ -124,9 +127,9 @@ function UserDashboard() {
     setData(response.data.vehicles)
   }
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (userId: string) => {
     try {
-      const response: any = await axios(`${url}/admin/getDashboardData`)
+      const response: any = await axios(`${url}/getUserDashboardData/${userId}`)
       console.log(response.data)
       setDashboardData(response.data)
     } catch (error) {
@@ -136,7 +139,6 @@ function UserDashboard() {
 
   useEffect(() => {
     fetchData()
-    fetchDashboardData()
   }, [])
 
   useEffect(() => {
@@ -152,11 +154,11 @@ function UserDashboard() {
               <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                   <div className="text-sm font-medium text-gray-500 truncate">
-                    Total users
+                    Total Bookings
                   </div>
                   {Object.keys(dashboardData).length > 0 ? (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
-                      {dashboardData.userCount}
+                      {dashboardData.bookingCount}
                     </div>
                   ) : (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
@@ -166,11 +168,11 @@ function UserDashboard() {
                 </div>
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                   <div className="text-sm font-medium text-gray-500 truncate">
-                    Total Vehicles
+                    Your Reviews Count
                   </div>
                   {Object.keys(dashboardData).length > 0 ? (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
-                      {dashboardData.vehicleCount}
+                      {dashboardData.reviewCount}
                     </div>
                   ) : (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
@@ -180,11 +182,11 @@ function UserDashboard() {
                 </div>
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                   <div className="text-sm font-medium text-gray-500 truncate">
-                    Total Bookings
+                    Total Money Spent
                   </div>
                   {Object.keys(dashboardData).length > 0 ? (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
-                      {dashboardData.bookingCount}
+                      {`Rs ${dashboardData.totalAmount}`}
                     </div>
                   ) : (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">

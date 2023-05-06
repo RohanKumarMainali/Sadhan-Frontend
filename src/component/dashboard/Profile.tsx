@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { AiOutlineStar } from 'react-icons/ai'
 import { BiEditAlt } from 'react-icons/bi'
 import PreviewImage from '../dashboard/PreviewImage'
+import { ToastContainer, toast } from 'react-toastify'
 import axios from 'axios'
 import commonAxios from '../../api/commonAxios'
 
@@ -73,6 +74,11 @@ const Profile = () => {
     }
   }
 
+  const showMessage = (message: string, statusCode: number) => {
+    if (statusCode == 201 || statusCode == 200) toast.success(message)
+    else toast.error(message)
+  }
+
   const updateProfile = async () => {
     try {
       const formData = new FormData()
@@ -81,7 +87,7 @@ const Profile = () => {
       formData.append('id', userId)
       console.log(formData)
       const response = await axios.put(`${url}/user/profile`, formData)
-      console.log(response)
+      showMessage('Profile updated successfully!', 200)
     } catch (error) {
       console.log(error)
     }
@@ -102,6 +108,7 @@ const Profile = () => {
       setEmail(details.email)
       setRole(details.role)
       setImage(details.image)
+      console.log(details.image)
       setUserId(details.id)
       const id = details.id
       const userData = await axios.get(`${url}/getUser/${id}`)
@@ -132,7 +139,7 @@ const Profile = () => {
           <div className=" w-11/12 p-0  h-4/5 mx-auto">
             <div className="h-3/5 main ">
               <div className="profile flex w-2/5 space-x-4 items-center">
-                {(imageLoading  && image )? (
+                {imageLoading && image ? (
                   <div
                     className="h-40 float-left  relative w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full"
                     style={{
@@ -152,7 +159,7 @@ const Profile = () => {
                       <BiEditAlt />
                     </button>
                   </div>
-                ) :  (
+                ) : (
                   <div className="flex flex-col profile-left">
                     <div
                       className="h-40 float-left  relative w-40 -mt-12 border-4 border-gray-400 profile-img align-center bg-no-repeat bg-center bg-cover rounded-full"
@@ -196,29 +203,12 @@ const Profile = () => {
                       <div className="verify-left ">
                         <p className="text-left text-lg">Email: </p>
                         <p className="text-left text-lg">Role: </p>
-                        <p className="text-left text-lg">User verification: </p>
-                        <p className="text-left text-lg">Approve to drive ?</p>
-                        <p className="text-left text-lg">Email address </p>
-                        <p className="text-left text-lg">Phone number</p>
                         <p className="text-left text-lg">Status</p>
                       </div>
-                      <div className="verify-right ">
+                      <div className="verify-right ml-3 ">
                         <p className="text-right text-lg ">{email}</p>
                         <p className="text-right text-lg "> {role} </p>
-                        <p className="text-right text-lg text-red-400">
-                          {status}
-                        </p>
-
-                        <p className="text-right text-lg text-indigo-500">
-                          Verify license
-                        </p>
-                        <p className="text-right text-lg text-indigo-500">
-                          Verify Email address{' '}
-                        </p>
-                        <p className="text-right text-indigo-500 ">
-                          Verify Number
-                        </p>
-                        {status === 'pending' && (
+                       {status === 'pending' && (
                           <p className="text-right text-indigo-500 ">Pending</p>
                         )}
 
@@ -254,6 +244,18 @@ const Profile = () => {
                       </button>
                     </Link>
                   </div>
+                  <ToastContainer
+                    position="top-right"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                  />
                 </div>
               </div>
             </div>

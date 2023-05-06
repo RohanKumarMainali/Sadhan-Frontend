@@ -13,6 +13,7 @@ import BiDotsVerticalRounded from 'react-icons/bi'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import axiosConfig from '../../api/axiosConfig'
 import commonAxios from '../../api/commonAxios'
+import KycModal from '../../component/modal/KycModal'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -26,19 +27,32 @@ const Vehicle = () => {
   const [id, setId] = useState(useParams().id)
   const [userId, setUserId] = useState('')
   const [userName, setUserName] = useState('')
+  const [showKyc, setShowKyc] = useState(false)
+  const [canReview, setCanReview] = useState(false)
   const [vehicle, setVehicle] = useState([])
   const [review, setReview] = useState<any>([])
   const [image, setImage] = useState<any>(null)
   const [vehicleId, setVehicleId] = useState('')
+  const [status, setStatus] = useState('')
   const [vehicleName, setVehicleName] = useState('')
   const [vehicleNumber, setVehicleNumber] = useState('')
   const [vehicleModel, setVehicleModel] = useState('')
   const [ownerId, setOwnerId] = useState('')
   const [vehiclePrice, setVehiclePrice] = useState(0)
 
+  const changeModalState = () => setShowKyc(!showKyc)
+
   // open or onClose
   const [openReview, setOpenReview] = useState(false)
   const closeReview = () => setOpenReview(false)
+
+  const addReview = () => {
+    if (status === 'verified') {
+        setOpenReview(true)
+    } else {
+      setShowKyc(true)
+    }
+  }
 
   const [loading, setLoading] = useState(true)
   const [amount, setAmount] = useState(0)
@@ -97,6 +111,7 @@ const Vehicle = () => {
       let details = response.data.payload
       setUserId(details.id)
       setUserName(`${details.firstName} ${details.lastName}`)
+      setStatus(details.status ? details.status : 'unverified')
       setImage(details.image)
     } catch (error: any) {
       console.log(error)
@@ -151,6 +166,14 @@ const Vehicle = () => {
 
   const getBookings = async (vehicleId: string) => {
     const response = await axios.get(`${url}/booking?vehicleId=${vehicleId}`)
+    const bookings = response.data.bookings
+
+    const canReview = bookings.forEach((element: any) => {
+      if (element.userId === userId) return false
+    })
+    console.log(userId)
+    console.log(canReview)
+    console.log(response.data.bookings)
     setBookedDates(response.data.bookings)
   }
 
@@ -197,8 +220,12 @@ const Vehicle = () => {
   let khalti = new KhaltiCheckout(config)
   const showCheckout = (amount: number) => {
     // converting paisa into rupees
-
-    khalti.show({ amount: amount })
+    //
+    if (status === 'verified') {
+      khalti.show({ amount: amount })
+    } else {
+      setShowKyc(true)
+    }
   }
 
   useEffect(() => {
@@ -348,6 +375,12 @@ const Vehicle = () => {
                   </div>
                 </div>
               </div>
+              {showKyc && (
+                <KycModal
+                  changeModalState={changeModalState}
+                  isOpen={showKyc}
+                />
+              )}
 
               <div className=" bg-white w-7/12 h-auto ">
                 <div className="general-info w-3/4 flex justify-between py-2">
@@ -378,7 +411,7 @@ const Vehicle = () => {
 
               <button
                 className="post-review App-btn w-1/6 p-2 rounded-sm mb-3"
-                onClick={() => setOpenReview(true)}
+                onClick={addReview}
               >
                 Post Review
               </button>
@@ -403,7 +436,7 @@ const Vehicle = () => {
                         createdOn={item.createdOn}
                         userName={item.userName}
                         currentUserId={userId}
-                        image = {item.image}
+                        image={item.image}
                         vehicleId={vehicleId}
                         userId={item.userId}
                         reviewId={item._id}

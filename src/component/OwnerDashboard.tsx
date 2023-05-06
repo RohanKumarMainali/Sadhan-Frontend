@@ -129,7 +129,9 @@ function OwnerDashboard() {
 
   const fetchDashboardData = async (userId: string) => {
     try {
-      const response: any = await axios(`${url}/getOwnerDashboardData/${userId}`)
+      const response: any = await axios(
+        `${url}/getOwnerDashboardData/${userId}`
+      )
       console.log('owner')
       console.log(response.data)
       setDashboardData(response.data)
@@ -152,7 +154,7 @@ function OwnerDashboard() {
         <>
           <div className="float-right p-0 px-5 w-full h-screen ">
             <div className="dashboard-home main-profile mx-auto ">
-              <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
+              <div className="flex gap-x-10 mb-6 lg:grid-cols-3">
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                   <div className="text-sm font-medium text-gray-500 truncate">
                     Your Total Rental Count
@@ -163,7 +165,7 @@ function OwnerDashboard() {
                     </div>
                   ) : (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
-                      Loading.. 
+                      Loading..
                     </div>
                   )}
                 </div>
@@ -188,6 +190,34 @@ function OwnerDashboard() {
                   {Object.keys(dashboardData).length > 0 ? (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">
                       {dashboardData.bookingCount}
+                    </div>
+                  ) : (
+                    <div className="mt-1 text-3xl font-semibold text-gray-900">
+                      Loading..
+                    </div>
+                  )}
+                </div>
+                <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
+                  <div className="text-sm font-medium text-gray-500 truncate">
+                    Total Earnings 
+                  </div>
+                  {Object.keys(dashboardData).length > 0 ? (
+                    <div className="mt-1 text-3xl font-semibold text-gray-900">
+                      {`Rs ${dashboardData.totalEarning}`}
+                    </div>
+                  ) : (
+                    <div className="mt-1 text-3xl font-semibold text-gray-900">
+                      Loading..
+                    </div>
+                  )}
+                </div>
+                <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
+                  <div className="text-sm font-medium text-gray-500 truncate">
+                    Total Money Spent 
+                  </div>
+                  {Object.keys(dashboardData).length > 0 ? (
+                    <div className="mt-1 text-3xl font-semibold text-gray-900">
+                      {`Rs ${dashboardData.totalMoneySpent}`}
                     </div>
                   ) : (
                     <div className="mt-1 text-3xl font-semibold text-gray-900">

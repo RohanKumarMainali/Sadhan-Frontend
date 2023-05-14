@@ -121,7 +121,7 @@ function UserDashboard() {
   const [data, setData] = useState([])
 
   const fetchData = async () => {
-    const response: any = await axios(`${url}/getVehicle`).catch(err =>
+    const response: any = await axios(`${url}/getVerifiedVehicles`).catch(err =>
       console.log(err)
     )
     setData(response.data.vehicles)

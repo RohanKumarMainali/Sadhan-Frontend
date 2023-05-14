@@ -23,6 +23,7 @@ function ForgotPassword() {
                     'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
                 }
             });
+            console.log(response)
 
             console.log(JSON.stringify(response.data.message))
 
@@ -71,10 +72,10 @@ function ForgotPassword() {
 
             >
                 {({ errors, touched, isValidating }) => (
-                    <Form className='w-1/4 mx-auto mt-3'>
-                        <Field type='password' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='New Password' name='newPassword' validate={validateNewPassword} />
+                    <Form className='w-1/4 mx-auto mt-3 flex flex-col gap-y-2'>
+                        <Field type='password' className="p-2 w-full " placeholder='New Password' name='newPassword' validate={validateNewPassword} />
                         {errors.newPassword && touched.newPassword && <div className='text-xs text-red-700 mt-1'>{errors.newPassword}</div>}
-                        <Field type='password' className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400" placeholder='Confirm Password' name='confirmPassword' validate={validateConfirmPassword} />
+                        <Field type='password' className="p-2 w-full mb-2" placeholder='Confirm Password' name='confirmPassword' validate={validateConfirmPassword} />
                         {errors.confirmPassword && touched.confirmPassword && <div className='text-xs text-red-700 mt-1'>{errors.confirmPassword}</div>}
 
 

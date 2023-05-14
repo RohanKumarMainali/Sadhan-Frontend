@@ -121,9 +121,10 @@ function OwnerDashboard() {
   const [data, setData] = useState([])
 
   const fetchData = async () => {
-    const response: any = await axios(`${url}/getVehicle`).catch(err =>
+    const response: any = await axios(`${url}/getVerifiedVehicles`).catch(err =>
       console.log(err)
     )
+    console.log(response)
     setData(response.data.vehicles)
   }
 

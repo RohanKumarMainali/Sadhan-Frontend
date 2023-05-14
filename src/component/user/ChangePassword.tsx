@@ -94,10 +94,10 @@ const ChangePassword = (user: any) => {
             }}
           >
             {({ errors, touched, isValidating, resetForm, values }) => (
-              <Form className="w-1/4 mx-auto mt-3">
+              <Form className="w-1/4 mx-auto mt-3 flex flex-col gap-y-2">
                 <Field
                   type="password"
-                  className="w-full border m-1 border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                  className="w-full border m-1 p-2 "
                   placeholder="Old Password"
                   name="oldPassword"
                   validate={validateOldPassword}
@@ -109,7 +109,7 @@ const ChangePassword = (user: any) => {
                 )}
                 <Field
                   type="password"
-                  className="w-full border m-1 border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                  className="w-full border m-1 mb-2  p-2 "
                   placeholder="New Password"
                   name="newPassword"
                   validate={validateNewPassword}

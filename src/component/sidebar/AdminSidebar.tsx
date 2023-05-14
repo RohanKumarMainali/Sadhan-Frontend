@@ -169,12 +169,6 @@ const AnimatedSidebar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={'/admin/profile'} className="link App-sidebar-link">
-                <BsFillPersonFill size={23} className="min-w-max" />
-                Profile
-              </NavLink>
-            </li>
-            <li>
               <NavLink to={'/admin/users'} className="link App-sidebar-link">
                 <FaUsers size={23} className="min-w-max" />
                 Users

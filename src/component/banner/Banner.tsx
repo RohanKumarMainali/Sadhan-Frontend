@@ -8,6 +8,7 @@ import GradientSection from './GradientSection'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import About from './About'
 import ReactStars from 'react-rating-stars-component'
 // Import Swiper styles
 import 'swiper/css'
@@ -105,17 +106,18 @@ function Banner() {
                       className="h-44 w-full shadow-sm rounded-lg drop-shadow-sm"
                       key={index}
                     >
-                      <div
-                        className="h-4/5"
-                        style={{
-                          backgroundImage: `url(${category.image.url})`,
-                          maxWidth: '100%',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'top'
-                        }}
-                      ></div>
-
+                      <Link to={`/search?category=${category.name}`}>
+                        <div
+                          className="h-4/5"
+                          style={{
+                            backgroundImage: `url(${category.image.url})`,
+                            maxWidth: '100%',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'top'
+                          }}
+                        ></div>
+                      </Link>
                       <div className="h-1/5 flex items-center justify-center">
                         {' '}
                         <span className="text-lg font-semibold text-center">
@@ -177,6 +179,10 @@ function Banner() {
               })}
           </div>
         </div>
+      </div>
+
+      <div className="relative h-auto">
+        <About />
       </div>
       <div className="relative h-auto">
         <GradientSection />

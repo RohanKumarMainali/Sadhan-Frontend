@@ -29,6 +29,8 @@ interface vehicleType {
 const AddVehicle = () => {
   const [image, setImage] = useState('')
   const [userId, setUserId] = useState('')
+  const [ownerName, setOwnerName] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
   const url = 'http://localhost:5000/api'
   const [selectedImages, setSelectedImages] = useState([])
   const [categories, setCategories] = useState([])
@@ -49,6 +51,8 @@ const AddVehicle = () => {
       let details = response.data.payload
       console.log(details)
       setUserId(details.id)
+      setOwnerName(details.firstName + ' ' +  details.lastName )
+      setOwnerEmail(details.email)
     } catch (error: any) {
       console.log(error)
     }
@@ -108,6 +112,8 @@ const AddVehicle = () => {
     var form: any = new FormData()
     form.append('userId', userId)
     form.append('name', values.name)
+    form.append('ownerName', ownerName)
+    form.append('ownerEmail', ownerEmail)
     form.append('model', values.model)
     form.append('price', JSON.stringify(values.price))
     form.append('milage', JSON.stringify(values.milage))
@@ -117,6 +123,8 @@ const AddVehicle = () => {
     form.append('vehicleNumber', values.vehicleNumber)
     form.append('categoryId', selectedOption)
     form.append('categoryName', selectedOptionName)
+
+    console.log(form)
 
     {
       selectedImages.map((image: any, index: number) => {

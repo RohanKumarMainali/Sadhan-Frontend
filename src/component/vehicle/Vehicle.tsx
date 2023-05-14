@@ -27,6 +27,9 @@ const Vehicle = () => {
   const [id, setId] = useState(useParams().id)
   const [userId, setUserId] = useState('')
   const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
+  const [ownerName, setOwnerName] = useState('')
   const [showKyc, setShowKyc] = useState(false)
   const [canReview, setCanReview] = useState(false)
   const [vehicle, setVehicle] = useState([])
@@ -72,6 +75,8 @@ const Vehicle = () => {
       setVehicleName(data.name)
       setVehicleNumber(data.vehicleNumber)
       setOwnerId(data.userId)
+      setOwnerName(data.ownerName)
+      setOwnerEmail(data.ownerEmail)
       setVehicleModel(data.model)
       setVehiclePrice(data.price)
       getReview(data._id)
@@ -111,6 +116,7 @@ const Vehicle = () => {
       let details = response.data.payload
       setUserId(details.id)
       setUserName(`${details.firstName} ${details.lastName}`)
+      setUserEmail(details.email)
       setStatus(details.status ? details.status : 'unverified')
       setImage(details.image)
     } catch (error: any) {
@@ -151,7 +157,10 @@ const Vehicle = () => {
         endDate,
         userId,
         ownerId,
+        ownerName,
         vehicleId,
+        userEmail,
+        ownerEmail,
         amount
       })
       showMessage('Vehicle Booked Successfully!', 200)

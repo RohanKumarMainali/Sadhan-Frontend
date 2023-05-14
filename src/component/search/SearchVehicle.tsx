@@ -123,6 +123,7 @@ function SearchVehicle() {
               <div className="flex justify-between">
                 <input
                   type="text"
+                  placeholder='Search location...'
                   value={location}
                   onChange={(event: any) => {
                     setLocation(event.target.value)

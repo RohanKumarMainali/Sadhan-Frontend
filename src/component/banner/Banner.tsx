@@ -29,7 +29,7 @@ function Banner() {
 
   const getVehicle = async () => {
     try {
-      const response = await axios.get(`${url}/getVehicle`)
+      const response = await axios.get(`${url}/getTopRatedVehicle`)
       setVehicles(response.data.vehicles)
       console.log(response.data.data)
     } catch (error) {

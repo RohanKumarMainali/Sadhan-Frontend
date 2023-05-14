@@ -131,6 +131,8 @@ function VehicleList() {
     const response: any = await axios(`${url}/getVehicle`).catch(err =>
       console.log(err)
     )
+    console.log('data')
+    console.log(response.data.vehicles)
     setData(response.data.vehicles)
   }
 

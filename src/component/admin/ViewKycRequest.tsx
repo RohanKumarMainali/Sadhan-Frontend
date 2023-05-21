@@ -38,7 +38,7 @@ export interface UserDataProps {
   }
 }
 
-const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
+const KycUserRequest = ({ userData, paymentInfo }: any) => {
   const { citizenshipImageFront, citizenshipImageBack, drivingLicenseImage } =
     userData
   const {
@@ -60,11 +60,13 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
     id
   } = userData.kycFormData
 
+  // const {khaltiUserName, khaltiEmail, khaltiPhoneNumber} = userData.paymentInfo
+
   const url = 'http://localhost:5000/api'
   const navigate = useNavigate()
 
-// approve KYC ----------------------------------
-//
+  // approve KYC ----------------------------------
+  //
   const approveKyc = async () => {
     try {
       const response = await axios.post(
@@ -86,7 +88,7 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
     }
   }
 
-// rejcet KYC ----------------------------------
+  // rejcet KYC ----------------------------------
   const rejectKyc = async () => {
     try {
       const response = await axios.post(
@@ -108,8 +110,7 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
     }
   }
 
-
-  // toastify 
+  // toastify
   const showMessage = async (message: string, statusCode: number) => {
     if (statusCode == 201 || statusCode == 200) await toast.success(message)
     else await toast.error(message)
@@ -128,6 +129,15 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
                 <p className="text-left text-sm">District: </p>
                 <p className="text-left text-sm">Municipality: </p>
                 <p className="text-left text-sm">Ward Number: </p>
+                {paymentInfo && (
+                  <p className="text-left text-sm">Khalti User Name: </p>
+                )}
+                {paymentInfo && (
+                  <p className="text-left text-sm">Khalti Email: </p>
+                )}
+                {paymentInfo && (
+                  <p className="text-left text-sm">Khalti Number: </p>
+                )}
               </div>
               <div className="verify-right w-1/2">
                 <p className="text-right text-sm ">
@@ -138,6 +148,17 @@ const KycUserRequest: React.FC<UserDataProps> = ({ userData }) => {
                 <p className="text-right text-sm ">{district}</p>
                 <p className="text-right text-sm ">{municipality}</p>
                 <p className="text-right text-sm ">{wardNumber}</p>
+                {paymentInfo && (
+                  <p className="text-right text-sm">{paymentInfo.userName} </p>
+                )}
+                {paymentInfo && (
+                  <p className="text-right text-sm">{paymentInfo.email}</p>
+                )}
+                {paymentInfo && (
+                  <p className="text-right text-sm">
+                    {paymentInfo.phoneNumber}{' '}
+                  </p>
+                )}
               </div>
             </div>
           </div>

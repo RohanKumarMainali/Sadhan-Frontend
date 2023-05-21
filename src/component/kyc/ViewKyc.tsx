@@ -1,18 +1,16 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import { formType } from './KYCForm'
 
 // redux ------------------
 // redux ------------------
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { backKycForm } from '../../features/kyc/kycSlice'
+import { backKycForm, proceedKycForm } from '../../features/kyc/kycSlice'
 
 function ViewKyc() {
-
-
   // get user id from local storage
   const user: any = localStorage?.getItem('user')
     ? localStorage.getItem('user')
@@ -22,7 +20,7 @@ function ViewKyc() {
   const [kycFormData, setKyc] = useState([])
   const [kycImage, setKycImage] = useState([])
   const reduxDispatch = useAppDispatch()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const getUser = async () => {
     try {
@@ -40,9 +38,10 @@ function ViewKyc() {
     reduxDispatch(backKycForm())
   }
 
-  const confirm = () =>{
-       navigate('/dashboard') 
-      }
+  const confirm = () => {
+    toast.success('KYC form submitted successfully!')
+    reduxDispatch(proceedKycForm())
+  }
 
   useEffect(() => {
     getUser()
@@ -120,31 +119,52 @@ function ViewKyc() {
         <div className="mt-5 bg-slate-50 float-right w-3/5 p-4">
           <div className="text-sm">
             <h6 className="text-danger text-left align-left ">
-              <p>
-                अनलाइन आवेदन फाराम भर्ने लगायत अन्य सम्बन्धित विषय सम्बन्धी
-                निर्देशनहरु
-              </p>
-              <p>Instructions for filling online application form and others</p>
+              <p>नियम र सर्तहरू</p>
+              <p>Terms and Conditions of Sadhan </p>
             </h6>
             <ol>
               <li>
                 <p className="text-left">
                   {' '}
-                  नयाँ सवारी चालक अनुमतिपत्र तथा वर्ग थपका लागि यातायात व्यवस्था
-                  कार्यालय / यातायात व्यवस्था सेवा कार्यालयले विवरण रुजु एवंम्
-                  निवेदकको बायोमेट्रिक लिने कार्यहरु सार्वजनिक बिदा बाहेक
-                  हप्ताको प्रत्येक आइतबार, सोमबार, दर्ता गरी कार्यालय भिजिट डेट
-                  लिन सकिनेछ । तर प्रत्येक १६ औं दिनका लागि
+                  यदि तपाइँ जारी राख्नुहुन्छ भने तपाइँ हाम्रो नियम र सर्तहरूसँग
+                  सहमत हुनुहुन्छ
                 </p>
                 <p className="text-left">
-                  Transport Management Offices / Transport Management Service
-                  Offices verify application details and take biometric of an
-                  applicant on every 4 days of a week (Sunday, Monday, Tuesday
-                  and Wednesday except public holiday) for New Driving License
-                  and Category Add. For this, an applicant has to register an
-                  online application against the office within each 16 days if
-                  quota of license category for the office is
+                  If you continue, you agree with our terms and conditions
                 </p>
+
+                <h6 className="text-left text-danger">हाम्रो नियम र सर्तहरू</h6>
+                <ul className="text-left p-0 list-disc">
+                  <li>
+                    तपाईंले प्रदान गर्नुहुने सबै छविहरू र कागजातहरू तपाईंको
+                    आफ्नै छविहरू हुन् र तपाईंले तिनीहरूलाई हाम्रो वेब
+                    अनुप्रयोगमा भण्डारण गर्ने अधिकार दिनुहुन्छ
+                  </li>
+                  <li>
+                    तपाईंलाई कुनै पनि खराब वा आपत्तिजनक शब्द वा भाषा प्रयोग गर्न
+                    अनुमति छैन
+                  </li>
+                  <li>
+                    हानि गर्न हाम्रो प्रणालीको अनुचित प्रयोगले कानुनी समस्याहरू
+                    निम्त्याउन सक्छ
+                  </li>
+                </ul>
+                <h6 className="text-left mt-3 text-danger">
+                  Our terms and conditions
+                </h6>
+                <ul className="text-left p-0 list-disc">
+                  <li>
+                    All the images and documents you provide are your own images
+                    and you give rights to store them in our web application{' '}
+                  </li>
+                  <li>
+                    No abusive/offensive language are allowed in any sections
+                    like review
+                  </li>
+                  <li>
+                    Improper use of web application could lead to legal issues
+                  </li>
+                </ul>
               </li>
             </ol>
           </div>

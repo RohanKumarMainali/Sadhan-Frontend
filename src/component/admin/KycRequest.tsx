@@ -50,18 +50,20 @@ const KycRequest = () => {
 
   const [toggle, setToggle] = useState(true)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [paymentInfo, setPaymentInfo] = useState<any>()
 
-  const handleViewButtonClick = (user: User) => {
+  const handleViewButtonClick = (user: any, paymentInfo: any) => {
     console.log(user)
     setToggle(false)
     setSelectedUser(user)
+    setPaymentInfo(paymentInfo)
   }
 
   const getRequests = async () => {
     try {
       const response = await axios.get(`${url}/getKycRequest`)
-      setUser(response.data.data)
       console.log(response)
+      setUser(response.data.data)
     } catch (err) {
       console.log(err)
     }
@@ -114,7 +116,7 @@ const KycRequest = () => {
             </div>
             {user.length == 0 && <>No Kyc Requests Found</>}
             {user.length != 0 && (
-              <div className= 'px-5'>
+              <div className="px-5">
                 <table className="table-auto mt-3 w-full mx-auto rounded-xl shadow-xl bg-slate-100 border-collapse border border border-slate-400">
                   <thead>
                     <tr>
@@ -157,7 +159,10 @@ const KycRequest = () => {
                               <button
                                 className="border bg-green-500 text-white text-sm px-4 mt-1 py-2 mb-2 rounded :hover-bg-green-700"
                                 onClick={() =>
-                                  handleViewButtonClick(singleUser.kyc)
+                                  handleViewButtonClick(
+                                    singleUser.kyc,
+                                    singleUser.paymentInfo
+                                  )
                                 }
                               >
                                 View
@@ -183,7 +188,7 @@ const KycRequest = () => {
           <>
             {selectedUser && (
               <div>
-                <KycUserRequest userData={selectedUser} />
+                <KycUserRequest userData={selectedUser} paymentInfo={paymentInfo} />
               </div>
             )}
           </>

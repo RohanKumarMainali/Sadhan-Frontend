@@ -79,10 +79,11 @@ const kycFormSlice = createSlice({
       if (payload.phoneVerified === 'verified') state.kycFormStage = 2
       if ((payload.phoneVerified) && (payload.method === 'google' || payload.emailVerified === 'verified'))
         state.kycFormStage = 4
+
       // if user has already posted kyc and waiting
       if (
         (payload.status === 'verified' || payload.status === 'pending') &&
-        payload.role === 'user'
+        payload.role === 'owner'
       )
         state.kycFormStage = 6
 

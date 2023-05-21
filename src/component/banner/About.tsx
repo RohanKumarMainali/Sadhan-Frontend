@@ -1,6 +1,11 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 let carImage = require('../../images/Front car-pana(1).png')
+let carImage1 = require('../../images/banner.jpg')
+let carImage2 = require('../../images/real1.png')
+let carImage3 = require('../../images/real2.png')
+let carImage4 = require('../../images/real3.png')
 
 function About() {
   return (
@@ -12,26 +17,31 @@ function About() {
       }}
       className="relative"
     >
-      About
-      <div className="absolute right-20 w-1/2 h-1/2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <div className="h-1/2 w-full relative">
+      <div className="w-2/3 mx-auto flex justify-start">
+        <motion.div
+          className="w-80 h-80 overflow-hidden"
+          style={{
+            aspectRatio: '1/1'
+          }}
+          animate={{
+            y: [-10, 10, -10] // Specify the y-axis animation values
+          }}
+          transition={{
+            repeat: Infinity, // Repeat the animation infinitely
+            duration: 3, // Animation duration (in seconds)
+            ease: 'easeInOut' // Animation easing
+          }}
+        >
           <img
-            className="rounded-t-lg absolute top-0 w-full h-full object-cover"
-            width="w-full"
-            src={carImage}
-            alt="image"
-            style={{
-              objectFit: 'cover',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-              backgroundPosition: 'top'
-            }}
+            src={carImage3} // Replace with your image URL
+            alt="Image"
+            className="w-full h-full object-cover"
           />
-        </div>
-        <div className="p-5">
+        </motion.div>
+        <div className="p-5 text-left">
           <a href="#">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Noteworthy technology acquisitions 2021
+              Become a Host in Sadhan 
             </h5>
           </a>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">

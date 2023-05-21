@@ -131,7 +131,7 @@ const KYCForm = () => {
                                         <label className="text-left">First Name</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="firstName"
                                         />
                                  
@@ -141,7 +141,7 @@ const KYCForm = () => {
                                         <label className="text-left">Middle Name</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="middleName"
                                         />
                                     </div>
@@ -150,7 +150,7 @@ const KYCForm = () => {
                                         <label className="text-left">Last Name</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="lastName"
                                         />
                                     </div>
@@ -159,7 +159,7 @@ const KYCForm = () => {
                                         <label className="text-left">Date Of Birth</label>
                                         <Field
                                             type="date"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full  h-8 p-2" 
                                             name="dateOfBirth"
                                         />
                                     </div>
@@ -179,7 +179,7 @@ const KYCForm = () => {
                                         <label className="text-left">District</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="district"
                                         />
                                     </div>
@@ -188,7 +188,7 @@ const KYCForm = () => {
                                         <label className="text-left">Municipality</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="municipality"
                                         />
                                     </div>
@@ -197,7 +197,7 @@ const KYCForm = () => {
                                         <label className="text-left">Ward Number</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="wardNumber"
                                         />
                                     </div>
@@ -207,7 +207,7 @@ const KYCForm = () => {
                                         <label className="text-left">Citizenship Number</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="citizenshipNumber"
                                         />
                                     </div>
@@ -216,7 +216,7 @@ const KYCForm = () => {
                                         <label className="text-left">Citizenship Issued By</label>
                                         <Field
                                             type="text"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="citizenshipIssuedBy"
                                         />
                                     </div>
@@ -225,7 +225,7 @@ const KYCForm = () => {
                                         <label className="text-left">Citizenship Issued Date</label>
                                         <Field
                                             type="date"
-                                            className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                                            className="w-full h-8 p-2" 
                                             name="citizenshipIssuedDate"
                                         />
                                     </div>

@@ -11,6 +11,7 @@ import EmailOTP from './EmailOTP'
 import EmailVerify from './EmailVerify'
 import KYCForm from './KYCForm'
 import ViewKyc from './ViewKyc'
+import WaitingPage from './WaitingPage'
 import { Steps } from 'rsuite'
 import './steps.css'
 
@@ -68,6 +69,7 @@ const PhoneNumber = () => {
     if (count == 2) setKycStage(1)
     if (count == 4) setKycStage(2)
     if (count == 5) setKycStage(3)
+    if (count == 6) setKycStage(4)
   }
 
   useEffect(() => {
@@ -88,7 +90,42 @@ const PhoneNumber = () => {
                 <Steps.Item title="KYC Form" />
                 <Steps.Item title="Confirm Details" />
               </Steps>
-              {count == 1 ? (
+
+              {count === 0 ? (
+                <>
+                  <Formik
+                    initialValues={{
+                      phoneNumber: ''
+                    }}
+                    onSubmit={values => {
+                      sendOTP(values)
+                    }}
+                  >
+                    {({ errors, touched, isValidating }) => (
+                      <Form className="w-1/4 mx-auto mt-3 flex flex-col justify-center items-center">
+                        <img
+                          src="https://cdni.iconscout.com/illustration/premium/thumb/otp-verification-5152137-4309037.png"
+                          height="400px"
+                          width="400px"
+                        />
+                        <h2 className="text-3xl font-semibold ">
+                          Verify Phone Number
+                        </h2>
+                        <Field
+                          type="text "
+                          className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
+                          placeholder="Phone Number"
+                          name="phoneNumber"
+                        />
+
+                        <button className="login-btn" type="submit">
+                          Submit
+                        </button>
+                      </Form>
+                    )}
+                  </Formik>
+                </>
+              ) : count == 1 ? (
                 <EnterOTP />
               ) : count == 2 ? (
                 <EmailVerify />
@@ -99,37 +136,7 @@ const PhoneNumber = () => {
               ) : count == 5 ? (
                 <ViewKyc />
               ) : (
-                <Formik
-                  initialValues={{
-                    phoneNumber: ''
-                  }}
-                  onSubmit={values => {
-                    sendOTP(values)
-                  }}
-                >
-                  {({ errors, touched, isValidating }) => (
-                    <Form className="w-1/4 mx-auto mt-3 flex flex-col justify-center items-center">
-                      <img
-                        src="https://cdni.iconscout.com/illustration/premium/thumb/otp-verification-5152137-4309037.png"
-                        height="400px"
-                        width="400px"
-                      />
-                      <h2 className="text-3xl font-semibold ">
-                        Verify Phone Number
-                      </h2>
-                      <Field
-                        type="text "
-                        className="mt-3 w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                        placeholder="Phone Number"
-                        name="phoneNumber"
-                      />
-
-                      <button className="login-btn" type="submit">
-                        Submit
-                      </button>
-                    </Form>
-                  )}
-                </Formik>
+                <WaitingPage/>
               )}
             </div>
           </div>

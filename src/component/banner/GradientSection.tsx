@@ -1,5 +1,6 @@
 import React from 'react'
 import Testimonial from './Testimonial'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 let carImage2 = require('../../images/real1.png')
 let carImage3 = require('../../images/real2.png')
@@ -14,10 +15,10 @@ function GradientSection() {
       //  'linear-gradient(0deg, rgba(89,60,240,1) 3%, rgba(255,255,255,0) 100%)'
       //}}
 
-      style={{
-        background:
-          'linear-gradient(0deg, rgb(106, 83, 225) 3%, rgba(225, 225, 225, 0) 100%)'
-      }}
+            style={{
+
+                  background: 'linear-gradient(0deg, rgba(94, 70, 221, 0.08) 3%, rgba(225, 225, 225, 0) 100%)'
+         }}
     >
       <div className="min-w-screen min-h-screen flex items-center justify-center py-5">
         <div className="w-full px-5 py-16 md:py-24 ">
@@ -43,54 +44,19 @@ function GradientSection() {
                   className="w-full h-full object-cover"
                 />
               </motion.div>
-              <div className="p-5 text-left">
+              <div className="p-5 w-2/5 text-left">
                 <a href="#">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Become a Host in Sadhan
+                    Become a Host at Sadhan
                   </h5>
                 </a>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Here are the biggest enterprise technology acquisitions of
-                  2021 so far, in reverse chronological order.
+                  To become a host and list your vehicle in Sadhan, You have to
+                  verify your KYC and add payment Information. Wait for
+                  verification and you are good to go.
                 </p>
-                <a
-                  href="#"
-                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Read more
-                  <svg
-                    aria-hidden="true"
-                    className="w-4 h-4 ml-2 -mr-1"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            <div className="item-2">
-              <div className="w-2/3 mx-auto flex justify-end">
-                <div className="p-5 text-right">
-                  <a href="#">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                      Become a Host in Sadhan
-                    </h5>
-                  </a>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    Here are the biggest enterprise technology acquisitions of
-                    2021 so far, in reverse chronological order.
-                  </p>
-                  <a
-                    href="#"
-                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
+                <Link to="/dashboard/become-a-host">
+                  <button className="App-btn inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Read more
                     <svg
                       aria-hidden="true"
@@ -105,7 +71,43 @@ function GradientSection() {
                         clipRule="evenodd"
                       />
                     </svg>
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="item-2">
+              <div className="w-2/3 mx-auto flex justify-end">
+                <div className="p-5 w-2/5 text-right">
+                  <a href="#">
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                      Start Renting
+                    </h5>
                   </a>
+                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                    You can start renting your desired vehicle after you verify your KYC, Email and Phone Number 
+                  </p>
+
+                  <Link to="/search">
+                    <button
+                      className="App-btn inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Start Renting 
+                      <svg
+                        aria-hidden="true"
+                        className="w-4 h-4 ml-2 -mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </Link>
                 </div>
                 <motion.div
                   className="w-80 h-80 overflow-hidden"

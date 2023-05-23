@@ -115,3 +115,10 @@ a {
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+
+.error {
+  font-size: 0.75rem; /* Equivalent to text-xs */
+  text-align: left; /* Equivalent to text-left */
+  color: #dc2626; /* Equivalent to text-red-600 */
+  margin-top: 0.5rem; /* Equivalent to mt-2 */
+}

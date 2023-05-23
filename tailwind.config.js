@@ -7,6 +7,9 @@ module.exports = {
       animation: {
         fade: 'fadeOut 5s ease-in-out'
       },
+      classNames: {
+        error: 'text-xs text-red-600 text-left'
+      },
 
       // that is actual animation
       keyframes: theme => ({

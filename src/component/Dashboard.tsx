@@ -195,10 +195,10 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white w-full h-50 flex ">
+            {/*<div className="bg-white w-full h-50 flex ">
               <LineChart />
               <PieCharts />
-            </div>
+            </div> */}
             <div className="user-table ">
               <Table column={columns} mockData={data} />
             </div>

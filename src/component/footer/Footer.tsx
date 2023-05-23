@@ -19,7 +19,7 @@ const Footer = () => {
                   <Link to="/search" className='text-indigo-700'>Rent Vehicle</Link>
                 </li>
                 <li className="mb-2">
-                  <Link to="/dashboard/become-a-host" className='text-indigo-700'>KYC</Link>
+                  <Link to="/dashboard/verifyKyc" className='text-indigo-700'>KYC</Link>
                 </li>
               </ul>
             </div>

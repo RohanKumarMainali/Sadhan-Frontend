@@ -170,12 +170,7 @@ const AdminVehicle = () => {
                                 View
                               </button>
 
-                              <button
-                                className="border ml-2 bg-red-600 text-white text-sm px-4 mt-1 mb-2 py-2 rounded :hover-bg-green-700"
-                                onClick={() => deleteUser(singleUser._id)}
-                              >
-                                Delete
-                              </button>
+                              
                             </td>
                           </tr>
                         </>

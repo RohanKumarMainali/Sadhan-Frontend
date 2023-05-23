@@ -71,7 +71,7 @@ function Banner() {
           ></div>
           <div className="banner-text1">
             <h1>Find Your Drive</h1>
-            <h5>Explore the world's largest vehicle sharing marketplace</h5>
+            <h5>Explore Nepal's vehicle renting marketplace</h5>
           </div>
         </div>
       </div>

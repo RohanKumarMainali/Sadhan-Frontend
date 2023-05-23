@@ -51,7 +51,7 @@ const AddVehicle = () => {
       let details = response.data.payload
       console.log(details)
       setUserId(details.id)
-      setOwnerName(details.firstName + ' ' +  details.lastName )
+      setOwnerName(details.firstName + ' ' + details.lastName)
       setOwnerEmail(details.email)
     } catch (error: any) {
       console.log(error)
@@ -81,7 +81,8 @@ const AddVehicle = () => {
   }
 
   // delete image
-  function deleteHandler(image: any) {
+  function deleteHandler(e:any,image: any) {
+    e.preventDefault()
     setSelectedImages(selectedImages.filter(e => e !== image))
     URL.revokeObjectURL(image)
   }
@@ -241,7 +242,7 @@ const AddVehicle = () => {
                   <Field
                     type="text"
                     className="w-full border border-gray-300 h-8 p-2 focus:outline-indigo-400"
-                    placeholder="Seat"
+                    placeholder="Location"
                     name="location"
                   />
                 </div>
@@ -333,7 +334,7 @@ const AddVehicle = () => {
                             <PreviewImage file={image} />
                             <button
                               className="absolute top-0 right-0 color-gray-200 "
-                              onClick={() => deleteHandler(image)}
+                              onClick={(e: any) => deleteHandler(e,image)}
                             >
                               <GiCancel />
                             </button>

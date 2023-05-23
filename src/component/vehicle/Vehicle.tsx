@@ -358,12 +358,13 @@ const Vehicle = () => {
                       >
                         Book Now!{' '}
                       </button>
-                      {!item.available && (
+                      { bookedDates.length>0 && (
                         <label className="text-sm text-red-600">
                           {' '}
                           This vehicle is booked for given time below
                         </label>
                       )}
+
                       {bookedDates.map((booking: any, index: number) => (
                         <div
                           key={index}

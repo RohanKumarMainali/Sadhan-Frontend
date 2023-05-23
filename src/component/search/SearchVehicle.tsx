@@ -144,7 +144,7 @@ function SearchVehicle() {
             </div>
           </form>
         </div>
-        <div className="search-lists flex-1 gap-3">
+        <div className="search-lists flex-1 gap-3 min-h-screen">
           {vehicles.map((vehicle: any, index: number) => {
             return (
               <div key={index} className="mb-3">

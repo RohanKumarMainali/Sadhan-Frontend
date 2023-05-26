@@ -7,7 +7,7 @@ import {
   usePagination
 } from 'react-table'
 import { DOTS, useCustomPagination } from './useCustomPagination'
-import {classNames} from './utils'
+import { classNames } from './utils'
 import { Button, PageButton } from './Button'
 import { GrFormSearch } from 'react-icons/gr'
 import { ColumnFilter } from './ColumnFilter'
@@ -15,10 +15,7 @@ import { GlobalFilter } from './GlobalFilter'
 
 // Define a UI for filtering
 
-
-
 function Table({ column, mockData }: any) {
-
   // useTable hook creates a instance of react-table
   // Use the state and functions returned from useTable to build your UI
   const columns = useMemo(() => [...column], []) // memoize before adding to useTable hook

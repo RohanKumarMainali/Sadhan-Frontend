@@ -18,6 +18,7 @@ import { GlobalFilter } from './GlobalFilter'
 
 
 function Table({ column, mockData }: any) {
+
   // useTable hook creates a instance of react-table
   // Use the state and functions returned from useTable to build your UI
   const columns = useMemo(() => [...column], []) // memoize before adding to useTable hook

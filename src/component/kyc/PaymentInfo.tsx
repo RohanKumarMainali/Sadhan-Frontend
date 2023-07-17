@@ -38,7 +38,7 @@ function PaymentInfo() {
     form.append('id',userId)
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/postPaymentInfo`, form)
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/postPaymentInfo`, form)
       showMessage(response.data.message,201)
       dispatchRedux(proceedKycForm())
     } catch (error: any) {

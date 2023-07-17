@@ -25,7 +25,7 @@ let bikes = require('../../images/bikes.jpg')
 function Banner() {
   const [vehicles, setVehicles] = useState([])
   const [categories, setCategories] = useState([])
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   const getVehicle = async () => {
     try {

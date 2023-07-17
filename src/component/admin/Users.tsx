@@ -9,7 +9,7 @@ import { StatusPill, CreatedDate } from '../table/Status'
 import { ActionButtons } from '../table/Button'
 
 const Users = () => {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [user, setUser] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [userId, setUserId] = useState(0)

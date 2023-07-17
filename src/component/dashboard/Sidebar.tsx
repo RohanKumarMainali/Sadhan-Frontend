@@ -14,7 +14,7 @@ interface sidebarItem {
 }
 
 const Sidebar = () => {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
   const [email, setEmail] = useState()

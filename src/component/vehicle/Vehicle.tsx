@@ -1,17 +1,14 @@
 import React from 'react'
 import axios from 'axios'
-import { useEffect, useState, useRef } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import KhaltiCheckout from 'khalti-checkout-web'
 import VehicleSkeleton from '../skeleton/VehicleSkeleton'
 import Review from '../Review'
 import ReviewModal from '../ReviewModal'
-import BiDotsVerticalRounded from 'react-icons/bi'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import axiosConfig from '../../api/axiosConfig'
 import commonAxios from '../../api/commonAxios'
 import KycModal from '../../component/modal/KycModal'
 
@@ -31,7 +28,6 @@ const Vehicle = () => {
   const [ownerEmail, setOwnerEmail] = useState('')
   const [ownerName, setOwnerName] = useState('')
   const [showKyc, setShowKyc] = useState(false)
-  const [canReview, setCanReview] = useState(false)
   const [vehicle, setVehicle] = useState([])
   const [review, setReview] = useState<any>([])
   const [image, setImage] = useState<any>(null)
@@ -51,20 +47,16 @@ const Vehicle = () => {
 
   const addReview = () => {
     if (status === 'verified') {
-        setOpenReview(true)
+      setOpenReview(true)
     } else {
       setShowKyc(true)
     }
   }
-
   const [loading, setLoading] = useState(true)
-  const [amount, setAmount] = useState(0)
-
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [bookedDates, setBookedDates] = useState([])
-  const [days, setDays] = useState<Date>(new Date())
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   const getVehicle = async () => {
     try {
@@ -204,7 +196,7 @@ const Vehicle = () => {
         // verifying the request
         const response = axios
           .get(
-            `http://localhost:5000/api/khalti/verify/${payload.token}/${payload.amount}`
+            `${process.env.REACT_APP_BASE_URL}/khalti/verify/${payload.token}/${payload.amount}`
           )
           .then(response => {
             console.log(response)
@@ -358,7 +350,7 @@ const Vehicle = () => {
                       >
                         Book Now!{' '}
                       </button>
-                      { bookedDates.length>0 && (
+                      {bookedDates.length > 0 && (
                         <label className="text-sm text-red-600">
                           {' '}
                           This vehicle is booked for given time below

@@ -30,7 +30,7 @@ const PhoneNumber = () => {
   const [kycStage, setKycStage] = useState(0)
   const dispatchRedux = useAppDispatch()
   const [loading, setLoading] = useState(false)
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   // get user id from local storage
   const user: any = localStorage?.getItem('user')

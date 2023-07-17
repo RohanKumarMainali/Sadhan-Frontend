@@ -21,7 +21,7 @@ interface userType {
   id: string
 }
 function Categories() {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [categories, setCategories] = useState<any>([])
   const [showModal, setShowModal] = useState(false)
   const [addVehicleModal, setAddVehicleModal] = useState(false)

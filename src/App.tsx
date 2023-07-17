@@ -77,27 +77,17 @@ export const UserContext = createContext<{
   state: initialState,
   dispatch: () => false
 })
-type RouteType = {
-  path: string
-  component: React.FC
-}
-let routes: Array<RouteType> = []
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const userData = useAuth().user
-  const theme = useState('light')
   const { user, isAuthenticated } = useAuth()
 
   // redux
-  const count = useAppSelector(state => state.counter.value)
   const dispatchRedux = useAppDispatch()
 
-  function increaseCount() {
-    dispatchRedux(increment())
-  }
   const getUsers = () => {
-    fetch('http://localhost:5000/api/login/success', {
+    fetch(`${process.env.REACT_APP_BASE_URL}/login/success`, {
       method: 'GET',
       credentials: 'include'
     })

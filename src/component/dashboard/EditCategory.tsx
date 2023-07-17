@@ -18,7 +18,7 @@ const EditCategory = () => {
   const [singleCategory, setSingleCategory] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedOption, setSelectedOption] = useState('')
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   const showMessage = (message: string, statusCode: number) => {
     if (statusCode == 201 || statusCode == 200) toast.success(message)

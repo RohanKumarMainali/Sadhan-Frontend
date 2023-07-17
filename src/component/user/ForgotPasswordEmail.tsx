@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik'
 import { ToastContainer, toast } from 'react-toastify'
 
 function ForgotPasswordEmail() {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   type loginType = {
     email: string
   }

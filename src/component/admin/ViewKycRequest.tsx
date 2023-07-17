@@ -62,7 +62,7 @@ const KycUserRequest = ({ userData, paymentInfo }: any) => {
 
   // const {khaltiUserName, khaltiEmail, khaltiPhoneNumber} = userData.paymentInfo
 
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const navigate = useNavigate()
 
   // approve KYC ----------------------------------

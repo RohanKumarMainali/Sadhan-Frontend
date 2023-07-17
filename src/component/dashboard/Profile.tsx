@@ -8,7 +8,7 @@ import axios from 'axios'
 import commonAxios from '../../api/commonAxios'
 
 const Profile = () => {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
   const [userId, setUserId] = useState('')

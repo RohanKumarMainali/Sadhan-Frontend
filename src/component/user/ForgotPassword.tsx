@@ -6,7 +6,7 @@ import {useParams} from 'react-router-dom'
 
 function ForgotPassword() {
 
-    const url = 'http://localhost:5000/api'
+    const url = process.env.REACT_APP_BASE_URL
     type passwordType = {
         newPassword: string,
         confirmPassword: string,

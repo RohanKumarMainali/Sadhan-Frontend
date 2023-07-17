@@ -11,7 +11,7 @@ import LineChart from '../component/dashboard/LineChart'
 import PieCharts from '../component/dashboard/PieCharts'
 
 function UserDashboard() {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
   const [email, setEmail] = useState()

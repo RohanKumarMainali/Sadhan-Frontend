@@ -59,7 +59,7 @@ const ViewVehicleRequest: React.FC<UserDataProps> = ({ userData }) => {
     _id
   } = userData
 
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const navigate = useNavigate()
 
   // approve KYC ----------------------------------

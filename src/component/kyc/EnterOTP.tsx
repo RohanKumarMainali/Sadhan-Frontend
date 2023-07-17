@@ -18,7 +18,7 @@ interface phoneType {
 }
 
 const EnterOTP = () => {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [loading, setLoading] = useState(false)
   // get user id from local storage
   const user: any = localStorage?.getItem('user')

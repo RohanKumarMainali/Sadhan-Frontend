@@ -16,7 +16,7 @@ function EmailVerify() {
   const email = JSON.parse(user).email
   const id = JSON.parse(user).id
   const dispatchRedux = useAppDispatch()
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [loading, setLoading] = useState(false)
 
   type loginType = {

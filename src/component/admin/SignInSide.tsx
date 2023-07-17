@@ -15,7 +15,7 @@ export default function SignInSide() {
   const { state, dispatch } = useContext(UserContext)
   const [statusCode, setStatusCode] = useState(0)
 
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const navigate = useNavigate()
   const storeAuthentication = (user: any) => {
     localStorage.setItem('user', JSON.stringify(user))
@@ -23,7 +23,6 @@ export default function SignInSide() {
 
   const dispatchRedux = useAppDispatch()
 
-  const adminLogin = () => dispatchRedux(loginAuthAdmin())
 
   const login = async (formik: loginType) => {
     try {
@@ -42,7 +41,6 @@ export default function SignInSide() {
         dispatch({ type: 'USER', payload: true })
         dispatchRedux(loginAuthAdmin())
         navigate('/admin/dashboard')
-        //              0 window.location.replace(`http://localhost:3000`)
       }
     } catch (error: any) {
       let status = error.response.status

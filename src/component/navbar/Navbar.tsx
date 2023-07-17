@@ -35,7 +35,7 @@ function Navbar() {
     dispatchRedux(logoutAuth())
   }
 
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const getUser = async () => {
     try {
       const response = await axios.get(`${url}/session`, {

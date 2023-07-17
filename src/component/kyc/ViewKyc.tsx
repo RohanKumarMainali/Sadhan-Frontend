@@ -16,7 +16,7 @@ function ViewKyc() {
     ? localStorage.getItem('user')
     : null
   const id = JSON.parse(user).id
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [kycFormData, setKyc] = useState([])
   const [kycImage, setKycImage] = useState([])
   const reduxDispatch = useAppDispatch()

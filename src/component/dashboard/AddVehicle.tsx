@@ -32,7 +32,7 @@ const AddVehicle = () => {
     const [userId, setUserId] = useState('')
     const [ownerName, setOwnerName] = useState('')
     const [ownerEmail, setOwnerEmail] = useState('')
-    const url = 'http://localhost:5000/api'
+    const url = process.env.REACT_APP_BASE_URL
     const [selectedImages, setSelectedImages] = useState([])
     const [categories, setCategories] = useState([])
     const [selectedOption, setSelectedOption] = useState('')

@@ -9,7 +9,7 @@ import axios from 'axios'
 function SearchVehicle() {
   const urlLocation = useLocation()
   const parser = require('html-react-parser')
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const searchParams = new URLSearchParams(urlLocation.search)
   const [vehicleName, setVehicleName] = useState<string | null>('')
   const [categoryName, setCategoryName] = useState<string | null>('')

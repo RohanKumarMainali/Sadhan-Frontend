@@ -22,7 +22,7 @@ function EmailOTP() {
   const id = JSON.parse(user).id
   const [loading, setLoading] = useState(false)
   const dispatchRedux = useAppDispatch()
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   const verifyEmailOTP = async () => {
     try {

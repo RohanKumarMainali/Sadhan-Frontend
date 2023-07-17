@@ -13,7 +13,7 @@ const initialState: KycState = {
 }
 
 export const getUserThunk = createAsyncThunk('getUser/', async thunkAPI => {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   try {
     const response = await axios.get(`${url}/session`, {
       headers: {

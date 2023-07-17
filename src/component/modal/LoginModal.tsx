@@ -75,7 +75,6 @@ export const LoginModal = ({ show, close }: Props) => {
         close()
         changeLoginState()
 
-        //              0 window.location.replace(`http://localhost:3000`)
       }
 
       console.log(JSON.stringify(response.data.message))
@@ -100,7 +99,7 @@ export const LoginModal = ({ show, close }: Props) => {
   const [values, setValues] = useState(inValues)
   const [statusCode, setStatusCode] = useState(0)
 
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   const storeAuthentication =async (user: any) => {
     await localStorage.setItem('user', JSON.stringify(user))
@@ -184,11 +183,12 @@ export const LoginModal = ({ show, close }: Props) => {
   }
 
   const google = () => {
-    window.open('http://localhost:5000/api/google', '_self')
+    window.open(`${process.env.REACT_APP_BASE_URL}/google`, '_self')
   }
 
   const logout = () => {
-    window.open('http://localhost:5000/api/logout', '_self')
+
+    window.open(`${process.env.REACT_APP_BASE_URL}/logout`, '_self')
   }
 
   return (

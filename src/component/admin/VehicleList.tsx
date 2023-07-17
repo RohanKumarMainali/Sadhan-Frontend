@@ -23,7 +23,7 @@ interface userType {
   id: string
 }
 function VehicleList() {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [vehicles, setVehicles] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [addVehicleModal, setAddVehicleModal] = useState(false)
@@ -55,7 +55,7 @@ function VehicleList() {
     /* add vehicle */
   }
   const addVehicle = async (formik: passwordType) => {
-    const url = 'http://localhost:5000/api'
+    const url = process.env.REACT_APP_BASE_URL
   }
 
   useEffect(() => {

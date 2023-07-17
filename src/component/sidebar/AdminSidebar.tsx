@@ -30,7 +30,7 @@ let wheel = require('../../images/wheel.png')
 let logo = require('../../images/newLogo.png')
 
 const AnimatedSidebar = () => {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [user, setUser] = useState({})
   const [userName, setUserName] = useState('')
   const [email, setEmail] = useState()

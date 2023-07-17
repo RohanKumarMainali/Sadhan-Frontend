@@ -20,7 +20,7 @@ const AddCategory = () => {
   const [categories, setCategories] = useState([])
   const [selectedOption, setSelectedOption] = useState('')
   const [selectedOptionName, setSelctedOptionName] = useState('')
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   // to get userId who is posting vehicle
   const getUser = async () => {

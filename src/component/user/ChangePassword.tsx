@@ -14,7 +14,7 @@ interface userType {
 }
 const ChangePassword = (user: any) => {
   const changePassword = async (formik: passwordType) => {
-    const url = 'http://localhost:5000/api'
+    const url = process.env.REACT_APP_BASE_URL
     console.log('user ' + JSON.stringify(user))
     const payload = {
       id: user.user.id,

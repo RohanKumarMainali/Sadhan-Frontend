@@ -31,7 +31,7 @@ const HostForm = () => {
   const count = useAppSelector(state => state.kyc.kycFormStage)
   const [kycStage, setKycStage] = useState(0)
   const dispatchRedux = useAppDispatch()
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
 
   // get user id from local storage
   const user: any = localStorage?.getItem('user')

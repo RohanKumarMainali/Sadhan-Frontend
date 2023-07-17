@@ -41,7 +41,7 @@ interface UserListProps {
 }
 
 const KycRequest = () => {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [user, setUser] = useState([])
   const [singleUser, setSingleUser] = useState()
   const [showModal, setShowModal] = useState(false)

@@ -1,9 +1,9 @@
 declare module '@ckeditor/ckeditor5-build-classic' {
-    const ClassicEditorBuild: any;
+  const ClassicEditorBuild: any
 
-    export = ClassicEditorBuild;
+  export = ClassicEditorBuild
 }
 declare module '@otp-input-react' {
-    const OtpInputReact: any; 
-    export = OtpInputReact;
+  const OtpInputReact: any
+  export = OtpInputReact
 }

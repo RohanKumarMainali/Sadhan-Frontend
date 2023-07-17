@@ -4,7 +4,7 @@ const commonAxios = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production'
       ? 'https:sadhan.com.np'
-      : 'http://localhost:5000/api',
+      : process.env.REACT_APP_BASE_URL,
 
   timeout: 10000,
 

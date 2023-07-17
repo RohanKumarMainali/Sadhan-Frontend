@@ -23,7 +23,7 @@ const initialState: loginState = {
   status: data?.status ? data.status : '',
 }
 
-const url = 'http://localhost:5000/api'
+const url = process.env.REACT_APP_BASE_URL
 const getTokenFromCookies = async () => {
   const response = await axios.get(`${url}/token`, {
     headers: {

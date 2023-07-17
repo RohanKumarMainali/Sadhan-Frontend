@@ -13,7 +13,7 @@ import { StatusPill, CreatedDate } from '../table/Status'
 import { ActionButtons } from '../table/Button'
 
 function Rentals() {
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const [userId, setUserId] = useState('')
   const [bookings, setBookings] = useState([])
 

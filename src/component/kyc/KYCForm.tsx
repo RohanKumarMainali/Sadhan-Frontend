@@ -75,7 +75,7 @@ const KYCForm = () => {
   const id = JSON.parse(user).id
   const [loading, setLoading] = useState(false)
 
-  const url = 'http://localhost:5000/api'
+  const url = process.env.REACT_APP_BASE_URL
   const dispatchRedux = useAppDispatch()
 
   const showMessage = (message: string, statusCode: number) => {
